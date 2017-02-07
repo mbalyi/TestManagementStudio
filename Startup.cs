@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using EFGetStarted.AspNetCore.NewDb.Models;
-using Microsoft.EntityFrameworkCore;
+//using EFGetStarted.AspNetCore.NewDb.Models;
+//using Microsoft.EntityFrameworkCore;
 
 namespace TestManagementStudio
 {
