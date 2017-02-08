@@ -1,5 +1,5 @@
---temp-output:C:\Users\mbalyi\documents\visual studio 2015\Projects\TestManagementStudio\TestManagementStudio\obj\Debug\netcoreapp1.0\
---out:C:\Users\mbalyi\documents\visual studio 2015\Projects\TestManagementStudio\TestManagementStudio\bin\Debug\netcoreapp1.0\TestManagementStudio.dll
+--temp-output:C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\obj\Debug\netcoreapp1.0\
+--out:C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\bin\Debug\netcoreapp1.0\TestManagementStudio.dll
 --define:DEBUG
 --define:TRACE
 --define:NETCOREAPP1_0
@@ -194,8 +194,9 @@
 --reference:C:\Users\mbalyi\.nuget\packages\System.Threading.Timer\4.0.1\ref\netstandard1.2\System.Threading.Timer.dll
 --reference:C:\Users\mbalyi\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\mbalyi\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll
---resource:"C:\Users\mbalyi\documents\visual studio 2015\Projects\TestManagementStudio\TestManagementStudio\obj\Debug\netcoreapp1.0\TestManagementStudiodotnet-compile.deps.json",TestManagementStudio.deps.json
-C:\Users\mbalyi\documents\visual studio 2015\Projects\TestManagementStudio\TestManagementStudio\Program.cs
-C:\Users\mbalyi\documents\visual studio 2015\Projects\TestManagementStudio\TestManagementStudio\Startup.cs
-C:\Users\mbalyi\documents\visual studio 2015\Projects\TestManagementStudio\TestManagementStudio\Controllers\HomeController.cs
-C:\Users\mbalyi\documents\visual studio 2015\Projects\TestManagementStudio\TestManagementStudio\Controllers\SampleDataController.cs
+--resource:"C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\obj\Debug\netcoreapp1.0\TestManagementStudiodotnet-compile.deps.json",TestManagementStudio.deps.json
+C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\Program.cs
+C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\Startup.cs
+C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\Controllers\HomeController.cs
+C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\Controllers\SampleDataController.cs
+C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\Controllers\UserController.cs

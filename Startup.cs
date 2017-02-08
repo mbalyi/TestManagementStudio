@@ -8,11 +8,8 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-<<<<<<< HEAD
-//using EFGetStarted.AspNetCore.NewDb.Models;
-//using Microsoft.EntityFrameworkCore;
-=======
->>>>>>> parent of b1ee262... MS SQL
+using Microsoft.EntityFrameworkCore;
+using TestManagementStudio.SQLData;
 
 namespace TestManagementStudio
 {
@@ -35,6 +32,8 @@ namespace TestManagementStudio
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddDbContext< UsersContext > (options => options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection") ));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
