@@ -8,7 +8,7 @@ namespace TestManagementStudio.SQLData
 {
     public class UsersContext: DbContext
     {
-        public UsersContext(DbContextOptions<UsersContext> options): base(options) { }
+        public UsersContext( DbContextOptions<UsersContext> options): base(options) { }
         public UsersContext() { }
         public DbSet<Users> Users { get; set; }
     }

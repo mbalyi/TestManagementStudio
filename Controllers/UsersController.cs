@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 namespace TestManagementStudio.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/UsersController")]
     public class UsersController : Controller
     {
         private readonly UsersContext _context;
