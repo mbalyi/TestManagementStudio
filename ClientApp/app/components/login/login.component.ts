@@ -1,21 +1,15 @@
-﻿import { Component, trigger, transition, style, animate } from '@angular/core';
+﻿import { Component, trigger, transition, style, animate, state } from '@angular/core';
 import { Users } from '../../models/users.model';
 
 @Component({
     selector: 'login',
     animations: [
-        trigger(
-            'fadeout', [
-                transition(':enter', [
-                    style({ transform: 'translateX(100%)', opacity: 0 }),
-                    animate('500ms', style({ transform: 'translateX(0)', opacity: 1 }))
-                ]),
-                transition(':leave', [
-                    style({ transform: 'translateX(0)', opacity: 1 }),
-                    animate('500ms', style({ transform: 'translateX(100%)', opacity: 0 }))
-                ])
-            ]
-        )
+        trigger('visibilityChanged', [
+            state('true', style({ opacity: 1, transform: 'scale(1.0)' })),
+            state('false', style({ opacity: 0, transform: 'scale(0.0)' })),
+            transition('1 => 0', animate('300ms')),
+            transition('0 => 1', animate('900ms'))
+        ])
     ],
     template: require('./login.component.html')
 })

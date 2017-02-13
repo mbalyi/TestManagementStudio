@@ -13,6 +13,10 @@ IF EXISTS(SELECT[name] FROM sys.tables WHERE[name] = 'Users')
 DROP TABLE Users    
 GO
 
+IF EXISTS(SELECT[name] FROM sys.tables WHERE[name] = 'Roles')    
+DROP TABLE Roles    
+GO
+
 CREATE TABLE[dbo].Roles(
 		[RoleId] INT IDENTITY PRIMARY KEY, 
 		[Name][text] NOT NULL, 
