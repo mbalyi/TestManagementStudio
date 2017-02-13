@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TestManagementStudio.SQLData;   
 using Microsoft.EntityFrameworkCore;   
-using Microsoft.AspNetCore.Http; 
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 

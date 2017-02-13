@@ -9,7 +9,7 @@
         <td width="240" align="center">Nickname</td>
         <td width="240" align="center">Lastname</td>
         <td width="120" align="center">Firstname</td>
-
+        <td width="60" align="center">Role Id</td>
 
     </tr>
     <tbody *ngFor="let user of users">
@@ -18,16 +18,19 @@
                 <span style="color:#9F000F">{{user.userId}}</span>
             </td>
 
-            <td align="left" style="border: solid 1px #659EC7; padding: 5px;table-layout:fixed;">
+            <td align="center" style="border: solid 1px #659EC7; padding: 5px;table-layout:fixed;">
                 <span style="color:#9F000F">{{user.nickname}}</span>
             </td>
 
-            <td align="left" style="border: solid 1px #659EC7; padding: 5px;table-layout:fixed;">
+            <td align="center" style="border: solid 1px #659EC7; padding: 5px;table-layout:fixed;">
                 <span style="color:#9F000F">{{user.lastname}}</span>
             </td>
 
             <td align="center" style="border: solid 1px #659EC7; padding: 5px;table-layout:fixed;">
                 <span style="color:#9F000F">{{user.firstname}}</span>
+            </td>
+            <td align="center" style="border: solid 1px #659EC7; padding: 5px;table-layout:fixed;">
+                <span style="color:#9F000F">{{user.roleId}}</span>
             </td>
         </tr>
     </tbody>

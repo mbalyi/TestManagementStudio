@@ -14,6 +14,8 @@ namespace TestManagementStudio.SQLData
         [Display(Name = "Nickname")]
         public string Nickname { get; set; }
         [Required]
+        public string Password { get; set; }
+        [Required]
         public string Firstname { get; set; }
         [Required]
         public string Lastname { get; set; }
@@ -23,5 +25,7 @@ namespace TestManagementStudio.SQLData
         public string Phone { get; set; }
         [Required]
         public string Address { get; set; }
+        [Required]
+        public int RoleId { get; set; }
     }
 }

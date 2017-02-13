@@ -20,7 +20,7 @@ import { Users } from '../../models/users.model';
     template: require('./login.component.html')
 })
 export class LoginComponent {
-    private user: Users = { userId: null, nickname: "", lastname: "", firstname: "", email: "", address: "", phone: "" };
+    private user: Users = { userId: null, nickname: "", password: "", lastname: "", firstname: "", email: "", address: "", phone: "", roleId: null };
     private errorMsg: String = '';
     private confirmPassword: number = null;
     private loginEnable: Boolean = true;

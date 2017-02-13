@@ -211,5 +211,7 @@ C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestM
 C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\Controllers\HomeController.cs
 C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\Controllers\SampleDataController.cs
 C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\Controllers\UsersController.cs
+C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\SQLData\RoleContext.cs
+C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\SQLData\Roles.cs
 C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\SQLData\Users.cs
 C:\Users\mbalyi\Documents\Visual Studio 2015\Projects\TestManagementStudio\TestManagementStudio\SQLData\UsersContext.cs
