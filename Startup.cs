@@ -10,6 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using TestManagementStudio.SQLData;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace TestManagementStudio
 {
@@ -34,6 +38,10 @@ namespace TestManagementStudio
             services.AddMvc();
 
             services.AddDbContext< UsersContext > (options => options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection") ));
+
+            services.AddIdentity<Users,Roles>()
+            .AddEntityFrameworkStores<UsersContext>()
+            .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +63,7 @@ namespace TestManagementStudio
             }
 
             app.UseStaticFiles();
+            app.UseIdentity();
 
             app.UseMvc(routes =>
             {

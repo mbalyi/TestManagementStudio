@@ -1,5 +1,8 @@
 ﻿import { Component, trigger, transition, style, animate, state } from '@angular/core';
+import { Http, Headers } from "@angular/http";
+import { Observable } from 'rxjs/Observable';
 import { Users } from '../../models/users.model';
+import 'rxjs/Rx';
 
 @Component({
     selector: 'login',
@@ -14,10 +17,17 @@ import { Users } from '../../models/users.model';
     template: require('./login.component.html')
 })
 export class LoginComponent {
+    private http: Http;
+
     private user: Users = { userId: null, nickname: "", password: "", lastname: "", firstname: "", email: "", address: "", phone: "", roleId: null };
     private errorMsg: String = '';
     private confirmPassword: number = null;
     private loginEnable: Boolean = true;
+    private rememberme: Boolean = false;
+
+    constructor(http: Http) {
+        this.http = http;
+    }
 
     showLoginForm() {
         this.loginEnable = true;
@@ -28,7 +38,19 @@ export class LoginComponent {
     }
 
     login() {
-        console.log(this.user);
+        var body = JSON.stringify(this.user);
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+        this.http.post('api/AccountController/Login', body, { headers: headers })
+            .map(res => res.json())
+            .subscribe(
+                err => this.errorMsg,
+                () => console.log('Authentication Complete')
+            )
+            /*.map(response => {
+                console.log(response.json());
+            })*/;
     }
 
     register() {

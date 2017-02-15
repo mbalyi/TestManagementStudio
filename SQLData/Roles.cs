@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace TestManagementStudio.SQLData
 {
-    public class Roles
+    public class Roles : IdentityRole
     {
         [Key]
         public int RoleId { get; set; }
