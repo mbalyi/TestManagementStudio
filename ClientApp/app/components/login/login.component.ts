@@ -19,7 +19,7 @@ import 'rxjs/Rx';
 export class LoginComponent {
     private http: Http;
 
-    private user: Users = { userId: null, nickname: "", password: "", lastname: "", firstname: "", email: "", address: "", phone: "", roleId: null };
+    private user: Users = { UserId: null, Nickname: "", Password: "", Lastname: "", Firstname: "", Email: "", Address: "", Phone: "", RoleId: null };
     private errorMsg: String = '';
     private confirmPassword: number = null;
     private loginEnable: Boolean = true;
@@ -40,9 +40,9 @@ export class LoginComponent {
     login() {
         var body = JSON.stringify(this.user);
         var headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Content-Type', 'application/json');
 
-        this.http.post('api/AccountController/Login', body, { headers: headers })
+        this.http.post('api/accountcontroller/login', body, { headers: headers })
             .map(res => res.json())
             .subscribe(
                 err => this.errorMsg,

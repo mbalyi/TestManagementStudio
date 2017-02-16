@@ -65,15 +65,22 @@ namespace TestManagementStudio
             app.UseStaticFiles();
             app.UseIdentity();
 
+            //app.UseMvc();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
+                //routes.MapSpaFallbackRoute(
+                //    name: "spa-fallback",
+                //    defaults: new { controller = "Home", action = "Index" });
+            });
+
+            app.Use(async (context, next) =>
+            {
+                loggerFactory.CreateLogger("Unknown path").LogWarning(context.Request.Path);                
+                await Task.FromResult(false);
             });
         }
     }

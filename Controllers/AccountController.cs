@@ -25,19 +25,15 @@ namespace TestManagementStudio.Controllers
             this.roleManager = roleManager;
         }
 
+        [HttpGet]
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(Users obj)
+        public async Task<IActionResult> Register(Users obj)
         {
             if (ModelState.IsValid)
             {
@@ -50,45 +46,19 @@ namespace TestManagementStudio.Controllers
                 user.Phone = obj.Phone;
                 user.RoleId = 4;
 
-                IdentityResult result = userManager.CreateAsync
-                (user, obj.Password).Result;
+                IdentityResult result = userManager.CreateAsync(user, obj.Password).Result;
 
                 if (result.Succeeded)
                 {
-                    if (!roleManager.RoleExistsAsync("User").Result)
-                    {
-                        Roles role = new Roles();
-                        role.Name = "User";
-                        role.IsFullAccess = 0;
-                        role.IsManager = 0;
-                        role.IsEditor = 0;
-                        role.IsUser = 1;
-                        IdentityResult roleResult = roleManager.
-                        CreateAsync(role).Result;
-                        if (!roleResult.Succeeded)
-                        {
-                            ModelState.AddModelError("",
-                             "Error while creating role!");
-                            return View(obj);
-                        }
-                    }
-
-                    userManager.AddToRoleAsync(user,
-                                 "User").Wait();
                     return RedirectToAction("Login", "Account");
                 }
             }
             return View(obj);
         }
 
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
+        [HttpPost("login")]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(Users obj)
+        public async Task<IActionResult> Login([FromBody]Users obj)
         {
             if (ModelState.IsValid)
             {

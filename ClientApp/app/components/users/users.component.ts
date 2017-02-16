@@ -11,7 +11,7 @@ export class UsersComponent {
     public name: string = null;
 
     constructor(http: Http) {
-        http.get('/api/UsersController/Users').subscribe(result => {
+        http.get('/api/userscontroller/users').subscribe(result => {
             this.users = result.json();
         });
     }
