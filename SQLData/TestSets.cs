@@ -19,11 +19,11 @@ namespace TestManagementStudio.SQLData
         [Required]
         public DateTime ModifiedDate { get; set; }
         [Required]
-        public int IsDeleted { get; set; }
+        public Boolean IsDeleted { get; set; }
         [Required]
-        public int IsArchived { get; set; }
+        public Boolean IsArchived { get; set; }
         [Required]
-        public int IsUpdated { get; set; }
+        public Boolean IsUpdated { get; set; }
         [Required]
         public int UpdatedTo { get; set; }
         [Required]

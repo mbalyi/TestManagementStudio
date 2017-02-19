@@ -17,7 +17,7 @@ namespace TestManagementStudio.SQLData
         [Required]
         public DateTime ModifiedDate { get; set; }
         [Required]
-        public int IsDeleted { get; set; }
+        public Boolean IsDeleted { get; set; }
         [Required]
         public int OwnerId { get; set; }
     }

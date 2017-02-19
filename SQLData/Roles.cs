@@ -14,12 +14,12 @@ namespace TestManagementStudio.SQLData
         [Required]
         public string Name { get; set; }
         [Required]
-        public int IsFullAccess { get; set; }
+        public Boolean IsFullAccess { get; set; }
         [Required]
-        public int IsManager { get; set; }
+        public Boolean IsManager { get; set; }
         [Required]
-        public int IsEditor { get; set; }
+        public Boolean IsEditor { get; set; }
         [Required]
-        public int IsUser { get; set; }
+        public Boolean IsUser { get; set; }
     }
 }

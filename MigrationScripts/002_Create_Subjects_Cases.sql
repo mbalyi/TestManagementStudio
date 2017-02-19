@@ -35,7 +35,7 @@ CREATE TABLE[dbo].TestSets(
 		[IsDeleted][bit] NOT NULL,
 		[IsArchived][bit] NOT NULL,
 		[IsUpdated][bit] NOT NULL,
-		[UpdatedTo][int] NULL,
+		[UpdatedTo][int] NOT NULL,
 		[Interval][int] NOT NULL,
 		[CreatedBy] INT FOREIGN KEY REFERENCES Users(UserId),
 		[SubjectId] INT FOREIGN KEY REFERENCES Subjects(SubjectId)
@@ -74,25 +74,25 @@ CREATE TABLE[dbo].TestCases(
 		[IsDeleted][bit] NOT NULL,
 		[IsArchived][bit] NOT NULL,
 		[IsUpdated][bit] NOT NULL,
-		[UpdatedTo][int] NULL,
+		[UpdatedTo][int] NOT NULL,
 		[Interval][int] NOT NULL,
 		[CreatedBy] INT FOREIGN KEY REFERENCES Users(UserId),
 		[SubjectId] INT FOREIGN KEY REFERENCES Subjects(SubjectId),
 		[LevelId] INT FOREIGN KEY REFERENCES Levels(LevelId)
 	)
 
-INSERT INTO TestCases([Question], [CreatedDate], [ModifiedDate], [IsDeleted], [IsArchived], [IsUpdated], [Interval], [CreatedBy], [SubjectId], [LevelId])    
-VALUES('Which is not a DOM element?', '2017-02-19 18:01:00', '2017-02-19 18:01:00', 0, 0, 0, 60, 
+INSERT INTO TestCases([Question], [CreatedDate], [ModifiedDate], [IsDeleted], [IsArchived], [IsUpdated], [UpdatedTo], [Interval], [CreatedBy], [SubjectId], [LevelId])    
+VALUES('Which is not a DOM element?', '2017-02-19 18:01:00', '2017-02-19 18:01:00', 0, 0, 0, 0, 60, 
 	(SELECT UserId FROM Users WHERE Nickname LIKE 'manager'), 
 	(SELECT SubjectId FROM Subjects WHERE Title LIKE 'Basics of Web development'),
 	(SELECT LevelId FROM Levels WHERE Title LIKE 'Easy'))
-INSERT INTO TestCases([Question], [CreatedDate], [ModifiedDate], [IsDeleted], [IsArchived], [IsUpdated], [Interval], [CreatedBy], [SubjectId], [LevelId])    
-VALUES('Another Question?', '2017-02-19 18:01:00', '2017-02-19 18:01:00', 0, 0, 0, 600, 
+INSERT INTO TestCases([Question], [CreatedDate], [ModifiedDate], [IsDeleted], [IsArchived], [IsUpdated], [UpdatedTo], [Interval], [CreatedBy], [SubjectId], [LevelId])    
+VALUES('Another Question?', '2017-02-19 18:01:00', '2017-02-19 18:01:00', 0, 0, 0, 0, 600, 
 	(SELECT UserId FROM Users WHERE Nickname LIKE 'manager'), 
 	(SELECT SubjectId FROM Subjects WHERE Title LIKE 'Basics of Web development'),
 	(SELECT LevelId FROM Levels WHERE Title LIKE 'Hard'))
-INSERT INTO TestCases([Question], [CreatedDate], [ModifiedDate], [IsDeleted], [IsArchived], [IsUpdated], [Interval], [CreatedBy], [SubjectId], [LevelId])    
-VALUES('Have you ever used Angular2?', '2017-02-19 18:01:00', '2017-02-19 18:01:00', 0, 0, 0, 60, 
+INSERT INTO TestCases([Question], [CreatedDate], [ModifiedDate], [IsDeleted], [IsArchived], [IsUpdated], [UpdatedTo], [Interval], [CreatedBy], [SubjectId], [LevelId])    
+VALUES('Have you ever used Angular2?', '2017-02-19 18:01:00', '2017-02-19 18:01:00', 0, 0, 0, 0, 60, 
 	(SELECT UserId FROM Users WHERE Nickname LIKE 'manager'), 
 	(SELECT SubjectId FROM Subjects WHERE Title LIKE 'Basics of Web development'),
 	(SELECT LevelId FROM Levels WHERE Title LIKE 'Easy'))

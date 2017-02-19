@@ -13,7 +13,7 @@ namespace TestManagementStudio.SQLData
         [Required]
         public string Answer { get; set; }
         [Required]
-        public int IsDefault { get; set; }
+        public Boolean IsDefault { get; set; }
         [Required]
         public int TestCaseId { get; set; }
     }

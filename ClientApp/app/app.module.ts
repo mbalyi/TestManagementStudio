@@ -12,6 +12,7 @@ import { CounterComponent } from './components/counter/counter.component';
 import { NavHeaderComponent } from './components/navheader/navheader.component';
 import { UsersComponent } from './components/users/users.component';
 import { LoginComponent } from './components/login/login.component';
+import { SubjectsComponent } from './components/subjects/subjects.component';
 
 @NgModule({
     bootstrap: [AppComponent ],
@@ -23,7 +24,8 @@ import { LoginComponent } from './components/login/login.component';
         HomeComponent,
         NavHeaderComponent,
         UsersComponent,
-        LoginComponent
+        LoginComponent,
+        SubjectsComponent
     ],
     imports: [
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
@@ -35,6 +37,7 @@ import { LoginComponent } from './components/login/login.component';
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
             { path: 'users-data', component: UsersComponent },
+            { path: 'subjects', component: SubjectsComponent },
             { path: '**', redirectTo: 'home' }
         ])
     ]
