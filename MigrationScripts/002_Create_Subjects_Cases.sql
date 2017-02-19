@@ -23,7 +23,7 @@ VALUES('ASP.NET Core Course', 'Short description of the subject. Including the n
 
 --1) Create TestSet table
 IF EXISTS(SELECT[name] FROM sys.tables WHERE[name] = 'TestSets')    
-DROP TABLE TestSet
+DROP TABLE TestSets
 GO
 
 CREATE TABLE[dbo].TestSets(
@@ -53,13 +53,13 @@ CREATE TABLE[dbo].Levels(
 	)
 
 INSERT INTO Levels([Title], [EstimatedDuration])    
-VALUES('Easy', 1)
+VALUES('Easy', 60)
 INSERT INTO Levels([Title], [EstimatedDuration])    
-VALUES('Medium', 5)
+VALUES('Medium', 300)
 INSERT INTO Levels([Title], [EstimatedDuration])    
-VALUES('Hard', 10)
+VALUES('Hard', 600)
 INSERT INTO Levels([Title], [EstimatedDuration])    
-VALUES('Advanced', 30)
+VALUES('Advanced', 1800)
 
 --1) Create TestCase table
 IF EXISTS(SELECT[name] FROM sys.tables WHERE[name] = 'TestCases')    
@@ -82,17 +82,17 @@ CREATE TABLE[dbo].TestCases(
 	)
 
 INSERT INTO TestCases([Question], [CreatedDate], [ModifiedDate], [IsDeleted], [IsArchived], [IsUpdated], [Interval], [CreatedBy], [SubjectId], [LevelId])    
-VALUES('Which is not a DOM element?', '2017-02-19 18:01:00', '2017-02-19 18:01:00', 0, 0, 0, 1, 
+VALUES('Which is not a DOM element?', '2017-02-19 18:01:00', '2017-02-19 18:01:00', 0, 0, 0, 60, 
 	(SELECT UserId FROM Users WHERE Nickname LIKE 'manager'), 
 	(SELECT SubjectId FROM Subjects WHERE Title LIKE 'Basics of Web development'),
 	(SELECT LevelId FROM Levels WHERE Title LIKE 'Easy'))
 INSERT INTO TestCases([Question], [CreatedDate], [ModifiedDate], [IsDeleted], [IsArchived], [IsUpdated], [Interval], [CreatedBy], [SubjectId], [LevelId])    
-VALUES('Another Question?', '2017-02-19 18:01:00', '2017-02-19 18:01:00', 0, 0, 0, 10, 
+VALUES('Another Question?', '2017-02-19 18:01:00', '2017-02-19 18:01:00', 0, 0, 0, 600, 
 	(SELECT UserId FROM Users WHERE Nickname LIKE 'manager'), 
 	(SELECT SubjectId FROM Subjects WHERE Title LIKE 'Basics of Web development'),
 	(SELECT LevelId FROM Levels WHERE Title LIKE 'Hard'))
 INSERT INTO TestCases([Question], [CreatedDate], [ModifiedDate], [IsDeleted], [IsArchived], [IsUpdated], [Interval], [CreatedBy], [SubjectId], [LevelId])    
-VALUES('Have you ever used Angular2?', '2017-02-19 18:01:00', '2017-02-19 18:01:00', 0, 0, 0, 1, 
+VALUES('Have you ever used Angular2?', '2017-02-19 18:01:00', '2017-02-19 18:01:00', 0, 0, 0, 60, 
 	(SELECT UserId FROM Users WHERE Nickname LIKE 'manager'), 
 	(SELECT SubjectId FROM Subjects WHERE Title LIKE 'Basics of Web development'),
 	(SELECT LevelId FROM Levels WHERE Title LIKE 'Easy'))
