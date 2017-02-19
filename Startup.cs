@@ -39,9 +39,9 @@ namespace TestManagementStudio
 
             services.AddDbContext< UsersContext > (options => options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection") ));
 
-            services.AddIdentity<Users,Roles>()
+            /*services.AddIdentity<Users,Roles>()
             .AddEntityFrameworkStores<UsersContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders();*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +63,7 @@ namespace TestManagementStudio
             }
 
             app.UseStaticFiles();
-            app.UseIdentity();
+            //app.UseIdentity();
 
             //app.UseMvc();
             app.UseMvc(routes =>

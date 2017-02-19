@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+//using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace TestManagementStudio.SQLData
 {
-    public class Users : IdentityUser
+    public class Users// : IdentityUser
     {
         [Key]
         public int UserId { get; set; }
