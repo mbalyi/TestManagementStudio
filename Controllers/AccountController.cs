@@ -22,6 +22,14 @@ namespace TestManagementStudio.Controllers
         }
 
         [HttpGet]
+        [Route("")]
+        public IActionResult Index()
+        {
+            var claims = User.Claims.Select(claim => claim).ToArray();
+            return Json(claims);
+        }
+
+        [HttpGet]
         [Route("Login")]
         public IActionResult Login(string returnUrl = null)
         {
@@ -35,8 +43,7 @@ namespace TestManagementStudio.Controllers
         {
             ViewData["ReturnUrl"] = null;
 
-            if (!string.IsNullOrWhiteSpace(loginUser.nickName) &&
-                loginUser.nickName == loginUser.password)
+            if (!string.IsNullOrWhiteSpace(loginUser.nickName))
             {
                 Users user = _context.Users.Single(u => u.Nickname.ToString() == loginUser.nickName.ToString());
                 if (user.Password == loginUser.password)
@@ -52,7 +59,7 @@ namespace TestManagementStudio.Controllers
 
                     await HttpContext.Authentication.SignInAsync("Cookies", p);
 
-                    return LocalRedirect("/home");
+                    return LocalRedirect("/");
                 }
             }
 

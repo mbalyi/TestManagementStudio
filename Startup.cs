@@ -39,9 +39,6 @@ namespace TestManagementStudio
             services.AddMvc();
 
             services.AddDbContext< TMSContext > (options => options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection") ));
-            /*services.AddIdentity<Users,Roles>()
-            .AddEntityFrameworkStores<UsersContext>()
-            .AddDefaultTokenProviders();*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +50,8 @@ namespace TestManagementStudio
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
                     HotModuleReplacement = true
                 });
             }
@@ -63,7 +61,7 @@ namespace TestManagementStudio
             }
 
             app.UseStaticFiles();
-            
+
             app.UseCookieAuthentication(new CookieAuthenticationOptions()
             {
                 AuthenticationScheme = "Cookies",
