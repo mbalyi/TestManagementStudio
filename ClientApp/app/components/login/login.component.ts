@@ -38,7 +38,7 @@ export class LoginComponent {
     }
 
     login() {
-        var body = JSON.stringify(this.user);
+        var body = JSON.stringify({ "nickName": this.user.Nickname, "password": this.user.Password });
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
 

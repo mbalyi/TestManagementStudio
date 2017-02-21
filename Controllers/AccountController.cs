@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TestManagementStudio.SQLData;
-using Microsoft.AspNetCore.Identity;
+using TestManagementStudio.Model;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace TestManagementStudio.Controllers
 {
@@ -12,75 +14,57 @@ namespace TestManagementStudio.Controllers
     [Route("api/AccountController")]
     public class AccountController : Controller
     {
-        private readonly UserManager<Users> userManager;
-        private readonly SignInManager<Users> loginManager;
-        private readonly RoleManager<Roles> roleManager;
+        private readonly TMSContext _context;
 
-        public AccountController(UserManager<Users> userManager,
-            SignInManager<Users> loginManager,
-            RoleManager<Roles> roleManager)
+        public AccountController(TMSContext context)
         {
-            this.userManager = userManager;
-            this.loginManager = loginManager;
-            this.roleManager = roleManager;
+            _context = context;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        [Route("Login")]
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(Users obj)
+        [Route("Login")]
+        public async Task<IActionResult> Login([FromBody]LoginUser loginUser)
         {
-            if (ModelState.IsValid)
+            ViewData["ReturnUrl"] = null;
+
+            if (!string.IsNullOrWhiteSpace(loginUser.nickName) &&
+                loginUser.nickName == loginUser.password)
             {
-                Users user = new Users();
-                user.Nickname = obj.Nickname;
-                user.Email = obj.Email;
-                user.Firstname = obj.Firstname;
-                user.Lastname = obj.Lastname;
-                user.Address = obj.Address;
-                user.Phone = obj.Phone;
-                user.RoleId = 4;
-
-                IdentityResult result = userManager.CreateAsync(user, obj.Password).Result;
-
-                if (result.Succeeded)
+                Users user = _context.Users.Single(u => u.Nickname.ToString() == loginUser.nickName.ToString());
+                if (user.Password == loginUser.password)
                 {
-                    return RedirectToAction("Login", "Account");
+                    var claims = new List<Claim>
+                    {
+                        new Claim("loggedUser", user.Nickname),
+                        new Claim("role", user.RoleId.ToString())
+                    };
+
+                    var id = new ClaimsIdentity(claims, "password");
+                    var p = new ClaimsPrincipal(id);
+
+                    await HttpContext.Authentication.SignInAsync("Cookies", p);
+
+                    return LocalRedirect("/home");
                 }
             }
-            return View(obj);
+
+            return View();
         }
 
-        [HttpPost("login")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([FromBody]Users obj)
+        [HttpGet]
+        [Route("Logout")]
+        public async Task<IActionResult> Logout()
         {
-            if (ModelState.IsValid)
-            {
-                var result = loginManager.PasswordSignInAsync(obj.Nickname, obj.Password, false, false).Result;
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-
-                ModelState.AddModelError("", "Invalid login!");
-            }
-
-            return View(obj);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult LogOff()
-        {
-            loginManager.SignOutAsync().Wait();
-            return RedirectToAction("Login", "Account");
+            await HttpContext.Authentication.SignOutAsync("Cookies");
+            return Redirect("/");
         }
     }
 }

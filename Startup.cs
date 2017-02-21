@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -11,8 +12,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using TestManagementStudio.SQLData;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 
 
 namespace TestManagementStudio
@@ -62,9 +63,26 @@ namespace TestManagementStudio
             }
 
             app.UseStaticFiles();
-            //app.UseIdentity();
+            
+            app.UseCookieAuthentication(new CookieAuthenticationOptions()
+            {
+                AuthenticationScheme = "Cookies",
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
 
-            //app.UseMvc();
+                LoginPath = new PathString("/account/login")
+            });
+
+            app.UseClaimsTransformation(context =>
+            {
+                if (context.Principal.Identity.IsAuthenticated)
+                {
+                    context.Principal.Identities.First().AddClaim(new Claim("now", DateTime.Now.ToString()));
+                }
+
+                return Task.FromResult(context.Principal);
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
