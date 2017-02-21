@@ -13,9 +13,9 @@ namespace TestManagementStudio.Controllers
     [Route("api/Subjects")]
     public class SubjectsController : Controller
     {
-        private readonly SubjectsContext _context;
+        private readonly TMSContext _context;
 
-        public SubjectsController(SubjectsContext context)
+        public SubjectsController(TMSContext context)
         {
             _context = context;
         }

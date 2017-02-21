@@ -15,9 +15,9 @@ namespace TestManagementStudio.Controllers
     [Route("api/UsersController")]
     public class UsersController : Controller
     {
-        private readonly UsersContext _context;
+        private readonly TMSContext _context;
 
-        public UsersController(UsersContext context)
+        public UsersController(TMSContext context)
         {
             _context = context;
         }

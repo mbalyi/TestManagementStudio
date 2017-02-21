@@ -37,9 +37,7 @@ namespace TestManagementStudio
             // Add framework services.
             services.AddMvc();
 
-            services.AddDbContext< UsersContext > (options => options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection") ));
-            services.AddDbContext< SubjectsContext >(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext< TestCasesContext >(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext< TMSContext > (options => options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection") ));
             /*services.AddIdentity<Users,Roles>()
             .AddEntityFrameworkStores<UsersContext>()
             .AddDefaultTokenProviders();*/

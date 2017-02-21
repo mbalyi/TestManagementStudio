@@ -32,7 +32,7 @@ namespace TestManagementStudio.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(Users obj)
         {
             if (ModelState.IsValid)

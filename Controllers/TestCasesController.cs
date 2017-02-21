@@ -13,9 +13,9 @@ namespace TestManagementStudio.Controllers
     [Route("api/TestCases")]
     public class TestCasesController : Controller
     {
-        private readonly TestCasesContext _context;
+        private readonly TMSContext _context;
 
-        public TestCasesController(TestCasesContext context)
+        public TestCasesController(TMSContext context)
         {
             _context = context;
         }
