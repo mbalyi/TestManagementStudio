@@ -2,7 +2,6 @@
   "name": "Angular2Spa",
   "version": "0.0.0",
   "dependencies": {
-    "webpack": "^2.0.0",
     "@angular/common": "2.0.0",
     "@angular/compiler": "2.0.0",
     "@angular/core": "2.0.0",
@@ -22,7 +21,7 @@
     "css": "^2.2.1",
     "css-loader": "^0.25.0",
     "node-sass": "^4.5.0",
-    "sass-loader": "^6.0.1",
+    "sass-loader": "4.1.1",
     "es6-shim": "^0.35.1",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",

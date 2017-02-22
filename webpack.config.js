@@ -4,6 +4,7 @@ var webpack = require('webpack');
 var nodeExternals = require('webpack-node-externals');
 var merge = require('webpack-merge');
 var allFilenamesExceptJavaScript = /\.(?!js(\?|$))([^.]+(\?|$))/;
+//require.extensions['.scss'] = () => { return; }; require.extensions['.css'] = () => { return; };
 
 // Configuration in common to both client-side and server-side bundles
 var sharedConfig = {
@@ -18,7 +19,8 @@ var sharedConfig = {
             { test: /\.html$/, loader: 'raw' },
             { test: /\.css$/, loader: 'to-string!css' },
             { test: /\.(png|jpg|jpeg|gif|svg)$/, loader: 'url', query: { limit: 25000 } },
-            { test: /\.scss$/, exclude: /node_modules/, loaders: ['raw-loader', 'sass-loader'] }
+            { test: /\.scss$/, loaders: ["raw-loader?sourceMap", "sass-loader?sourceMap"] },
+            //{ test: /\.scss$/, loaders: ["style-loader?sourceMap", "css-loader?sourceMap", "sass-loader?sourceMap"] } //too much chains
         ]
     }
 };

@@ -36,7 +36,7 @@ INSERT INTO Roles([Name], [IsFullAccess], [IsManager], [IsEditor], [IsUser])
 VALUES('User', 0, 0, 0, 1)   
     
 CREATE TABLE[dbo].Users(    
-        [UserId] INT IDENTITY PRIMARY KEY, 
+        [UserId] INT IDENTITY(1,1) PRIMARY KEY, 
 		[Nickname][text] NOT NULL, 
 		[Password][text] NOT NULL, 
 		[Firstname][text] NOT NULL,

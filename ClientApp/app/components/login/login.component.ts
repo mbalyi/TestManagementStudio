@@ -48,7 +48,7 @@ export class LoginComponent {
             .subscribe(
             err => this.errorMsg,
             data => { this.user = data; console.log(this.user); debugger; },
-            () => console.log('Authentication Complete')
+            () => console.log('Authentication Completed')
             )/*
             .map(response => {
                 console.log(response.json());
@@ -59,7 +59,7 @@ export class LoginComponent {
             .subscribe(
             err => { debugger; this.errorMsg; },
                 data => { debugger;this.user = data; console.log(this.user); debugger; },
-                () => console.log('Logout Complete')
+                () => console.log('Claim Completed')
         );
     }
 
@@ -68,11 +68,31 @@ export class LoginComponent {
         headers.append('Content-Type', 'application/json');
         this.http.get('api/accountcontroller/logout', { headers: headers }).subscribe(
             err => this.errorMsg,
-            () => console.log('Logout Complete')
+            () => console.log('Logout Completed')
         );
     }
 
     register() {
-        console.log(this.user);
+        if (this.user.Password == this.confirmPassword.toString()) {
+            var body = JSON.stringify(this.user);
+            var headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+
+            this.http.post('api/accountcontroller/register', body, { headers: headers })
+                .map(res => res.json())
+                .subscribe(
+                err => this.errorMsg,
+                () => console.log('Register Completed')
+                )
+            this.http.get('api/accountcontroller/', { headers: headers })
+                .map(res => res.json())
+                .subscribe(
+                err => { debugger; this.errorMsg; },
+                data => { debugger; this.user = data; console.log(this.user); debugger; },
+                () => console.log('Logout Completed')
+                );
+        } else {
+
+        }
     }
 }

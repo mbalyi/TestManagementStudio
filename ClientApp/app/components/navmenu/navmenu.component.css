@@ -1,5 +1,6 @@
-div.col-lg-2 {
-    height:100%;
+div.col-lg-2.navbar-inverse {
+    height: calc( 100% - 51.6px);
+    width: 14%;
 }
 
 .sidenav {
