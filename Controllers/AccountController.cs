@@ -40,13 +40,13 @@ namespace TestManagementStudio.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login([FromBody]LoginUser loginUser)
+        public async Task<Users> Login([FromBody]LoginUser loginUser)
         {
             ViewData["ReturnUrl"] = null;
 
-            if (!string.IsNullOrWhiteSpace(loginUser.nickName))
+            if (!string.IsNullOrWhiteSpace(loginUser.nickname))
             {
-                Users user = _context.Users.Single(u => u.Nickname.ToString() == loginUser.nickName.ToString());
+                Users user = _context.Users.Single(u => u.Nickname.ToString() == loginUser.nickname.ToString());
                 if (user.Password == loginUser.password)
                 {
                     var claims = new List<Claim>
@@ -60,11 +60,11 @@ namespace TestManagementStudio.Controllers
 
                     await HttpContext.Authentication.SignInAsync("Cookies", p);
 
-                    return LocalRedirect("/");
+                    return user;
                 }
             }
 
-            return View();
+            return new Users();
         }
 
         [HttpPost]
@@ -73,15 +73,15 @@ namespace TestManagementStudio.Controllers
         {
             ViewData["ReturnUrl"] = null;
 
-            if (!string.IsNullOrWhiteSpace(registerUser.nickName))
+            if (!string.IsNullOrWhiteSpace(registerUser.nickname))
             {
                 var role = _context.Roles.Single(r => r.IsUser == true);
                 var newUser = new Users
                 {
-                    Nickname = registerUser.nickName,
+                    Nickname = registerUser.nickname,
                     Password = registerUser.password,
-                    Firstname = registerUser.firstName,
-                    Lastname = registerUser.lastName,
+                    Firstname = registerUser.firstname,
+                    Lastname = registerUser.lastname,
                     Email = registerUser.email,
                     Phone = registerUser.phone,
                     Address = registerUser.address,
@@ -94,7 +94,7 @@ namespace TestManagementStudio.Controllers
                         _context.Add(newUser);
                         var claims = new List<Claim>
                         {
-                            new Claim("loggedUser", registerUser.nickName),
+                            new Claim("loggedUser", registerUser.nickname),
                             new Claim("role", role.RoleId.ToString())
                         };
 

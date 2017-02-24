@@ -7,7 +7,7 @@ namespace TestManagementStudio.Model
 {
     public class LoginUser
     {
-        public String nickName;
+        public String nickname;
         public String password;
     }
 }

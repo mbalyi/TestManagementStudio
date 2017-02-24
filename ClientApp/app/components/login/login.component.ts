@@ -1,8 +1,10 @@
 ﻿import { Component, trigger, transition, style, animate, state } from '@angular/core';
 import { Http, Headers, Response } from "@angular/http";
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { Users } from '../../models/users.model';
 import 'rxjs/Rx';
+
+import { Users } from '../../models/users.model';
 
 import { AuthenticationService } from './../../services/authentication/authentication.service';
 
@@ -20,13 +22,13 @@ import { AuthenticationService } from './../../services/authentication/authentic
     providers: [AuthenticationService]
 })
 export class LoginComponent {
-    private user: Users = { UserId: null, Nickname: "", Password: "", Lastname: "", Firstname: "", Email: "", Address: "", Phone: "", RoleId: null };
+    private user: Users = { userid: null, nickname: "", password: "", lastname: "", firstname: "", email: "", address: "", phone: "", roleid: null };
     private users: Array<Users> = [];
     private confirmPassword: number = null;
     private loginEnable: Boolean = true;
     private rememberme: Boolean = false;
 
-    constructor(private auth: AuthenticationService) {}
+    constructor(private auth: AuthenticationService, private router: Router) {}
 
     showLoginForm() {
         this.loginEnable = true;
@@ -36,10 +38,24 @@ export class LoginComponent {
         this.loginEnable = false;
     }
 
+    show() {
+        console.log(this.user)
+    }
+
+    setAuthLogin() {
+        this.auth.setLogginFlag(true).subscribe(res => console.log(res));
+        this.router.navigate(['/home']);
+    }
+
     login() {
         this.auth.login(this.user).subscribe(
-            user => this.user = user,
-            err => { console.log(err); }
+            user => {
+                this.user = user;
+                if (user) {
+                    this.setAuthLogin();
+                }
+            },
+            err => console.log(err)
         );
     }
 
@@ -48,9 +64,13 @@ export class LoginComponent {
     }
 
     register() {
-        if (this.user.Password.toString() == this.confirmPassword.toString()) {
+        if (this.user.password.toString() == this.confirmPassword.toString()) {
             this.auth.register(this.user).subscribe(
-                user => this.user = user,
+                user => {
+                    this.user = user;
+                    if (this.user && this.user.userid)
+                        this.auth.isLoggedIn = true;
+                },
                 err => { console.log(err); }
             );
         }

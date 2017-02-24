@@ -7,6 +7,9 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { AuthGuard } from './guards/authentication.guard';
 
+import { AuthenticationService } from './services/authentication/authentication.service';
+import { UserService } from './services/user/user.service';
+
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
@@ -33,15 +36,20 @@ import { SubjectsComponent } from './components/subjects/subjects.component';
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         FormsModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'home', component: HomeComponent },
+            { path: '', redirectTo: 'home', pathMatch: 'full', canActivate: [AuthGuard] },
+            { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
             { path: 'login', component: LoginComponent },
-            { path: 'counter', component: CounterComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
-            { path: 'users-data', component: UsersComponent },
-            { path: 'subjects', component: SubjectsComponent },
+            { path: 'counter', component: CounterComponent, canActivate: [AuthGuard] },
+            { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },
+            { path: 'users-data', component: UsersComponent, canActivate: [AuthGuard] },
+            { path: 'subjects', component: SubjectsComponent, canActivate: [AuthGuard] },
             { path: '**', redirectTo: 'home' }
         ])
+    ],
+    providers: [
+        AuthGuard,
+        AuthenticationService,
+        UserService
     ]
 })
 export class AppModule {

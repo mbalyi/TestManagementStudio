@@ -7,10 +7,10 @@ namespace TestManagementStudio.Model
 {
     public class RegisterUser
     {
-        public String nickName;
+        public String nickname;
         public String password;
-        public String firstName;
-        public String lastName;
+        public String firstname;
+        public String lastname;
         public String email;
         public String phone;
         public String address;
