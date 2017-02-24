@@ -1,19 +1,29 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { Http } from "@angular/http";
 import { Users } from "./../../models/users.model";
+import { Observable } from 'rxjs/Rx';
+import { UserService } from './../../services/user/user.service';
 
 @Component({
     selector: 'users',
-    template: require('./users.component.html')
+    template: require('./users.component.html'),
+    providers: [UserService]
 })
 
-export class UsersComponent {   
+export class UsersComponent implements OnInit {   
     public users: Users[] = [];
     public name: string = null;
 
-    constructor(http: Http) {
-        http.get('/api/userscontroller/users').subscribe(result => {
-            this.users = result.json();
-        });
+    constructor(private userService: UserService) {}
+
+    ngOnInit() {
+        this.getUsers();
+    }
+
+    getUsers() {
+        this.userService.getUsers().subscribe(
+            users => this.users = users,
+            err => { console.log(err); }
+        );
     }
 }

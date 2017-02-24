@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { Users } from '../../models/users.model';
 import 'rxjs/Rx';
 
+import { AuthenticationService } from './../../services/authentication/authentication.service';
+
 @Component({
     selector: 'login',
     animations: [
@@ -14,21 +16,17 @@ import 'rxjs/Rx';
             transition('0 => 1', animate('900ms'))
         ])
     ],
-    template: require('./login.component.html')
+    template: require('./login.component.html'),
+    providers: [AuthenticationService]
 })
 export class LoginComponent {
-    private http: Http;
-
     private user: Users = { UserId: null, Nickname: "", Password: "", Lastname: "", Firstname: "", Email: "", Address: "", Phone: "", RoleId: null };
     private users: Array<Users> = [];
-    private errorMsg: String = '';
     private confirmPassword: number = null;
     private loginEnable: Boolean = true;
     private rememberme: Boolean = false;
 
-    constructor(http: Http) {
-        this.http = http;
-    }
+    constructor(private auth: AuthenticationService) {}
 
     showLoginForm() {
         this.loginEnable = true;
@@ -39,60 +37,22 @@ export class LoginComponent {
     }
 
     login() {
-        var body = JSON.stringify({ "nickName": this.user.Nickname, "password": this.user.Password });
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-
-        this.http.post('api/accountcontroller/login', body, { headers: headers })
-            .map(res => res.json() )
-            .subscribe(
-            err => this.errorMsg,
-            data => { this.user = data; console.log(this.user); debugger; },
-            () => console.log('Authentication Completed')
-            )/*
-            .map(response => {
-                console.log(response.json());
-            });*/
-        debugger;
-        this.http.get('api/accountcontroller/', { headers: headers })
-            .map(res => res.json())
-            .subscribe(
-            err => { debugger; this.errorMsg; },
-                data => { debugger;this.user = data; console.log(this.user); debugger; },
-                () => console.log('Claim Completed')
+        this.auth.login(this.user).subscribe(
+            user => this.user = user,
+            err => { console.log(err); }
         );
     }
 
     logout() {
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        this.http.get('api/accountcontroller/logout', { headers: headers }).subscribe(
-            err => this.errorMsg,
-            () => console.log('Logout Completed')
-        );
+        this.auth.logout();
     }
 
     register() {
-        if (this.user.Password == this.confirmPassword.toString()) {
-            var body = JSON.stringify(this.user);
-            var headers = new Headers();
-            headers.append('Content-Type', 'application/json');
-
-            this.http.post('api/accountcontroller/register', body, { headers: headers })
-                .map(res => res.json())
-                .subscribe(
-                err => this.errorMsg,
-                () => console.log('Register Completed')
-                )
-            this.http.get('api/accountcontroller/', { headers: headers })
-                .map(res => res.json())
-                .subscribe(
-                err => { debugger; this.errorMsg; },
-                data => { debugger; this.user = data; console.log(this.user); debugger; },
-                () => console.log('Logout Completed')
-                );
-        } else {
-
+        if (this.user.Password.toString() == this.confirmPassword.toString()) {
+            this.auth.register(this.user).subscribe(
+                user => this.user = user,
+                err => { console.log(err); }
+            );
         }
     }
 }

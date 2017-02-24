@@ -5,6 +5,8 @@ import { UniversalModule } from 'angular2-universal';
 import { AppComponent } from './components/app/app.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
+import { AuthGuard } from './guards/authentication.guard';
+
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
