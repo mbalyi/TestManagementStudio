@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from "@angular/http";
-
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { Users } from './../../models/users.model';
@@ -11,7 +11,7 @@ let isLoggedIn: boolean = false;
 export class AuthenticationService {
     private headers = new Headers({ 'Content-Type': 'application/json' });
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private router: Router) { }
 
     getLogFlag():boolean {
         return isLoggedIn;
@@ -31,9 +31,12 @@ export class AuthenticationService {
 
     logout() {
         this.http.get('api/accountcontroller/logout', { headers: this.headers }).subscribe(
-            err => { console.log(err); },
             () => {
-                isLoggedIn = false;
+                this.setLogginFlag(false).subscribe(
+                    res => {
+                        this.router.navigate(['/login']);
+                    }
+                );
                 console.log('Logout Completed');
             }
         );
@@ -43,7 +46,7 @@ export class AuthenticationService {
         var body = JSON.stringify(user);
 
         return this.http.post('api/accountcontroller/register', body, { headers: this.headers })
-            .map((res: Response) => { res.json(); isLoggedIn = true; })
+            .map(res => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 }

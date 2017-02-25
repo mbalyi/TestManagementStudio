@@ -69,7 +69,7 @@ namespace TestManagementStudio.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public async Task<IActionResult> Register([FromBody]RegisterUser registerUser)
+        public async Task<Users> Register([FromBody]RegisterUser registerUser)
         {
             ViewData["ReturnUrl"] = null;
 
@@ -104,19 +104,18 @@ namespace TestManagementStudio.Controllers
                         await HttpContext.Authentication.SignInAsync("Cookies", p);
                         await _context.SaveChangesAsync();
 
-                        return LocalRedirect("/");
+                        return _context.Users.Single(u => u.Nickname.ToString() == registerUser.nickname.ToString());
                     }
                 }
                 catch (DbUpdateException /* ex */)
                 {
-                    //Log the error (uncomment ex variable name and write a log.
                     ModelState.AddModelError("", "Unable to save changes. " +
                         "Try again, and if the problem persists " +
                         "see your system administrator.");
                 }
             }
 
-            return View();
+            return new Users();
         }
 
         [HttpGet]

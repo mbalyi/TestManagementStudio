@@ -42,19 +42,15 @@ export class LoginComponent {
         console.log(this.user)
     }
 
-    setAuthLogin() {
-        this.auth.setLogginFlag(true).subscribe(res => console.log(res));
-        if (this.auth.getLogFlag()) {
-            this.router.navigate(['/home']);
-        }
-    }
-
     login() {
         this.auth.login(this.user).subscribe(
             user => {
                 this.user = user;
                 if (user) {
-                    this.setAuthLogin();
+                    this.auth.setLogginFlag(true).subscribe(res => console.log(res));
+                    if (this.auth.getLogFlag()) {
+                        this.router.navigate(['/home']);
+                    }
                 }
             },
             err => console.log(err)
@@ -70,7 +66,7 @@ export class LoginComponent {
             this.auth.register(this.user).subscribe(
                 user => {
                     this.user = user;
-                    if (this.user && this.user.userid)
+                    if (user)
                         this.auth.setLogginFlag(true).subscribe(res => console.log(res));
                 },
                 err => { console.log(err); }
