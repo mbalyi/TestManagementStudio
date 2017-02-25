@@ -44,7 +44,9 @@ export class LoginComponent {
 
     setAuthLogin() {
         this.auth.setLogginFlag(true).subscribe(res => console.log(res));
-        this.router.navigate(['/home']);
+        if (this.auth.getLogFlag()) {
+            this.router.navigate(['/home']);
+        }
     }
 
     login() {
@@ -69,7 +71,7 @@ export class LoginComponent {
                 user => {
                     this.user = user;
                     if (this.user && this.user.userid)
-                        this.auth.isLoggedIn = true;
+                        this.auth.setLogginFlag(true).subscribe(res => console.log(res));
                 },
                 err => { console.log(err); }
             );

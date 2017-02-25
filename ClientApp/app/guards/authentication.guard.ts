@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
     }
 
     checkLogin(state: RouterStateSnapshot): boolean {
-        if (this.authService.isLoggedIn) {
+        if (this.authService.getLogFlag()) {
             return true;
         };
 

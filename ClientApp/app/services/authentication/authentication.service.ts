@@ -5,21 +5,20 @@ import { Observable } from 'rxjs/Rx';
 
 import { Users } from './../../models/users.model';
 
+let isLoggedIn: boolean = false;
+
 @Injectable()
 export class AuthenticationService {
-    public isLoggedIn: boolean = false;
-    public log: Observable<boolean>;
     private headers = new Headers({ 'Content-Type': 'application/json' });
 
     constructor(private http: Http) { }
 
-    getIsLogged(): Observable<boolean> {
-        return Observable.of(true).do(val => this.isLoggedIn = this.isLoggedIn);
+    getLogFlag():boolean {
+        return isLoggedIn;
     }
 
     setLogginFlag(flag: boolean): Observable<boolean> {
-        this.log = new Observable<boolean>(observable => observable.next(flag));
-        return Observable.of(flag).do(val => this.isLoggedIn = flag);
+        return Observable.of(flag).do(val => isLoggedIn = flag);
     }
 
     login(user: Users): Observable<Users> {
@@ -34,7 +33,7 @@ export class AuthenticationService {
         this.http.get('api/accountcontroller/logout', { headers: this.headers }).subscribe(
             err => { console.log(err); },
             () => {
-                this.isLoggedIn = false;
+                isLoggedIn = false;
                 console.log('Logout Completed');
             }
         );
@@ -44,7 +43,7 @@ export class AuthenticationService {
         var body = JSON.stringify(user);
 
         return this.http.post('api/accountcontroller/register', body, { headers: this.headers })
-            .map((res: Response) => { res.json(); this.isLoggedIn = true; })
+            .map((res: Response) => { res.json(); isLoggedIn = true; })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 }
