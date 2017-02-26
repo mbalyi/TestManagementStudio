@@ -11,6 +11,8 @@ import { AuthGuard } from './guards/authentication.guard';
 import { AuthenticationService } from './services/authentication/authentication.service';
 import { UserService } from './services/user/user.service';
 
+import { CapitalizePipe } from './pipes/capitalize.pipe';
+
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
@@ -35,9 +37,12 @@ import { AdminComponent } from './components/admin/admin.component';
         UsersComponent,
         LoginComponent,
         SubjectsComponent,
-        AdminComponent
+        AdminComponent,
 
         // Widgets
+
+        // Pipes
+        CapitalizePipe
     ],
     imports: [
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
