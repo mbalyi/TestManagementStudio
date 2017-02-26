@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { UniversalModule } from 'angular2-universal';
 import { AppComponent } from './components/app/app.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { DataTableModule } from 'primeng/primeng';
 
 import { AuthGuard } from './guards/authentication.guard';
 
@@ -18,19 +19,25 @@ import { NavHeaderComponent } from './components/navheader/navheader.component';
 import { UsersComponent } from './components/users/users.component';
 import { LoginComponent } from './components/login/login.component';
 import { SubjectsComponent } from './components/subjects/subjects.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
     bootstrap: [AppComponent ],
     declarations: [
         AppComponent,
         NavMenuComponent,
+
+        // Pages
         CounterComponent,
         FetchDataComponent,
         HomeComponent,
         NavHeaderComponent,
         UsersComponent,
         LoginComponent,
-        SubjectsComponent
+        SubjectsComponent,
+        AdminComponent
+
+        // Widgets
     ],
     imports: [
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
@@ -42,12 +49,17 @@ import { SubjectsComponent } from './components/subjects/subjects.component';
             { path: 'counter', component: CounterComponent, canActivate: [AuthGuard] },
             { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },
             { path: 'users-data', component: UsersComponent, canActivate: [AuthGuard] },
+            { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
             { path: 'subjects', component: SubjectsComponent, canActivate: [AuthGuard] },
             { path: '**', redirectTo: 'home' }
-        ])
+        ]),
+        DataTableModule
     ],
     providers: [
+        // Guards
         AuthGuard,
+
+        // Services
         AuthenticationService,
         UserService
     ]

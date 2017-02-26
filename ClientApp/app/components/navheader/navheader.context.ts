@@ -13,7 +13,8 @@
 export class NavHeaders {
     private home: NavHeaderContext = new NavHeaderContext('home', '/home','glyphicon glyphicon-home');
     private users: NavHeaderContext = new NavHeaderContext('users', '/users-data', 'glyphicon glyphicon-th-list');
+    private admin: NavHeaderContext = new NavHeaderContext('admin', '/admin', 'glyphicon glyphicon-briefcase');
     private subjects: NavHeaderContext = new NavHeaderContext('subjects', '/subjects', 'glyphicon glyphicon-book');
 
-    public headers: NavHeaderContext[] = [this.home, this.users, this.subjects];
+    public headers: NavHeaderContext[] = [this.home, this.users, this.admin, this.subjects];
 }
