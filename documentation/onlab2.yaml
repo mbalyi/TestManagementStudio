@@ -1,0 +1,352 @@
+---
+swagger: '2.0'
+
+
+info:
+  version: v1
+  title: TestManagement Studio Backend API
+  description: |
+    <<Some text >>
+
+    
+    Would respond with:
+    ```js
+    callbackFunction({
+        ...
+    });
+    ```
+
+################################################################################
+#                  Host, Base Path, Schemes and Content Types                  #
+################################################################################
+host: localhost
+basePath: /v1
+schemes:
+  - http
+  - https
+produces:
+  - application/json
+consumes:
+  - x-www-form-urlencoded
+
+################################################################################
+#                                  Security                                    #
+################################################################################
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+security:
+  - Bearer: []
+
+################################################################################
+#                                   Parameters                                 #
+################################################################################
+parameters:
+  userId:
+    name: userId
+    in: path
+    description: The user identifier number
+    type: number
+    format: int32
+    required: true
+################################################################################
+#                                 Definitions                                  #
+################################################################################
+definitions:
+  Entity:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        
+  SecuredEntity:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        permissions:
+          type: array
+          items:
+            $ref: '#/definitions/Permission'
+    
+  Permission:
+    type: object
+    properties:
+      read:
+        type: integer
+        format: int32
+      write:
+        type: integer
+        format: int32  
+      subject:
+        $ref: '#/definitions/Entity'
+      object:
+        $ref: '#/definitions/SecuredEntity'
+        
+  Group:
+    type: object
+    allOf:
+    - $ref: '#/definitions/SecuredEntity'
+    - type: object
+      properties:
+        name:
+          type: string
+        users:
+          type: array
+          items:
+            $ref: '#/definitions/User'
+  User:
+    type: object
+    allOf:
+    - $ref: '#/definitions/SecuredEntity'
+    - type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        groups:
+          type: array
+          items:
+            $ref: '#/definitions/Group'
+ 
+
+################################################################################
+#                                           Paths                              #
+################################################################################
+paths:
+
+  /users:
+  
+    get:
+      tags:
+      - Users
+      description: Get all registered users
+      operationId: listUsers
+      responses:
+        "200":
+          description: The list of user objects
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+              
+    post:
+      tags:
+      - Users
+      description: Register a new user
+      operationId: addUser
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: email
+          in: formData
+          description: The users's email
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: The users's password
+          required: true
+          type: string
+          format: password
+        - name: firstName
+          in: formData
+          description: The users's firstname
+          required: false
+          type: string
+        - name: lastName
+          in: formData
+          description: The users's lastname
+          required: false
+          type: string 
+      responses:
+        "201":
+          description: Return no content, but a redirection  header
+          schema:
+            type: string
+          headers:
+            Location:
+              description: The URI of the created user
+              type: string
+        "409":
+          description: Some unique data (i.e. email address) conflicted with a data of existing user
+          
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Logs user into the system
+      description: ""
+      operationId: login
+      produces:
+        - application/json  
+      parameters:
+        - in: formData
+          name: username
+          description: The user name for login
+          required: false
+          type: string
+        - in: formData
+          name: password
+          description: The password for login in clear text
+          required: false
+          type: string
+          format: password
+      responses:
+        "201":
+          description: Successful operation
+          schema:
+            type: string
+        "400":
+          description: Invalid username/password supplied
+        "401":
+          description: Wrong username/password supplied
+          
+  /Auth/logout:
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Auth
+      summary: Invalidate the token of currently logged in user
+      description: ""
+      operationId: logout
+      produces:
+        - application/json        
+      responses:
+        "204":
+          description: Successful operation    
+  /users/me:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Users
+      summary: Get the actual user
+      description: ""
+      operationId: getActualUser
+      produces:
+        - application/json        
+      responses:
+        "200":
+          description: The user object
+          schema:
+            $ref: "#/definitions/User" 
+    put:
+      tags:
+      - Users
+      summary: Update user
+      description: This can only be done by the logged in user.
+      operationId: updateActualUser
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: email
+          in: formData
+          description: The users's email
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: The users's password
+          required: true
+          type: string
+          format: password
+        - name: firstName
+          in: formData
+          description: The users's firstname
+          required: false
+          type: string
+        - name: lastName
+          in: formData
+          description: The users's lastname
+          required: false
+          type: string         
+      responses:
+        "204":
+          description: Successful operation
+        "404":
+          description: User not found
+        "400":
+          description: Invalid id supplied
+   
+  /users/{userId}:
+    parameters:
+      - $ref: '#/parameters/userId'
+      
+    get:
+      tags:
+        - Users
+      description: Get basic information about an user.
+      operationId: getUser
+      responses:
+        "200":
+          description: The user object
+          schema:
+            $ref: "#/definitions/User"
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Users
+      summary: Update a certain user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: email
+          in: formData
+          description: The users's email
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: The users's password
+          required: true
+          type: string
+          format: password
+        - name: firstName
+          in: formData
+          description: The users's firstname
+          required: false
+          type: string
+        - name: lastName
+          in: formData
+          description: The users's lastname
+          required: false
+          type: string         
+      responses:
+        "204":
+          description: Successful operation
+        "404":
+          description: User not found
+        "400":
+          description: Invalid id supplied
+
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Users
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      produces:
+        - application/json        
+      responses:
+        "204":
+          description: Successful operation
+        "404":
+          description: User not found
+        "400":
+          description: Invalid id supplied

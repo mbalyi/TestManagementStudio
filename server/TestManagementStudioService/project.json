@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Microsoft.AspNetCore.Authorization": "1.1.0",
+    "MySql.Data.EntityFrameworkCore": "7.0.6-IR31",
+    "MySql.Data.EntityFrameworkCore.Design": "6.10.1-beta",
+    "NETStandard.Library": "1.6.1"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  }
+}
