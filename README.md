@@ -1,2 +1,0 @@
-# TestManagementStudio
-Szakdolgozat
