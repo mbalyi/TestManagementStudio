@@ -13,12 +13,13 @@ export class AuthGuard implements CanActivate {
     }
 
     checkLogin(state: RouterStateSnapshot): boolean {
-        if (this.authService.getLogFlag()) {
-            return true;
-        };
+        return true;
+        // if (this.authService.getLogFlag()) {
+        //     return true;
+        // };
 
-        // Navigate to the login page with extras
-        this.router.navigate(['/login']);
-        return false;
+        // // Navigate to the login page with extras
+        // this.router.navigate(['/login']);
+        // return false;
     }
 }

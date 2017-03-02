@@ -169,6 +169,8 @@ namespace TestManagementStudio
                 TokenValidationParameters = tokenValidationParameters
             });
 
+            app.UseCors(builder => builder.AllowAnyOrigin());
+
             app.UseMvc();
 
         }

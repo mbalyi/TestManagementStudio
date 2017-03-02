@@ -24,6 +24,7 @@ using TestManagementStudio.ViewModels;
 using TestManagementStudioService.Services;
 using TestManagementStudioService.Exceptions.Data;
 using TestManagementStudio.Factories;
+using Microsoft.AspNetCore.Cors;
 
 namespace TestManagementStudio.Controllers
 {

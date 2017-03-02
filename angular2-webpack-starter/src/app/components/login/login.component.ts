@@ -58,7 +58,11 @@ export class LoginComponent {
                     let tokenData = JSON.parse(JSON.stringify(data));
 
                     //set logged in flag
-                    this.auth.setLogginFlag(true);
+                    // this.auth.setLogginFlag(true).subscribe(
+                    //     () => {
+                    //         console.log();
+                    //     }
+                    // );
 
                     //store token
                     localStorage.setItem('access_token', tokenData.access_token);
@@ -67,6 +71,7 @@ export class LoginComponent {
                             this.router.navigate(['/']);
                         }
                     );
+                    
 
                 }catch(e){
                     console.error('Error: ' + e + ' ' +  data);
