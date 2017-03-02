@@ -58,11 +58,11 @@ export class LoginComponent {
                     let tokenData = JSON.parse(JSON.stringify(data));
 
                     //set logged in flag
-                    // this.auth.setLogginFlag(true).subscribe(
-                    //     () => {
-                    //         console.log();
-                    //     }
-                    // );
+                    this.auth.setLogginFlag(true).subscribe(
+                        () => {
+                            console.log();
+                        }
+                    );
 
                     //store token
                     localStorage.setItem('access_token', tokenData.access_token);

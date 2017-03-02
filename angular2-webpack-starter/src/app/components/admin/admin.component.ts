@@ -11,6 +11,8 @@ import { UserService } from './../../services/user/user.service';
 
 export class AdminComponent implements OnInit {
     public users: Users[] = [];
+    public user: Users;
+    private displayDialog: boolean = false;
 
     constructor(private userService: UserService) { }
 
@@ -24,4 +26,22 @@ export class AdminComponent implements OnInit {
             err => { console.log(err); }
         );
     }
+
+    /*showDialogToAdd() {
+        this.user = { userid: null, nickname: "", password: "", lastname: "", firstname: "", email: "", address: "", phone: "", roleid: null };
+        this.displayDialog = true;
+    }*/
+
+    /*onRowSelect(event) {
+        this.user = this.cloneUser(event.data);
+        this.displayDialog = true;
+    }
+
+    cloneUser(u: Users): Users {
+        let user = { userid: null, nickname: "", password: "", lastname: "", firstname: "", email: "", address: "", phone: "", roleid: null };
+        for(let prop in u) {
+            user[prop] = u[prop];
+        }
+        return user;
+    }*/
 }

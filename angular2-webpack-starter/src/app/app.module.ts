@@ -23,7 +23,7 @@ import { ROUTES } from './app.routes';
 // App is our top level component
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 
-import { DataTableModule } from 'primeng/primeng';
+import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModule } from 'primeng/primeng';
 
 import {ApiModule} from "./api/api.module";
 
@@ -44,6 +44,8 @@ import { UserService } from './services/user/user.service';
 import {Ng2BootstrapModule} from "ng2-bootstrap";
 
 import { provideAuth } from 'angular2-jwt';
+
+import '../styles/styles.scss';
 
 
 
@@ -80,11 +82,15 @@ const APP_PROVIDERS = [
     FormsModule,
     HttpModule,
       //APIServices
-      ApiModule,
+    ApiModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
 
-      DataTableModule,
-      Ng2BootstrapModule
+    DataTableModule,
+    DialogModule,
+    SharedModule,
+    ButtonModule,
+    TabViewModule,
+    Ng2BootstrapModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
