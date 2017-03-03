@@ -24,11 +24,11 @@ basePath: /v1
 schemes:
   - http
   - https
+consumes:
+  - application/x-www-form-urlencoded  
+  - application/json
 produces:
   - application/json
-consumes:
-  - x-www-form-urlencoded
-
 ################################################################################
 #                                  Security                                    #
 ################################################################################
@@ -55,54 +55,68 @@ parameters:
 #                                 Definitions                                  #
 ################################################################################
 definitions:
+  ErrorMessage:
+    type: object
+    properties:
+      title:
+        type: string
+      text:
+        type: string
+        
   Entity:
     type: object
     properties:
       id:
         type: integer
         format: int32
-        
-  SecuredEntity:
+      permissions:
+          type: array
+          items:
+            $ref: '#/definitions/Permission'
+  Role:
     type: object
+    properties:
+      isRoot:
+        description: "If this property set to true, user has access to any part of the services"
+        type: boolean
+      actorAccess:
+        type: integer
+        format: int32
+      categoryAccess:
+        type: integer
+        format: int32
+        
+  Actor:
+    type: object
+    description: "Anyone who can does actions. (Users & Groups)"
     allOf:
     - $ref: '#/definitions/Entity'
     - type: object
       properties:
-        permissions:
+        roles:
           type: array
           items:
-            $ref: '#/definitions/Permission'
-    
+            $ref: '#/definitions/Role'
+
   Permission:
     type: object
     properties:
       read:
-        type: integer
-        format: int32
+        type: boolean
       write:
-        type: integer
-        format: int32  
+        type: boolean
       subject:
-        $ref: '#/definitions/Entity'
+        $ref: '#/definitions/Actor'
       object:
-        $ref: '#/definitions/SecuredEntity'
+        $ref: '#/definitions/Entity'
+      objectType:
+        description: "Discriminator to the actors. Group | user"
+        type: string
         
-  Group:
-    type: object
-    allOf:
-    - $ref: '#/definitions/SecuredEntity'
-    - type: object
-      properties:
-        name:
-          type: string
-        users:
-          type: array
-          items:
-            $ref: '#/definitions/User'
   User:
     type: object
     allOf:
-    - $ref: '#/definitions/SecuredEntity'
+    - $ref: '#/definitions/Actor'
     - type: object
       properties:
         email:
@@ -114,15 +128,193 @@ definitions:
         lastName:
           type: string
         groups:
+          description: "Groups which are created by the user"
           type: array
           items:
             $ref: '#/definitions/Group'
- 
+        memberOf:
+          type: array
+          items:
+            $ref: '#/definitions/Group'
+        tests:
+          description: "Tests created by the user"
+          type: array
+          items:
+            $ref: '#/definitions/Test'
+        testSets:
+          description: "Tests to to be completed, assigned to the user"
+          type: array
+          items:
+            $ref: '#/definitions/Test'
+        testExecutions:
+          description: "Tests are completed by the user"
+          type: array
+          items:
+            $ref: '#/definitions/TestExecution'
+            
+  Group:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Actor'
+    - type: object
+      properties:
+        name:
+          type: string
+        isPrivate:
+          description: "The group visible for only the creator."
+          type: boolean
+        creator:
+          description: "The user who creeated the group."
+          $ref: '#/definitions/User'
+        members:
+          description: "Users who are member of this group."
+          type: array
+          items:
+            $ref: '#/definitions/User'
+  
+  Category:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        name:
+          type: string
+        parent:
+          $ref: '#/definitions/Category'
+        childrens:
+          type: array
+          items:
+            $ref: '#/definitions/Category'
+        questions:
+          type: array
+          items:
+            $ref: '#/definitions/Question'
+        tests:
+          type: array
+          items:
+            $ref: '#/definitions/Test'
+  Answer:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        text:
+          type: string
+        correct:
+          type: boolean
+          
+  Question:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        text:
+          type: string
+        answersAll:
+          type: array
+          items:
+            $ref: '#/definitions/Answer'
 
+  SingleAnswerQuestion:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Question'
+    - type: object
+      properties:
+        text:
+          type: string  
+ 
+        
+  Test:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        text:
+          type: string
+        answersAll:
+          type: array
+          items:
+            $ref: '#/definitions/Answer'
+            
+  TestExecution:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        test:
+          $ref: '#/definitions/Test'
+        answersGiven:
+          type: array
+          items:
+            $ref: '#/definitions/Answer'
+        dateOfStart:
+          type: string
+          format: date-time
+        dateOfFulfillment:
+          type: string
+          format: date-time
+            
 ################################################################################
 #                                           Paths                              #
 ################################################################################
 paths:
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Logs user into the system
+      description: ""
+      operationId: login
+      produces:
+        - application/json  
+      parameters:
+        - in: formData
+          name: username
+          description: The user name for login
+          required: false
+          type: string
+        - in: formData
+          name: password
+          description: The passworód for login in clear text
+          required: false
+          type: string
+          format: password
+      responses:
+        "201":
+          description: Successful operation. Return a JWT token
+          schema:
+            type: string
+        "400":
+          description: Invalid username/password supplied
+          schema:
+            $ref: "#/definitions/ErrorMessage" 
+        "401":
+          description: Wrong username/password supplied
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+          
+  /auth/logout:
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Auth
+      summary: Invalidate the token of currently logged in user
+      description: ""
+      operationId: logout
+      produces:
+        - application/json        
+      responses:
+        "204":
+          description: Successful operation 
+
 
   /users:
   
@@ -138,7 +330,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/User'
-              
     post:
       tags:
       - Users
@@ -179,52 +370,9 @@ paths:
               type: string
         "409":
           description: Some unique data (i.e. email address) conflicted with a data of existing user
-          
-  /auth/login:
-    post:
-      tags:
-        - Auth
-      summary: Logs user into the system
-      description: ""
-      operationId: login
-      produces:
-        - application/json  
-      parameters:
-        - in: formData
-          name: username
-          description: The user name for login
-          required: false
-          type: string
-        - in: formData
-          name: password
-          description: The password for login in clear text
-          required: false
-          type: string
-          format: password
-      responses:
-        "201":
-          description: Successful operation
           schema:
-            type: string
-        "400":
-          description: Invalid username/password supplied
-        "401":
-          description: Wrong username/password supplied
+            $ref: "#/definitions/ErrorMessage"
           
-  /Auth/logout:
-    delete:
-      security:
-        - Bearer: []
-      tags:
-        - Auth
-      summary: Invalidate the token of currently logged in user
-      description: ""
-      operationId: logout
-      produces:
-        - application/json        
-      responses:
-        "204":
-          description: Successful operation    
   /users/me:
     get:
       security:
@@ -330,8 +478,12 @@ paths:
           description: Successful operation
         "404":
           description: User not found
+          schema:
+            $ref: "#/definitions/ErrorMessage"
         "400":
           description: Invalid id supplied
+          schema:
+            $ref: "#/definitions/ErrorMessage"
 
     delete:
       security:
@@ -348,5 +500,9 @@ paths:
           description: Successful operation
         "404":
           description: User not found
+          schema:
+            $ref: "#/definitions/ErrorMessage"
         "400":
           description: Invalid id supplied
+          schema:
+            $ref: "#/definitions/ErrorMessage"
