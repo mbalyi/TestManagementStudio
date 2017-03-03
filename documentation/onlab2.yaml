@@ -97,6 +97,11 @@ definitions:
           type: array
           items:
             $ref: '#/definitions/Role'
+        testSets:
+          description: "Tests to to be completed, assigned to the actor"
+          type: array
+          items:
+            $ref: '#/definitions/TestSet'
 
   Permission:
     type: object
@@ -141,11 +146,7 @@ definitions:
           type: array
           items:
             $ref: '#/definitions/Test'
-        testSets:
-          description: "Tests to to be completed, assigned to the user"
-          type: array
-          items:
-            $ref: '#/definitions/Test'
+
         testExecutions:
           description: "Tests are completed by the user"
           type: array
@@ -217,6 +218,10 @@ definitions:
           type: array
           items:
             $ref: '#/definitions/Answer'
+        categories:
+          type: array
+          items:
+            $ref: '#/definitions/Category'
 
   SingleAnswerQuestion:
     type: object
@@ -236,11 +241,29 @@ definitions:
       properties:
         text:
           type: string
-        answersAll:
+        questions:
           type: array
           items:
-            $ref: '#/definitions/Answer'
-            
+            $ref: '#/definitions/Question'
+        owner:
+          $ref: '#/definitions/User'
+
+  TestSet:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        test:
+          $ref: '#/definitions/Test'
+        dueDate:
+          type: string
+          format: date-time
+        actorsAssigned:
+          type: array
+          items:
+            $ref: '#/definitions/Actor'
+        
   TestExecution:
     type: object
     allOf:
@@ -256,7 +279,7 @@ definitions:
         dateOfStart:
           type: string
           format: date-time
-        dateOfFulfillment:
+        dateOfFill:
           type: string
           format: date-time
             
