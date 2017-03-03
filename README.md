@@ -39,4 +39,4 @@ További lehetőségek:
 - Reporting
                 
 ## domain objects diagram
-<img src="https://github.com/IcehT/TestManagementStudio/blob/master/documentation/Domain%20Objects.png">
+<img src="https://github.com/IcehT/TestManagementStudio/blob/iceht_sprint1/documentation/Domain%20Objects.png">
