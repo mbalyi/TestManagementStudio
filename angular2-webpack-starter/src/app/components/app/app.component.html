@@ -1,4 +1,5 @@
-<div *ngIf="!isLoginPage" class='container-fluid'>
+<div *ngIf="islogin$" class='container-fluid'>
+    {{islogin$}}
     <div class='row'>
         <navheader></navheader>
         <nav-menu></nav-menu>
@@ -7,7 +8,8 @@
         </div>
     </div>
 </div>
-<div *ngIf="isLoginPage" class='container-fluid'>
+<div *ngIf="!islogin$" class='container-fluid'>
+    {{islogin$}}
     <div class='row'>
         <router-outlet></router-outlet>
     </div>

@@ -50,6 +50,9 @@ import {Ng2BootstrapModule} from "ng2-bootstrap";
 import { provideAuth } from 'angular2-jwt';
 
 import { AppActions } from './app.actions';
+import { LoginActions } from './actions/login.actions';
+
+import { loginReducer } from './reducers/login.reducer';
 
 import '../styles/styles.scss';
 
@@ -111,7 +114,8 @@ const APP_PROVIDERS = [
     AuthenticationService,
     UserService,
     // Actions
-    AppActions
+    AppActions,
+    LoginActions
   ]
 
 })
@@ -128,7 +132,8 @@ export class AppModule {
     const rootReducer = composeReducers(
       defaultFormReducer(),
       combineReducers({
-        router: routerReducer
+        router: routerReducer,
+        islogin: loginReducer
     }));
 
     // Tell Redux about our reducers and epics. If the Redux DevTools
