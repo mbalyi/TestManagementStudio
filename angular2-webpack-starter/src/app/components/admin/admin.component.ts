@@ -21,16 +21,16 @@ export class AdminComponent implements OnInit {
     }
 
     getUsers() {
-        this.userService.getUsers().subscribe(
+        /*this.userService.getUsers().subscribe(
             users => this.users = users,
             err => { console.log(err); }
-        );
+        );*/
     }
 
-    /*showDialogToAdd() {
+    showDialogToAdd() {
         this.user = { userid: null, nickname: "", password: "", lastname: "", firstname: "", email: "", address: "", phone: "", roleid: null };
         this.displayDialog = true;
-    }*/
+    }
 
     /*onRowSelect(event) {
         this.user = this.cloneUser(event.data);
