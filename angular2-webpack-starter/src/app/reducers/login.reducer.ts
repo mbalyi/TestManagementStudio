@@ -19,7 +19,6 @@ export function loginReducer( state: IsLogin = INITIAL_STATE, action: LoginActio
 
     switch (action.type) {
         case LoginActions.LOG_IN:
-            debugger
             state.isLogin = true;
             return state;
         case LoginActions.LOG_OUT:
