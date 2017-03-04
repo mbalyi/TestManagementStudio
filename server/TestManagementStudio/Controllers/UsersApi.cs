@@ -29,7 +29,27 @@ namespace TestManagementStudioService.Controllers
     public class UsersApiController : Controller
     { 
 
- 
+        /// <summary>
+        /// Add a new group to the actual user
+        /// </summary>
+        /// <remarks></remarks>
+        /// <response code="201"></response>
+        /// <response code="401">Access denied</response>
+        [HttpPost]
+        [Route("/v1/users/me/groups")]
+        [SwaggerOperation("AddActualUserGroup")]
+        [SwaggerResponse(200, type: typeof(Group))]
+        public virtual IActionResult AddActualUserGroup()
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<Group>(exampleJson)
+            : default(Group);
+            return new ObjectResult(example);
+        }
+
+
         /// <summary>
         /// Register a new user
         /// </summary>
@@ -55,6 +75,28 @@ namespace TestManagementStudioService.Controllers
         }
 
 
+        /// <summary>
+        /// Add a new role to the user
+        /// </summary>
+        /// <remarks></remarks>
+        /// <param name="userId">The entity identifier number</param>
+        /// <param name="roleId">Id of the role</param>
+        /// <response code="201"></response>
+        /// <response code="401">Access denied</response>
+        [HttpPost]
+        [Route("/v1/users/{userId}/roles")]
+        [SwaggerOperation("AddUserRole")]
+        [SwaggerResponse(200, type: typeof(Group))]
+        public virtual IActionResult AddUserRole([FromRoute]decimal? userId, [FromForm]string roleId)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<Group>(exampleJson)
+            : default(Group);
+            return new ObjectResult(example);
+        }
+
 
         /// <summary>
         /// Delete user
@@ -68,6 +110,23 @@ namespace TestManagementStudioService.Controllers
         [Route("/v1/users/{userId}")]
         [SwaggerOperation("DeleteUser")]
         public virtual void DeleteUser([FromRoute]decimal? userId)
+        { 
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// remove a role from the user
+        /// </summary>
+        /// <remarks></remarks>
+        /// <param name="userId">The entity identifier number</param>
+        /// <param name="roleId">The role identifier number</param>
+        /// <response code="204"></response>
+        /// <response code="401">Access denied</response>
+        [HttpDelete]
+        [Route("/v1/users/{userId}/roles/{roleId}")]
+        [SwaggerOperation("DeleteUserRole")]
+        public virtual void DeleteUserRole([FromRoute]decimal? userId, [FromRoute]decimal? roleId)
         { 
             throw new NotImplementedException();
         }
@@ -110,6 +169,128 @@ namespace TestManagementStudioService.Controllers
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<User>(exampleJson)
             : default(User);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// List all groups which were created by the  user
+        /// </summary>
+        /// <remarks></remarks>
+        /// <param name="userId">The entity identifier number</param>
+        /// <response code="200"></response>
+        /// <response code="401">Access denied</response>
+        [HttpGet]
+        [Route("/v1/users/{userId}/groups")]
+        [SwaggerOperation("GetUserGroups")]
+        [SwaggerResponse(200, type: typeof(List<Group>))]
+        public virtual IActionResult GetUserGroups([FromRoute]decimal? userId)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<List<Group>>(exampleJson)
+            : default(List<Group>);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// lists all the groups of which the user is among the members
+        /// </summary>
+        /// <remarks></remarks>
+        /// <param name="userId">The entity identifier number</param>
+        /// <response code="200"></response>
+        /// <response code="401">Access denied</response>
+        [HttpGet]
+        [Route("/v1/users/{userId}/memberships")]
+        [SwaggerOperation("GetUserMemberships")]
+        [SwaggerResponse(200, type: typeof(List<Group>))]
+        public virtual IActionResult GetUserMemberships([FromRoute]decimal? userId)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<List<Group>>(exampleJson)
+            : default(List<Group>);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// List all groups which were created by the actual user
+        /// </summary>
+        /// <remarks></remarks>
+        /// <response code="200"></response>
+        /// <response code="401">Access denied</response>
+        [HttpGet]
+        [Route("/v1/users/me/groups")]
+        [SwaggerOperation("ListActualUserGroups")]
+        [SwaggerResponse(200, type: typeof(List<Group>))]
+        public virtual IActionResult ListActualUserGroups()
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<List<Group>>(exampleJson)
+            : default(List<Group>);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Get all roles of the actual user
+        /// </summary>
+        /// <remarks></remarks>
+        /// <response code="401">Access denied</response>
+        [HttpGet]
+        [Route("/v1/users/me/roles")]
+        [SwaggerOperation("ListActualUserRoles")]
+        public virtual void ListActualUserRoles()
+        { 
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// lists all the groups of which the actual user is among the members
+        /// </summary>
+        /// <remarks></remarks>
+        /// <response code="200"></response>
+        /// <response code="401">Access denied</response>
+        [HttpGet]
+        [Route("/v1/users/me/memberships")]
+        [SwaggerOperation("ListActualuserMemberships")]
+        [SwaggerResponse(200, type: typeof(List<Group>))]
+        public virtual IActionResult ListActualuserMemberships()
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<List<Group>>(exampleJson)
+            : default(List<Group>);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Get all roles of the  user
+        /// </summary>
+        /// <remarks></remarks>
+        /// <param name="userId">The entity identifier number</param>
+        /// <response code="200"></response>
+        /// <response code="401">Access denied</response>
+        [HttpGet]
+        [Route("/v1/users/{userId}/roles")]
+        [SwaggerOperation("ListUserRoles")]
+        [SwaggerResponse(200, type: typeof(List<Group>))]
+        public virtual IActionResult ListUserRoles([FromRoute]decimal? userId)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<List<Group>>(exampleJson)
+            : default(List<Group>);
             return new ObjectResult(example);
         }
 

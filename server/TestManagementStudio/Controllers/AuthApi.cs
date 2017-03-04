@@ -107,7 +107,7 @@ namespace TestManagementStudio.Controllers
         {
 
             //Empty password or username 
-            if(String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
+            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
             {
                 Response.StatusCode = 400;
                 return new ObjectResult(new ErrorMessage()
@@ -116,8 +116,8 @@ namespace TestManagementStudio.Controllers
                     Text = "Invalid username/password supplied!"
                 });
             }
-            
-           //Get user
+
+            //Get user
             try
             {
                 var user = UserFactory.fromModel(_userService.FindOnebyUsernameAndPassword(username, password));
@@ -193,7 +193,7 @@ namespace TestManagementStudio.Controllers
         public virtual void Logout()
         {
 
-            var t = this.User.FindFirst(ClaimTypes.Email);                
+            var t = this.User.FindFirst(ClaimTypes.Email);
             _logger.LogInformation($"Successfully logged out (token saved into invalidated tokens) User:" + t?.Value);
         }
     }
