@@ -411,6 +411,8 @@ paths:
       summary: "Add a new group"
       description: ""
       operationId: addGroup
+      security:
+        - Bearer: []
       tags:
       - Groups
       parameters:
@@ -493,7 +495,55 @@ paths:
           schema:
             $ref: "#/definitions/ErrorMessage"
             
-  
+  /groups/{groupId}/roles:
+    parameters:
+      - $ref: '#/parameters/groupId'
+    get:
+      summary: "Get roles of the group"
+      description: ""
+      operationId: listGroupRoles
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      - Roles
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Group'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+    post:
+      summary: "Add a role to the group"
+      description: ""
+      operationId: addGroupRole
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      - Roles
+      parameters:
+        - in: formData
+          name: roleId
+          description: "Id of the role"
+          required: true
+          type: string
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/Group'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    
   /groups/{groupId}/members:
     parameters:
       - $ref: '#/parameters/groupId'
@@ -505,6 +555,7 @@ paths:
         - Bearer: []
       tags:
       - Groups
+      - Users
       responses:
         "200":
           description: ""
@@ -551,6 +602,7 @@ paths:
         - Bearer: []
       tags:
       - Groups
+      - Users
       responses:
         "204":
           description: ""
@@ -887,23 +939,200 @@ paths:
           schema:
             $ref: "#/definitions/ErrorMessage"
 
-#  /users/me/roles:
-#    get:
-#    
-#  /users/{userId}/roles:
-#    get:
-#    post:
-#    
-#  /users/{userId}/roles/{roleId}:
-#    get:
-#    put:
-#    delete:
-#    
-#  /users/me/groups:
-#    get:
-#    post:
-#    
-#  /users/me/memberships:
-#    get:   
-#    
+  /users/me/roles:
+    get:
+      summary: "Get all roles of the actual user"
+      description: ""
+      operationId: listActualUserRoles
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Roles
+      responses:
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    
+  /users/{userId}/roles:
+    parameters:
+      - $ref: '#/parameters/userId'
+    get:
+      summary: "Get all roles of the  user"
+      description: ""
+      operationId: listUserRoles
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Roles
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Group'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    post:
+      summary: "Add a new role to the user"
+      description: ""
+      operationId: addUserRole
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Roles
+      parameters:
+        - in: formData
+          name: roleId
+          description: "Id of the role"
+          required: true
+          type: string
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/Group'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    
+  /users/{userId}/roles/{roleId}:
+    parameters:
+      - $ref: '#/parameters/userId'
+      - $ref: '#/parameters/roleId'
+    delete:
+      summary: "remove a role from the user"
+      description: ""
+      operationId: deleteUserRole
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      - Roles
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+
+#
+#
+#
+
+
+  /users/me/groups:
+    get:
+      summary: "List all groups which were created by the actual user"
+      description: ""
+      operationId: listActualUserGroups
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Groups
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Group"
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+    post:
+      summary: "Add a new group to the actual user"
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: "#/definitions/Group"
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+
+  /users/me/memberships:
+    get:  
+      summary: "lists all the groups of which the actual user is among the members"
+      description: ""
+      operationId: listActualuserMemberships
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Groups
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Group"
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+  /users/{userId}/groups:
+    parameters:
+      - $ref: '#/parameters/userId'
+    get:
+      summary: "List all groups which were created by the  user"
+      description: ""
+      operationId: getUserGroups
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Groups
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Group"
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+          
+  /users/{userId}/memberships:
+    parameters:
+      - $ref: '#/parameters/userId'
+    get:  
+      summary: "lists all the groups of which the user is among the members"
+      description: ""
+      operationId: getUserMemberships
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Groups
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Group"
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+
+    
     
