@@ -25,45 +25,31 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Permission :  IEquatable<Permission>
+    public partial class Permission : Entity, IEquatable<Permission>
     {
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Permission" /> class.
         /// </summary>
-        /// <param name="Read">Read.</param>
-        /// <param name="Write">Write.</param>
-        /// <param name="Subject">Subject.</param>
-        /// <param name="Object">Object.</param>
-        public Permission(bool? Read = default(bool?), bool? Write = default(bool?), Entity Subject = default(Entity), SecuredEntity Object = default(SecuredEntity))
+        /// <param name="Id">Id.</param>
+        /// <param name="Permissions">Permissions.</param>
+        public Permission(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>))
         {
-            this.Read = Read;
-            this.Write = Write;
-            this.Subject = Subject;
-            this.Object = Object;
+            this.Id = Id;
+            this.Permissions = Permissions;
             
         }
 
         /// <summary>
-        /// Gets or Sets Read
+        /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="read")]
-        public bool? Read { get; set; }
+        [DataMember(Name="id")]
+        public int? Id { get; set; }
         /// <summary>
-        /// Gets or Sets Write
+        /// Gets or Sets Permissions
         /// </summary>
-        [DataMember(Name="write")]
-        public bool? Write { get; set; }
-        /// <summary>
-        /// Gets or Sets Subject
-        /// </summary>
-        [DataMember(Name="subject")]
-        public Entity Subject { get; set; }
-        /// <summary>
-        /// Gets or Sets Object
-        /// </summary>
-        [DataMember(Name="object")]
-        public SecuredEntity Object { get; set; }
+        [DataMember(Name="permissions")]
+        public List<Permission> Permissions { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -73,10 +59,8 @@ namespace TestManagementStudioService.Models
         {
             var sb = new StringBuilder();
             sb.Append("class Permission {\n");
-            sb.Append("  Read: ").Append(Read).Append("\n");
-            sb.Append("  Write: ").Append(Write).Append("\n");
-            sb.Append("  Subject: ").Append(Subject).Append("\n");
-            sb.Append("  Object: ").Append(Object).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Permissions: ").Append(Permissions).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -116,24 +100,14 @@ namespace TestManagementStudioService.Models
 
             return 
                 (
-                    this.Read == other.Read ||
-                    this.Read != null &&
-                    this.Read.Equals(other.Read)
+                    this.Id == other.Id ||
+                    this.Id != null &&
+                    this.Id.Equals(other.Id)
                 ) && 
                 (
-                    this.Write == other.Write ||
-                    this.Write != null &&
-                    this.Write.Equals(other.Write)
-                ) && 
-                (
-                    this.Subject == other.Subject ||
-                    this.Subject != null &&
-                    this.Subject.Equals(other.Subject)
-                ) && 
-                (
-                    this.Object == other.Object ||
-                    this.Object != null &&
-                    this.Object.Equals(other.Object)
+                    this.Permissions == other.Permissions ||
+                    this.Permissions != null &&
+                    this.Permissions.SequenceEqual(other.Permissions)
                 );
         }
 
@@ -148,14 +122,10 @@ namespace TestManagementStudioService.Models
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (this.Read != null)
-                    hash = hash * 59 + this.Read.GetHashCode();
-                    if (this.Write != null)
-                    hash = hash * 59 + this.Write.GetHashCode();
-                    if (this.Subject != null)
-                    hash = hash * 59 + this.Subject.GetHashCode();
-                    if (this.Object != null)
-                    hash = hash * 59 + this.Object.GetHashCode();
+                    if (this.Id != null)
+                    hash = hash * 59 + this.Id.GetHashCode();
+                    if (this.Permissions != null)
+                    hash = hash * 59 + this.Permissions.GetHashCode();
                 return hash;
             }
         }

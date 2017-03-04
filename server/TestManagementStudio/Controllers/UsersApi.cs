@@ -10,12 +10,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using TestManagementStudioService.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using TestManagementStudio.ViewModels;
 
-namespace TestManagementStudio.Controllers
+namespace TestManagementStudioService.Controllers
 { 
     /// <summary>
     /// 
@@ -23,8 +29,9 @@ namespace TestManagementStudio.Controllers
     public class UsersApiController : Controller
     { 
 
+ 
         /// <summary>
-        /// 
+        /// Register a new user
         /// </summary>
         /// <remarks>Register a new user</remarks>
         /// <param name="email">The users&#39;s email</param>
@@ -35,7 +42,7 @@ namespace TestManagementStudio.Controllers
         /// <response code="409">Some unique data (i.e. email address) conflicted with a data of existing user</response>
         [HttpPost]
         [Route("/v1/users")]
-        [Swashbuckle.AspNetCore.SwaggerGen.SwaggerOperation("AddUser")]
+        [SwaggerOperation("AddUser")]
         [SwaggerResponse(200, type: typeof(string))]
         public virtual IActionResult AddUser([FromForm]string email, [FromForm]string password, [FromForm]string firstName, [FromForm]string lastName)
         { 
@@ -48,11 +55,12 @@ namespace TestManagementStudio.Controllers
         }
 
 
+
         /// <summary>
         /// Delete user
         /// </summary>
         /// <remarks>This can only be done by the logged in user.</remarks>
-        /// <param name="userId">The user identifier number</param>
+        /// <param name="userId">The entity identifier number</param>
         /// <response code="204">Successful operation</response>
         /// <response code="400">Invalid id supplied</response>
         /// <response code="404">User not found</response>
@@ -72,9 +80,8 @@ namespace TestManagementStudio.Controllers
         /// <response code="200">The user object</response>
         [HttpGet]
         [Route("/v1/users/me")]
-        [Swashbuckle.AspNetCore.SwaggerGen.SwaggerOperation("GetActualUser")]
+        [SwaggerOperation("GetActualUser")]
         [SwaggerResponse(200, type: typeof(User))]
-        
         public virtual IActionResult GetActualUser()
         { 
             string exampleJson = null;
@@ -87,10 +94,10 @@ namespace TestManagementStudio.Controllers
 
 
         /// <summary>
-        /// 
+        /// Get basic information about an user
         /// </summary>
         /// <remarks>Get basic information about an user.</remarks>
-        /// <param name="userId">The user identifier number</param>
+        /// <param name="userId">The entity identifier number</param>
         /// <response code="200">The user object</response>
         [HttpGet]
         [Route("/v1/users/{userId}")]
@@ -108,7 +115,7 @@ namespace TestManagementStudio.Controllers
 
 
         /// <summary>
-        /// 
+        /// Get all registered users
         /// </summary>
         /// <remarks>Get all registered users</remarks>
         /// <response code="200">The list of user objects</response>
@@ -151,7 +158,7 @@ namespace TestManagementStudio.Controllers
         /// Update a certain user
         /// </summary>
         /// <remarks>This can only be done by the logged in user.</remarks>
-        /// <param name="userId">The user identifier number</param>
+        /// <param name="userId">The entity identifier number</param>
         /// <param name="email">The users&#39;s email</param>
         /// <param name="password">The users&#39;s password</param>
         /// <param name="firstName">The users&#39;s firstname</param>

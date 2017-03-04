@@ -25,18 +25,24 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public abstract partial class Entity :  IEquatable<Entity>
+    public partial class TestSet : Entity, IEquatable<TestSet>
     {
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Entity" /> class.
+        /// Initializes a new instance of the <see cref="TestSet" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
         /// <param name="Permissions">Permissions.</param>
-        public Entity(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>))
+        /// <param name="Test">Test.</param>
+        /// <param name="DueDate">DueDate.</param>
+        /// <param name="ActorsAssigned">ActorsAssigned.</param>
+        public TestSet(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>), Test Test = default(Test), DateTime? DueDate = default(DateTime?), List<Actor> ActorsAssigned = default(List<Actor>))
         {
             this.Id = Id;
             this.Permissions = Permissions;
+            this.Test = Test;
+            this.DueDate = DueDate;
+            this.ActorsAssigned = ActorsAssigned;
             
         }
 
@@ -50,6 +56,21 @@ namespace TestManagementStudioService.Models
         /// </summary>
         [DataMember(Name="permissions")]
         public List<Permission> Permissions { get; set; }
+        /// <summary>
+        /// Gets or Sets Test
+        /// </summary>
+        [DataMember(Name="test")]
+        public Test Test { get; set; }
+        /// <summary>
+        /// Gets or Sets DueDate
+        /// </summary>
+        [DataMember(Name="dueDate")]
+        public DateTime? DueDate { get; set; }
+        /// <summary>
+        /// Gets or Sets ActorsAssigned
+        /// </summary>
+        [DataMember(Name="actorsAssigned")]
+        public List<Actor> ActorsAssigned { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -58,9 +79,12 @@ namespace TestManagementStudioService.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Entity {\n");
+            sb.Append("class TestSet {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Permissions: ").Append(Permissions).Append("\n");
+            sb.Append("  Test: ").Append(Test).Append("\n");
+            sb.Append("  DueDate: ").Append(DueDate).Append("\n");
+            sb.Append("  ActorsAssigned: ").Append(ActorsAssigned).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -84,15 +108,15 @@ namespace TestManagementStudioService.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Entity)obj);
+            return Equals((TestSet)obj);
         }
 
         /// <summary>
-        /// Returns true if Entity instances are equal
+        /// Returns true if TestSet instances are equal
         /// </summary>
-        /// <param name="other">Instance of Entity to be compared</param>
+        /// <param name="other">Instance of TestSet to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Entity other)
+        public bool Equals(TestSet other)
         {
 
             if (ReferenceEquals(null, other)) return false;
@@ -108,6 +132,21 @@ namespace TestManagementStudioService.Models
                     this.Permissions == other.Permissions ||
                     this.Permissions != null &&
                     this.Permissions.SequenceEqual(other.Permissions)
+                ) && 
+                (
+                    this.Test == other.Test ||
+                    this.Test != null &&
+                    this.Test.Equals(other.Test)
+                ) && 
+                (
+                    this.DueDate == other.DueDate ||
+                    this.DueDate != null &&
+                    this.DueDate.Equals(other.DueDate)
+                ) && 
+                (
+                    this.ActorsAssigned == other.ActorsAssigned ||
+                    this.ActorsAssigned != null &&
+                    this.ActorsAssigned.SequenceEqual(other.ActorsAssigned)
                 );
         }
 
@@ -126,18 +165,24 @@ namespace TestManagementStudioService.Models
                     hash = hash * 59 + this.Id.GetHashCode();
                     if (this.Permissions != null)
                     hash = hash * 59 + this.Permissions.GetHashCode();
+                    if (this.Test != null)
+                    hash = hash * 59 + this.Test.GetHashCode();
+                    if (this.DueDate != null)
+                    hash = hash * 59 + this.DueDate.GetHashCode();
+                    if (this.ActorsAssigned != null)
+                    hash = hash * 59 + this.ActorsAssigned.GetHashCode();
                 return hash;
             }
         }
 
         #region Operators
 
-        public static bool operator ==(Entity left, Entity right)
+        public static bool operator ==(TestSet left, TestSet right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Entity left, Entity right)
+        public static bool operator !=(TestSet left, TestSet right)
         {
             return !Equals(left, right);
         }

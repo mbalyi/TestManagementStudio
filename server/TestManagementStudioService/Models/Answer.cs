@@ -25,18 +25,22 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public abstract partial class Entity :  IEquatable<Entity>
+    public partial class Answer : Entity, IEquatable<Answer>
     {
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Entity" /> class.
+        /// Initializes a new instance of the <see cref="Answer" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
         /// <param name="Permissions">Permissions.</param>
-        public Entity(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>))
+        /// <param name="Text">Text.</param>
+        /// <param name="Correct">Correct.</param>
+        public Answer(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>), string Text = default(string), bool? Correct = default(bool?))
         {
             this.Id = Id;
             this.Permissions = Permissions;
+            this.Text = Text;
+            this.Correct = Correct;
             
         }
 
@@ -50,6 +54,16 @@ namespace TestManagementStudioService.Models
         /// </summary>
         [DataMember(Name="permissions")]
         public List<Permission> Permissions { get; set; }
+        /// <summary>
+        /// Gets or Sets Text
+        /// </summary>
+        [DataMember(Name="text")]
+        public string Text { get; set; }
+        /// <summary>
+        /// Gets or Sets Correct
+        /// </summary>
+        [DataMember(Name="correct")]
+        public bool? Correct { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -58,9 +72,11 @@ namespace TestManagementStudioService.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Entity {\n");
+            sb.Append("class Answer {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Permissions: ").Append(Permissions).Append("\n");
+            sb.Append("  Text: ").Append(Text).Append("\n");
+            sb.Append("  Correct: ").Append(Correct).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -84,15 +100,15 @@ namespace TestManagementStudioService.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Entity)obj);
+            return Equals((Answer)obj);
         }
 
         /// <summary>
-        /// Returns true if Entity instances are equal
+        /// Returns true if Answer instances are equal
         /// </summary>
-        /// <param name="other">Instance of Entity to be compared</param>
+        /// <param name="other">Instance of Answer to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Entity other)
+        public bool Equals(Answer other)
         {
 
             if (ReferenceEquals(null, other)) return false;
@@ -108,6 +124,16 @@ namespace TestManagementStudioService.Models
                     this.Permissions == other.Permissions ||
                     this.Permissions != null &&
                     this.Permissions.SequenceEqual(other.Permissions)
+                ) && 
+                (
+                    this.Text == other.Text ||
+                    this.Text != null &&
+                    this.Text.Equals(other.Text)
+                ) && 
+                (
+                    this.Correct == other.Correct ||
+                    this.Correct != null &&
+                    this.Correct.Equals(other.Correct)
                 );
         }
 
@@ -126,18 +152,22 @@ namespace TestManagementStudioService.Models
                     hash = hash * 59 + this.Id.GetHashCode();
                     if (this.Permissions != null)
                     hash = hash * 59 + this.Permissions.GetHashCode();
+                    if (this.Text != null)
+                    hash = hash * 59 + this.Text.GetHashCode();
+                    if (this.Correct != null)
+                    hash = hash * 59 + this.Correct.GetHashCode();
                 return hash;
             }
         }
 
         #region Operators
 
-        public static bool operator ==(Entity left, Entity right)
+        public static bool operator ==(Answer left, Answer right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Entity left, Entity right)
+        public static bool operator !=(Answer left, Answer right)
         {
             return !Equals(left, right);
         }

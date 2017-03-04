@@ -25,30 +25,38 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class User :  SecuredEntity, IEquatable<User>
+    public partial class User : SecuredEntity, IEquatable<User>
     {
 
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
-        /// <param name="IsPublic">IsPublic.</param>
         /// <param name="Permissions">Permissions.</param>
+        /// <param name="Roles">Roles.</param>
+        /// <param name="TestSets">Tests to to be completed, assigned to the actor.</param>
         /// <param name="Email">Email.</param>
         /// <param name="Password">Password.</param>
         /// <param name="FirstName">FirstName.</param>
         /// <param name="LastName">LastName.</param>
-        /// <param name="Groups">Groups.</param>
-        public User(int? Id = default(int?), bool? IsPublic = default(bool?), List<Permission> Permissions = default(List<Permission>), string Email = default(string), string Password = default(string), string FirstName = default(string), string LastName = default(string), List<Group> Groups = default(List<Group>))
+        /// <param name="Groups">Groups which are created by the user.</param>
+        /// <param name="MemberOf">MemberOf.</param>
+        /// <param name="Tests">Tests created by the user.</param>
+        /// <param name="TestExecutions">Tests are completed by the user.</param>
+        public User(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>), List<Role> Roles = default(List<Role>), List<TestSet> TestSets = default(List<TestSet>), string Email = default(string), string Password = default(string), string FirstName = default(string), string LastName = default(string), List<Group> Groups = default(List<Group>), List<Group> MemberOf = default(List<Group>), List<Test> Tests = default(List<Test>), List<TestExecution> TestExecutions = default(List<TestExecution>))
         {
             this.Id = Id;
-            this.IsPublic = IsPublic;
             this.Permissions = Permissions;
+            this.Roles = Roles;
+            this.TestSets = TestSets;
             this.Email = Email;
             this.Password = Password;
             this.FirstName = FirstName;
             this.LastName = LastName;
             this.Groups = Groups;
+            this.MemberOf = MemberOf;
+            this.Tests = Tests;
+            this.TestExecutions = TestExecutions;
             
         }
 
@@ -58,15 +66,21 @@ namespace TestManagementStudioService.Models
         [DataMember(Name="id")]
         public int? Id { get; set; }
         /// <summary>
-        /// Gets or Sets IsPublic
-        /// </summary>
-        [DataMember(Name="isPublic")]
-        public bool? IsPublic { get; set; }
-        /// <summary>
         /// Gets or Sets Permissions
         /// </summary>
         [DataMember(Name="permissions")]
         public List<Permission> Permissions { get; set; }
+        /// <summary>
+        /// Gets or Sets Roles
+        /// </summary>
+        [DataMember(Name="roles")]
+        public List<Role> Roles { get; set; }
+        /// <summary>
+        /// Tests to to be completed, assigned to the actor
+        /// </summary>
+        /// <value>Tests to to be completed, assigned to the actor</value>
+        [DataMember(Name="testSets")]
+        public List<TestSet> TestSets { get; set; }
         /// <summary>
         /// Gets or Sets Email
         /// </summary>
@@ -88,10 +102,28 @@ namespace TestManagementStudioService.Models
         [DataMember(Name="lastName")]
         public string LastName { get; set; }
         /// <summary>
-        /// Gets or Sets Groups
+        /// Groups which are created by the user
         /// </summary>
+        /// <value>Groups which are created by the user</value>
         [DataMember(Name="groups")]
         public List<Group> Groups { get; set; }
+        /// <summary>
+        /// Gets or Sets MemberOf
+        /// </summary>
+        [DataMember(Name="memberOf")]
+        public List<Group> MemberOf { get; set; }
+        /// <summary>
+        /// Tests created by the user
+        /// </summary>
+        /// <value>Tests created by the user</value>
+        [DataMember(Name="tests")]
+        public List<Test> Tests { get; set; }
+        /// <summary>
+        /// Tests are completed by the user
+        /// </summary>
+        /// <value>Tests are completed by the user</value>
+        [DataMember(Name="testExecutions")]
+        public List<TestExecution> TestExecutions { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -102,13 +134,17 @@ namespace TestManagementStudioService.Models
             var sb = new StringBuilder();
             sb.Append("class User {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  IsPublic: ").Append(IsPublic).Append("\n");
             sb.Append("  Permissions: ").Append(Permissions).Append("\n");
+            sb.Append("  Roles: ").Append(Roles).Append("\n");
+            sb.Append("  TestSets: ").Append(TestSets).Append("\n");
             sb.Append("  Email: ").Append(Email).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  FirstName: ").Append(FirstName).Append("\n");
             sb.Append("  LastName: ").Append(LastName).Append("\n");
             sb.Append("  Groups: ").Append(Groups).Append("\n");
+            sb.Append("  MemberOf: ").Append(MemberOf).Append("\n");
+            sb.Append("  Tests: ").Append(Tests).Append("\n");
+            sb.Append("  TestExecutions: ").Append(TestExecutions).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -153,14 +189,19 @@ namespace TestManagementStudioService.Models
                     this.Id.Equals(other.Id)
                 ) && 
                 (
-                    this.IsPublic == other.IsPublic ||
-                    this.IsPublic != null &&
-                    this.IsPublic.Equals(other.IsPublic)
-                ) && 
-                (
                     this.Permissions == other.Permissions ||
                     this.Permissions != null &&
                     this.Permissions.SequenceEqual(other.Permissions)
+                ) && 
+                (
+                    this.Roles == other.Roles ||
+                    this.Roles != null &&
+                    this.Roles.SequenceEqual(other.Roles)
+                ) && 
+                (
+                    this.TestSets == other.TestSets ||
+                    this.TestSets != null &&
+                    this.TestSets.SequenceEqual(other.TestSets)
                 ) && 
                 (
                     this.Email == other.Email ||
@@ -186,6 +227,21 @@ namespace TestManagementStudioService.Models
                     this.Groups == other.Groups ||
                     this.Groups != null &&
                     this.Groups.SequenceEqual(other.Groups)
+                ) && 
+                (
+                    this.MemberOf == other.MemberOf ||
+                    this.MemberOf != null &&
+                    this.MemberOf.SequenceEqual(other.MemberOf)
+                ) && 
+                (
+                    this.Tests == other.Tests ||
+                    this.Tests != null &&
+                    this.Tests.SequenceEqual(other.Tests)
+                ) && 
+                (
+                    this.TestExecutions == other.TestExecutions ||
+                    this.TestExecutions != null &&
+                    this.TestExecutions.SequenceEqual(other.TestExecutions)
                 );
         }
 
@@ -202,10 +258,12 @@ namespace TestManagementStudioService.Models
                 // Suitable nullity checks etc, of course :)
                     if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
-                    if (this.IsPublic != null)
-                    hash = hash * 59 + this.IsPublic.GetHashCode();
                     if (this.Permissions != null)
                     hash = hash * 59 + this.Permissions.GetHashCode();
+                    if (this.Roles != null)
+                    hash = hash * 59 + this.Roles.GetHashCode();
+                    if (this.TestSets != null)
+                    hash = hash * 59 + this.TestSets.GetHashCode();
                     if (this.Email != null)
                     hash = hash * 59 + this.Email.GetHashCode();
                     if (this.Password != null)
@@ -216,6 +274,12 @@ namespace TestManagementStudioService.Models
                     hash = hash * 59 + this.LastName.GetHashCode();
                     if (this.Groups != null)
                     hash = hash * 59 + this.Groups.GetHashCode();
+                    if (this.MemberOf != null)
+                    hash = hash * 59 + this.MemberOf.GetHashCode();
+                    if (this.Tests != null)
+                    hash = hash * 59 + this.Tests.GetHashCode();
+                    if (this.TestExecutions != null)
+                    hash = hash * 59 + this.TestExecutions.GetHashCode();
                 return hash;
             }
         }

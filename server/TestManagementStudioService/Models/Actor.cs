@@ -22,21 +22,25 @@ namespace TestManagementStudioService.Models
 {
 
     /// <summary>
-    /// 
+    /// Anyone who can does actions. (Users &amp; Groups)
     /// </summary>
     [DataContract]
-    public abstract partial class Entity :  IEquatable<Entity>
+    public  abstract partial class Actor : SecuredEntity, IEquatable<Actor>
     {
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Entity" /> class.
+        /// Initializes a new instance of the <see cref="Actor" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
         /// <param name="Permissions">Permissions.</param>
-        public Entity(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>))
+        /// <param name="Roles">Roles.</param>
+        /// <param name="TestSets">Tests to to be completed, assigned to the actor.</param>
+        public Actor(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>), List<Role> Roles = default(List<Role>), List<TestSet> TestSets = default(List<TestSet>))
         {
             this.Id = Id;
             this.Permissions = Permissions;
+            this.Roles = Roles;
+            this.TestSets = TestSets;
             
         }
 
@@ -50,6 +54,17 @@ namespace TestManagementStudioService.Models
         /// </summary>
         [DataMember(Name="permissions")]
         public List<Permission> Permissions { get; set; }
+        /// <summary>
+        /// Gets or Sets Roles
+        /// </summary>
+        [DataMember(Name="roles")]
+        public List<Role> Roles { get; set; }
+        /// <summary>
+        /// Tests to to be completed, assigned to the actor
+        /// </summary>
+        /// <value>Tests to to be completed, assigned to the actor</value>
+        [DataMember(Name="testSets")]
+        public List<TestSet> TestSets { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -58,9 +73,11 @@ namespace TestManagementStudioService.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Entity {\n");
+            sb.Append("class Actor {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Permissions: ").Append(Permissions).Append("\n");
+            sb.Append("  Roles: ").Append(Roles).Append("\n");
+            sb.Append("  TestSets: ").Append(TestSets).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -84,15 +101,15 @@ namespace TestManagementStudioService.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Entity)obj);
+            return Equals((Actor)obj);
         }
 
         /// <summary>
-        /// Returns true if Entity instances are equal
+        /// Returns true if Actor instances are equal
         /// </summary>
-        /// <param name="other">Instance of Entity to be compared</param>
+        /// <param name="other">Instance of Actor to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Entity other)
+        public bool Equals(Actor other)
         {
 
             if (ReferenceEquals(null, other)) return false;
@@ -108,6 +125,16 @@ namespace TestManagementStudioService.Models
                     this.Permissions == other.Permissions ||
                     this.Permissions != null &&
                     this.Permissions.SequenceEqual(other.Permissions)
+                ) && 
+                (
+                    this.Roles == other.Roles ||
+                    this.Roles != null &&
+                    this.Roles.SequenceEqual(other.Roles)
+                ) && 
+                (
+                    this.TestSets == other.TestSets ||
+                    this.TestSets != null &&
+                    this.TestSets.SequenceEqual(other.TestSets)
                 );
         }
 
@@ -126,18 +153,22 @@ namespace TestManagementStudioService.Models
                     hash = hash * 59 + this.Id.GetHashCode();
                     if (this.Permissions != null)
                     hash = hash * 59 + this.Permissions.GetHashCode();
+                    if (this.Roles != null)
+                    hash = hash * 59 + this.Roles.GetHashCode();
+                    if (this.TestSets != null)
+                    hash = hash * 59 + this.TestSets.GetHashCode();
                 return hash;
             }
         }
 
         #region Operators
 
-        public static bool operator ==(Entity left, Entity right)
+        public static bool operator ==(Actor left, Actor right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Entity left, Entity right)
+        public static bool operator !=(Actor left, Actor right)
         {
             return !Equals(left, right);
         }

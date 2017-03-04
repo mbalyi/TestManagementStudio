@@ -25,30 +25,28 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Group : SecuredEntity, IEquatable<Group>
+    public partial class Category : SecuredEntity, IEquatable<Category>
     {
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Group" /> class.
+        /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
         /// <param name="Permissions">Permissions.</param>
-        /// <param name="Roles">Roles.</param>
-        /// <param name="TestSets">Tests to to be completed, assigned to the actor.</param>
         /// <param name="Name">Name.</param>
-        /// <param name="IsPrivate">The group visible for only the creator..</param>
-        /// <param name="Creator">Creator.</param>
-        /// <param name="Members">Users who are member of this group..</param>
-        public Group(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>), List<Role> Roles = default(List<Role>), List<TestSet> TestSets = default(List<TestSet>), string Name = default(string), bool? IsPrivate = default(bool?), User Creator = default(User), List<User> Members = default(List<User>))
+        /// <param name="Parent">Parent.</param>
+        /// <param name="Childrens">Childrens.</param>
+        /// <param name="Questions">Questions.</param>
+        /// <param name="Tests">Tests.</param>
+        public Category(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>), string Name = default(string), Category Parent = default(Category), List<Category> Childrens = default(List<Category>), List<Question> Questions = default(List<Question>), List<Test> Tests = default(List<Test>))
         {
             this.Id = Id;
             this.Permissions = Permissions;
-            this.Roles = Roles;
-            this.TestSets = TestSets;
             this.Name = Name;
-            this.IsPrivate = IsPrivate;
-            this.Creator = Creator;
-            this.Members = Members;
+            this.Parent = Parent;
+            this.Childrens = Childrens;
+            this.Questions = Questions;
+            this.Tests = Tests;
             
         }
 
@@ -63,38 +61,30 @@ namespace TestManagementStudioService.Models
         [DataMember(Name="permissions")]
         public List<Permission> Permissions { get; set; }
         /// <summary>
-        /// Gets or Sets Roles
-        /// </summary>
-        [DataMember(Name="roles")]
-        public List<Role> Roles { get; set; }
-        /// <summary>
-        /// Tests to to be completed, assigned to the actor
-        /// </summary>
-        /// <value>Tests to to be completed, assigned to the actor</value>
-        [DataMember(Name="testSets")]
-        public List<TestSet> TestSets { get; set; }
-        /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name="name")]
         public string Name { get; set; }
         /// <summary>
-        /// The group visible for only the creator.
+        /// Gets or Sets Parent
         /// </summary>
-        /// <value>The group visible for only the creator.</value>
-        [DataMember(Name="isPrivate")]
-        public bool? IsPrivate { get; set; }
+        [DataMember(Name="parent")]
+        public Category Parent { get; set; }
         /// <summary>
-        /// Gets or Sets Creator
+        /// Gets or Sets Childrens
         /// </summary>
-        [DataMember(Name="creator")]
-        public User Creator { get; set; }
+        [DataMember(Name="childrens")]
+        public List<Category> Childrens { get; set; }
         /// <summary>
-        /// Users who are member of this group.
+        /// Gets or Sets Questions
         /// </summary>
-        /// <value>Users who are member of this group.</value>
-        [DataMember(Name="members")]
-        public List<User> Members { get; set; }
+        [DataMember(Name="questions")]
+        public List<Question> Questions { get; set; }
+        /// <summary>
+        /// Gets or Sets Tests
+        /// </summary>
+        [DataMember(Name="tests")]
+        public List<Test> Tests { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -103,15 +93,14 @@ namespace TestManagementStudioService.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Group {\n");
+            sb.Append("class Category {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Permissions: ").Append(Permissions).Append("\n");
-            sb.Append("  Roles: ").Append(Roles).Append("\n");
-            sb.Append("  TestSets: ").Append(TestSets).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  IsPrivate: ").Append(IsPrivate).Append("\n");
-            sb.Append("  Creator: ").Append(Creator).Append("\n");
-            sb.Append("  Members: ").Append(Members).Append("\n");
+            sb.Append("  Parent: ").Append(Parent).Append("\n");
+            sb.Append("  Childrens: ").Append(Childrens).Append("\n");
+            sb.Append("  Questions: ").Append(Questions).Append("\n");
+            sb.Append("  Tests: ").Append(Tests).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -135,15 +124,15 @@ namespace TestManagementStudioService.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Group)obj);
+            return Equals((Category)obj);
         }
 
         /// <summary>
-        /// Returns true if Group instances are equal
+        /// Returns true if Category instances are equal
         /// </summary>
-        /// <param name="other">Instance of Group to be compared</param>
+        /// <param name="other">Instance of Category to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Group other)
+        public bool Equals(Category other)
         {
 
             if (ReferenceEquals(null, other)) return false;
@@ -161,34 +150,29 @@ namespace TestManagementStudioService.Models
                     this.Permissions.SequenceEqual(other.Permissions)
                 ) && 
                 (
-                    this.Roles == other.Roles ||
-                    this.Roles != null &&
-                    this.Roles.SequenceEqual(other.Roles)
-                ) && 
-                (
-                    this.TestSets == other.TestSets ||
-                    this.TestSets != null &&
-                    this.TestSets.SequenceEqual(other.TestSets)
-                ) && 
-                (
                     this.Name == other.Name ||
                     this.Name != null &&
                     this.Name.Equals(other.Name)
                 ) && 
                 (
-                    this.IsPrivate == other.IsPrivate ||
-                    this.IsPrivate != null &&
-                    this.IsPrivate.Equals(other.IsPrivate)
+                    this.Parent == other.Parent ||
+                    this.Parent != null &&
+                    this.Parent.Equals(other.Parent)
                 ) && 
                 (
-                    this.Creator == other.Creator ||
-                    this.Creator != null &&
-                    this.Creator.Equals(other.Creator)
+                    this.Childrens == other.Childrens ||
+                    this.Childrens != null &&
+                    this.Childrens.SequenceEqual(other.Childrens)
                 ) && 
                 (
-                    this.Members == other.Members ||
-                    this.Members != null &&
-                    this.Members.SequenceEqual(other.Members)
+                    this.Questions == other.Questions ||
+                    this.Questions != null &&
+                    this.Questions.SequenceEqual(other.Questions)
+                ) && 
+                (
+                    this.Tests == other.Tests ||
+                    this.Tests != null &&
+                    this.Tests.SequenceEqual(other.Tests)
                 );
         }
 
@@ -207,30 +191,28 @@ namespace TestManagementStudioService.Models
                     hash = hash * 59 + this.Id.GetHashCode();
                     if (this.Permissions != null)
                     hash = hash * 59 + this.Permissions.GetHashCode();
-                    if (this.Roles != null)
-                    hash = hash * 59 + this.Roles.GetHashCode();
-                    if (this.TestSets != null)
-                    hash = hash * 59 + this.TestSets.GetHashCode();
                     if (this.Name != null)
                     hash = hash * 59 + this.Name.GetHashCode();
-                    if (this.IsPrivate != null)
-                    hash = hash * 59 + this.IsPrivate.GetHashCode();
-                    if (this.Creator != null)
-                    hash = hash * 59 + this.Creator.GetHashCode();
-                    if (this.Members != null)
-                    hash = hash * 59 + this.Members.GetHashCode();
+                    if (this.Parent != null)
+                    hash = hash * 59 + this.Parent.GetHashCode();
+                    if (this.Childrens != null)
+                    hash = hash * 59 + this.Childrens.GetHashCode();
+                    if (this.Questions != null)
+                    hash = hash * 59 + this.Questions.GetHashCode();
+                    if (this.Tests != null)
+                    hash = hash * 59 + this.Tests.GetHashCode();
                 return hash;
             }
         }
 
         #region Operators
 
-        public static bool operator ==(Group left, Group right)
+        public static bool operator ==(Category left, Category right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Group left, Group right)
+        public static bool operator !=(Category left, Category right)
         {
             return !Equals(left, right);
         }

@@ -25,15 +25,15 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public abstract partial class Entity :  IEquatable<Entity>
+    public partial class Role : Entity, IEquatable<Role>
     {
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Entity" /> class.
+        /// Initializes a new instance of the <see cref="Role" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
         /// <param name="Permissions">Permissions.</param>
-        public Entity(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>))
+        public Role(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>))
         {
             this.Id = Id;
             this.Permissions = Permissions;
@@ -58,7 +58,7 @@ namespace TestManagementStudioService.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Entity {\n");
+            sb.Append("class Role {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Permissions: ").Append(Permissions).Append("\n");
             sb.Append("}\n");
@@ -84,15 +84,15 @@ namespace TestManagementStudioService.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Entity)obj);
+            return Equals((Role)obj);
         }
 
         /// <summary>
-        /// Returns true if Entity instances are equal
+        /// Returns true if Role instances are equal
         /// </summary>
-        /// <param name="other">Instance of Entity to be compared</param>
+        /// <param name="other">Instance of Role to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Entity other)
+        public bool Equals(Role other)
         {
 
             if (ReferenceEquals(null, other)) return false;
@@ -132,12 +132,12 @@ namespace TestManagementStudioService.Models
 
         #region Operators
 
-        public static bool operator ==(Entity left, Entity right)
+        public static bool operator ==(Role left, Role right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Entity left, Entity right)
+        public static bool operator !=(Role left, Role right)
         {
             return !Equals(left, right);
         }

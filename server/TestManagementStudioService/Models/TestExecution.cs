@@ -25,18 +25,26 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public abstract partial class Entity :  IEquatable<Entity>
+    public partial class TestExecution : Entity, IEquatable<TestExecution>
     {
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Entity" /> class.
+        /// Initializes a new instance of the <see cref="TestExecution" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
         /// <param name="Permissions">Permissions.</param>
-        public Entity(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>))
+        /// <param name="Test">Test.</param>
+        /// <param name="AnswersGiven">AnswersGiven.</param>
+        /// <param name="DateOfStart">DateOfStart.</param>
+        /// <param name="DateOfFill">DateOfFill.</param>
+        public TestExecution(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>), Test Test = default(Test), List<Answer> AnswersGiven = default(List<Answer>), DateTime? DateOfStart = default(DateTime?), DateTime? DateOfFill = default(DateTime?))
         {
             this.Id = Id;
             this.Permissions = Permissions;
+            this.Test = Test;
+            this.AnswersGiven = AnswersGiven;
+            this.DateOfStart = DateOfStart;
+            this.DateOfFill = DateOfFill;
             
         }
 
@@ -50,6 +58,26 @@ namespace TestManagementStudioService.Models
         /// </summary>
         [DataMember(Name="permissions")]
         public List<Permission> Permissions { get; set; }
+        /// <summary>
+        /// Gets or Sets Test
+        /// </summary>
+        [DataMember(Name="test")]
+        public Test Test { get; set; }
+        /// <summary>
+        /// Gets or Sets AnswersGiven
+        /// </summary>
+        [DataMember(Name="answersGiven")]
+        public List<Answer> AnswersGiven { get; set; }
+        /// <summary>
+        /// Gets or Sets DateOfStart
+        /// </summary>
+        [DataMember(Name="dateOfStart")]
+        public DateTime? DateOfStart { get; set; }
+        /// <summary>
+        /// Gets or Sets DateOfFill
+        /// </summary>
+        [DataMember(Name="dateOfFill")]
+        public DateTime? DateOfFill { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -58,9 +86,13 @@ namespace TestManagementStudioService.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Entity {\n");
+            sb.Append("class TestExecution {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Permissions: ").Append(Permissions).Append("\n");
+            sb.Append("  Test: ").Append(Test).Append("\n");
+            sb.Append("  AnswersGiven: ").Append(AnswersGiven).Append("\n");
+            sb.Append("  DateOfStart: ").Append(DateOfStart).Append("\n");
+            sb.Append("  DateOfFill: ").Append(DateOfFill).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -84,15 +116,15 @@ namespace TestManagementStudioService.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Entity)obj);
+            return Equals((TestExecution)obj);
         }
 
         /// <summary>
-        /// Returns true if Entity instances are equal
+        /// Returns true if TestExecution instances are equal
         /// </summary>
-        /// <param name="other">Instance of Entity to be compared</param>
+        /// <param name="other">Instance of TestExecution to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Entity other)
+        public bool Equals(TestExecution other)
         {
 
             if (ReferenceEquals(null, other)) return false;
@@ -108,6 +140,26 @@ namespace TestManagementStudioService.Models
                     this.Permissions == other.Permissions ||
                     this.Permissions != null &&
                     this.Permissions.SequenceEqual(other.Permissions)
+                ) && 
+                (
+                    this.Test == other.Test ||
+                    this.Test != null &&
+                    this.Test.Equals(other.Test)
+                ) && 
+                (
+                    this.AnswersGiven == other.AnswersGiven ||
+                    this.AnswersGiven != null &&
+                    this.AnswersGiven.SequenceEqual(other.AnswersGiven)
+                ) && 
+                (
+                    this.DateOfStart == other.DateOfStart ||
+                    this.DateOfStart != null &&
+                    this.DateOfStart.Equals(other.DateOfStart)
+                ) && 
+                (
+                    this.DateOfFill == other.DateOfFill ||
+                    this.DateOfFill != null &&
+                    this.DateOfFill.Equals(other.DateOfFill)
                 );
         }
 
@@ -126,18 +178,26 @@ namespace TestManagementStudioService.Models
                     hash = hash * 59 + this.Id.GetHashCode();
                     if (this.Permissions != null)
                     hash = hash * 59 + this.Permissions.GetHashCode();
+                    if (this.Test != null)
+                    hash = hash * 59 + this.Test.GetHashCode();
+                    if (this.AnswersGiven != null)
+                    hash = hash * 59 + this.AnswersGiven.GetHashCode();
+                    if (this.DateOfStart != null)
+                    hash = hash * 59 + this.DateOfStart.GetHashCode();
+                    if (this.DateOfFill != null)
+                    hash = hash * 59 + this.DateOfFill.GetHashCode();
                 return hash;
             }
         }
 
         #region Operators
 
-        public static bool operator ==(Entity left, Entity right)
+        public static bool operator ==(TestExecution left, TestExecution right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Entity left, Entity right)
+        public static bool operator !=(TestExecution left, TestExecution right)
         {
             return !Equals(left, right);
         }

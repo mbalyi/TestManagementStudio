@@ -25,18 +25,24 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public abstract partial class Entity :  IEquatable<Entity>
+    public abstract partial class Question : SecuredEntity, IEquatable<Question>
     {
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Entity" /> class.
+        /// Initializes a new instance of the <see cref="Question" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
         /// <param name="Permissions">Permissions.</param>
-        public Entity(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>))
+        /// <param name="Text">Text.</param>
+        /// <param name="AnswersAll">AnswersAll.</param>
+        /// <param name="Categories">Categories.</param>
+        public Question(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>), string Text = default(string), List<Answer> AnswersAll = default(List<Answer>), List<Category> Categories = default(List<Category>))
         {
             this.Id = Id;
             this.Permissions = Permissions;
+            this.Text = Text;
+            this.AnswersAll = AnswersAll;
+            this.Categories = Categories;
             
         }
 
@@ -50,6 +56,21 @@ namespace TestManagementStudioService.Models
         /// </summary>
         [DataMember(Name="permissions")]
         public List<Permission> Permissions { get; set; }
+        /// <summary>
+        /// Gets or Sets Text
+        /// </summary>
+        [DataMember(Name="text")]
+        public string Text { get; set; }
+        /// <summary>
+        /// Gets or Sets AnswersAll
+        /// </summary>
+        [DataMember(Name="answersAll")]
+        public List<Answer> AnswersAll { get; set; }
+        /// <summary>
+        /// Gets or Sets Categories
+        /// </summary>
+        [DataMember(Name="categories")]
+        public List<Category> Categories { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -58,9 +79,12 @@ namespace TestManagementStudioService.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Entity {\n");
+            sb.Append("class Question {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Permissions: ").Append(Permissions).Append("\n");
+            sb.Append("  Text: ").Append(Text).Append("\n");
+            sb.Append("  AnswersAll: ").Append(AnswersAll).Append("\n");
+            sb.Append("  Categories: ").Append(Categories).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -84,15 +108,15 @@ namespace TestManagementStudioService.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Entity)obj);
+            return Equals((Question)obj);
         }
 
         /// <summary>
-        /// Returns true if Entity instances are equal
+        /// Returns true if Question instances are equal
         /// </summary>
-        /// <param name="other">Instance of Entity to be compared</param>
+        /// <param name="other">Instance of Question to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Entity other)
+        public bool Equals(Question other)
         {
 
             if (ReferenceEquals(null, other)) return false;
@@ -108,6 +132,21 @@ namespace TestManagementStudioService.Models
                     this.Permissions == other.Permissions ||
                     this.Permissions != null &&
                     this.Permissions.SequenceEqual(other.Permissions)
+                ) && 
+                (
+                    this.Text == other.Text ||
+                    this.Text != null &&
+                    this.Text.Equals(other.Text)
+                ) && 
+                (
+                    this.AnswersAll == other.AnswersAll ||
+                    this.AnswersAll != null &&
+                    this.AnswersAll.SequenceEqual(other.AnswersAll)
+                ) && 
+                (
+                    this.Categories == other.Categories ||
+                    this.Categories != null &&
+                    this.Categories.SequenceEqual(other.Categories)
                 );
         }
 
@@ -126,18 +165,24 @@ namespace TestManagementStudioService.Models
                     hash = hash * 59 + this.Id.GetHashCode();
                     if (this.Permissions != null)
                     hash = hash * 59 + this.Permissions.GetHashCode();
+                    if (this.Text != null)
+                    hash = hash * 59 + this.Text.GetHashCode();
+                    if (this.AnswersAll != null)
+                    hash = hash * 59 + this.AnswersAll.GetHashCode();
+                    if (this.Categories != null)
+                    hash = hash * 59 + this.Categories.GetHashCode();
                 return hash;
             }
         }
 
         #region Operators
 
-        public static bool operator ==(Entity left, Entity right)
+        public static bool operator ==(Question left, Question right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Entity left, Entity right)
+        public static bool operator !=(Question left, Question right)
         {
             return !Equals(left, right);
         }

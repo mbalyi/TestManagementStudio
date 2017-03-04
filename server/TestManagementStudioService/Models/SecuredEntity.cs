@@ -25,19 +25,17 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class SecuredEntity : Entity, IEquatable<SecuredEntity>
+    public abstract partial class SecuredEntity : Entity, IEquatable<SecuredEntity>
     {
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SecuredEntity" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
-        /// <param name="IsPublic">IsPublic.</param>
         /// <param name="Permissions">Permissions.</param>
-        public SecuredEntity(int? Id = default(int?), bool? IsPublic = default(bool?), List<Permission> Permissions = default(List<Permission>))
+        public SecuredEntity(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>))
         {
             this.Id = Id;
-            this.IsPublic = IsPublic;
             this.Permissions = Permissions;
             
         }
@@ -47,11 +45,6 @@ namespace TestManagementStudioService.Models
         /// </summary>
         [DataMember(Name="id")]
         public int? Id { get; set; }
-        /// <summary>
-        /// Gets or Sets IsPublic
-        /// </summary>
-        [DataMember(Name="isPublic")]
-        public bool? IsPublic { get; set; }
         /// <summary>
         /// Gets or Sets Permissions
         /// </summary>
@@ -67,7 +60,6 @@ namespace TestManagementStudioService.Models
             var sb = new StringBuilder();
             sb.Append("class SecuredEntity {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  IsPublic: ").Append(IsPublic).Append("\n");
             sb.Append("  Permissions: ").Append(Permissions).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -113,11 +105,6 @@ namespace TestManagementStudioService.Models
                     this.Id.Equals(other.Id)
                 ) && 
                 (
-                    this.IsPublic == other.IsPublic ||
-                    this.IsPublic != null &&
-                    this.IsPublic.Equals(other.IsPublic)
-                ) && 
-                (
                     this.Permissions == other.Permissions ||
                     this.Permissions != null &&
                     this.Permissions.SequenceEqual(other.Permissions)
@@ -137,8 +124,6 @@ namespace TestManagementStudioService.Models
                 // Suitable nullity checks etc, of course :)
                     if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
-                    if (this.IsPublic != null)
-                    hash = hash * 59 + this.IsPublic.GetHashCode();
                     if (this.Permissions != null)
                     hash = hash * 59 + this.Permissions.GetHashCode();
                 return hash;
