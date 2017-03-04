@@ -25,7 +25,7 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Group : SecuredEntity, IEquatable<Group>
+    public partial class Group : Actor,  IEquatable<Group>
     {
 
         /// <summary>

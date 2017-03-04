@@ -25,7 +25,7 @@ namespace TestManagementStudioService.Models
     /// Anyone who can does actions. (Users &amp; Groups)
     /// </summary>
     [DataContract]
-    public  abstract partial class Actor : SecuredEntity, IEquatable<Actor>
+    public partial class Actor : SecuredEntity, IEquatable<Actor>
     {
 
         /// <summary>

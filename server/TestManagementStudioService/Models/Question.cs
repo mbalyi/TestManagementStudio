@@ -25,7 +25,7 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public abstract partial class Question : SecuredEntity, IEquatable<Question>
+    public partial class Question : SecuredEntity,  IEquatable<Question>
     {
 
         /// <summary>

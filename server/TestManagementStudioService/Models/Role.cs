@@ -25,7 +25,7 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Role : Entity, IEquatable<Role>
+    public partial class Role : Entity,  IEquatable<Role>
     {
 
         /// <summary>
