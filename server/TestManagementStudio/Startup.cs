@@ -76,9 +76,9 @@ namespace TestManagementStudio
                 options.SwaggerDoc("v1",
                     new Info
                     {
-                        Title = "Geo Search API",
+                        Title = "TestManagement Studio Backend API",
                         Version = "v1",
-                        Description = "A simple api to search using geo location in Elasticsearch",
+                        Description = "",
                         TermsOfService = "None"
                     }
                  );

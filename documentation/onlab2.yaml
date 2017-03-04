@@ -19,11 +19,10 @@ info:
 ################################################################################
 #                  Host, Base Path, Schemes and Content Types                  #
 ################################################################################
-host: localhost
+host: testmanagementstudio.azurewebsites.net
 basePath: /v1
 schemes:
   - http
-  - https
 consumes:
   - application/x-www-form-urlencoded  
   - application/json
