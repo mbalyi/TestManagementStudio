@@ -543,7 +543,27 @@ paths:
           description: "Access denied"
           schema:
             $ref: "#/definitions/ErrorMessage"
-    
+      
+  /groups/{groupId}/roles/{roleId}:
+    parameters:
+      - $ref: '#/parameters/groupId'
+      - $ref: '#/parameters/roleId'
+    delete:
+      summary: "remove a role from the group"
+      description: ""
+      operationId: deleteGroupRole
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      - Roles
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"  
   /groups/{groupId}/members:
     parameters:
       - $ref: '#/parameters/groupId'
@@ -732,6 +752,25 @@ paths:
           required: true
           type: integer
           format: int32
+      responses:
+        "204":
+          description: Successful operation
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        "404":
+          description: "Object not found"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    delete:
+      security:
+        - Bearer: []
+      tags:
+      - Roles
+      summary:  "delete a role"
+      description: ""
+      operationId: deleteRole
       responses:
         "204":
           description: Successful operation
@@ -1014,7 +1053,7 @@ paths:
       security:
         - Bearer: []
       tags:
-      - Groups
+      - Users
       - Roles
       responses:
         "204":
@@ -1053,6 +1092,13 @@ paths:
             
     post:
       summary: "Add a new group to the actual user"
+      description: ""
+      operationId: addActualUserGroup
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Groups
       responses:
         "201":
           description: ""
