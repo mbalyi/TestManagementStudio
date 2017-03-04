@@ -347,8 +347,6 @@ paths:
       summary: "Logs user into the system"
       description: ""
       operationId: login
-      produces:
-        - application/json  
       parameters:
         - in: formData
           name: username
@@ -400,12 +398,14 @@ paths:
       tags:
       - Groups
       responses:
+        "200":
+          description: "The list of group objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Group'
         "401":
           description: "Access denied"
-          schema:
-            $ref: "#/definitions/ErrorMessage"
-      
-
 
     post:
       summary: "Add a new group"
@@ -413,7 +413,22 @@ paths:
       operationId: addGroup
       tags:
       - Groups
+      parameters:
+        - in: formData
+          name: name
+          description: "Name of the group"
+          required: true
+          type: string
+        - in: formData
+          name: isGlobal
+          description: ""
+          required: false
+          type: boolean
       responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/Group'
         "401":
           description: "Access denied"
           schema:
@@ -431,6 +446,10 @@ paths:
       tags:
       - Groups
       responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/Group'
         "401":
           description: "Access denied"
           schema:
@@ -444,7 +463,15 @@ paths:
         - Bearer: []
       tags:
       - Groups
+      parameters:
+        - in: formData
+          name: name
+          description: "Name of the group"
+          required: true
+          type: string
       responses:
+        "204":
+          description: ""
         "401":
           description: "Access denied"
           schema:
@@ -459,6 +486,8 @@ paths:
       tags:
       - Groups
       responses:
+        "204":
+          description: ""
         "401":
           description: "Access denied"
           schema:
@@ -476,8 +505,11 @@ paths:
         - Bearer: []
       tags:
       - Groups
-      - Users
       responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/User'
         "401":
           description: "Access denied"
           schema:
@@ -491,8 +523,17 @@ paths:
         - Bearer: []
       tags:
       - Groups
-      - Users
+      parameters:
+        - in: formData
+          name: userId
+          description: "Id of the user"
+          required: true
+          type: string
       responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/Group'
         "401":
           description: "Access denied"
           schema:
@@ -510,8 +551,9 @@ paths:
         - Bearer: []
       tags:
       - Groups
-      - Users
       responses:
+        "204":
+          description: ""
         "401":
           description: "Access denied"
           schema:
