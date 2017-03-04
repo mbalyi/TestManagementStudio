@@ -30,7 +30,7 @@ export class LoginComponent {
     private loginEnable: Boolean = true;
     private rememberme: Boolean = false;
 
-    public email:string = "";
+    public username:string = "";
     public password:string="";
 
     constructor(private authApi: AuthApi,private auth: AuthenticationService, private router: Router) {}
@@ -44,13 +44,13 @@ export class LoginComponent {
     }
 
     show() {
-        console.log( this.email, this.password)
+        console.log( this.username, this.password)
     }
 
     login() {
         console.error('Start login process');
         // try authenticate
-        this.authApi.login(this.email, this.password).subscribe(
+        this.authApi.login(this.username, this.password).subscribe(
             (data) => {
                 console.error('Data: ' + data);
                 try{

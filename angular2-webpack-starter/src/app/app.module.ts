@@ -1,19 +1,23 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import {
-    NgModule,
-    ApplicationRef, OnInit
-} from '@angular/core';
-import {
-  removeNgStyles,
-  createNewHosts,
-  createInputTransfer
-} from '@angularclass/hmr';
-import {
-  RouterModule,
-  PreloadAllModules
-} from '@angular/router';
+import {NgModule,ApplicationRef, OnInit} from '@angular/core';
+import {removeNgStyles,createNewHosts,createInputTransfer} from '@angularclass/hmr';
+import {RouterModule,PreloadAllModules} from '@angular/router';
+
+// Angular-redux ecosystem stuff.
+// @angular-redux/form and @angular-redux/router are optional
+// extensions that sync form and route location state between
+// our store and Angular.
+import { NgReduxModule, NgRedux, DevToolsExtension } from '@angular-redux/store';
+import { NgReduxRouterModule, NgReduxRouter, routerReducer } from '@angular-redux/router';
+import { provideReduxForms, composeReducers, defaultFormReducer } from '@angular-redux/form';
+
+// Redux ecosystem stuff.
+import { combineReducers } from 'redux';
+import * as createLogger from 'redux-logger';
+import { combineEpics, createEpicMiddleware } from 'redux-observable';
+
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -45,8 +49,9 @@ import {Ng2BootstrapModule} from "ng2-bootstrap";
 
 import { provideAuth } from 'angular2-jwt';
 
-import '../styles/styles.scss';
+import { AppActions } from './app.actions';
 
+import '../styles/styles.scss';
 
 
 // Application wide providers
@@ -81,37 +86,66 @@ const APP_PROVIDERS = [
     BrowserModule,
     FormsModule,
     HttpModule,
-      //APIServices
+    //APIServices
     ApiModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
-
     DataTableModule,
     DialogModule,
     SharedModule,
     ButtonModule,
     TabViewModule,
-    Ng2BootstrapModule
+    Ng2BootstrapModule,
+    // Redux
+    NgReduxModule,
+    NgReduxRouterModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
     APP_PROVIDERS,
-
-
-      provideAuth({
-          headerName: 'Authorization'
-      }),
-
-      // Guards
-      AuthGuard,
-
-
-      // Services
-      AuthenticationService,
-      UserService
+    provideAuth({
+        headerName: 'Authorization'
+    }),
+    // Guards
+    AuthGuard,
+    // Services
+    AuthenticationService,
+    UserService,
+    // Actions
+    AppActions
   ]
 
 })
 
 export class AppModule {
+  constructor(
+    private ngRedux: NgRedux<any>,
+    private actions: AppActions,
+    devTools: DevToolsExtension,
+    ngReduxRouter: NgReduxRouter
+  ) {
+    // Define the global store shape by combining our application's
+    // reducers together into a given structure.
+    const rootReducer = composeReducers(
+      defaultFormReducer(),
+      combineReducers({
+        router: routerReducer
+    }));
 
+    // Tell Redux about our reducers and epics. If the Redux DevTools
+    // chrome extension is available in the browser, tell Redux about
+    // it too.
+    ngRedux.configureStore(
+      rootReducer,
+      {},
+      [
+        createLogger()
+      ],
+      devTools.isEnabled() ? [ devTools.enhancer() ] : []);
+
+    // Enable syncing of Angular router state with our Redux store.
+    ngReduxRouter.initialize();
+
+    // Enable syncing of Angular form state with our Redux store.
+    provideReduxForms(ngRedux);
+  }
 }

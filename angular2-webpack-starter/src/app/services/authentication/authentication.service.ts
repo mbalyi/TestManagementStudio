@@ -21,6 +21,10 @@ export class AuthenticationService {
         return Observable.of(flag).do(val => isLoggedIn = flag);
     }
 
+    getLogginFlag(): Observable<boolean> {
+        return Observable.of(isLoggedIn).do(val => isLoggedIn = isLoggedIn);
+    }
+
     setToken(_token: JWTToken): Observable<JWTToken> {
         return Observable.of(_token).do(val => token = _token);
     }

@@ -12,5 +12,7 @@
 
 import * as models from './models';
 
-export interface SecuredEntity extends models.Entity {
+export interface SingleAnswerQuestion extends models.Question {
+    text?: string;
+
 }

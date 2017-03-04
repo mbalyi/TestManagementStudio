@@ -1,4 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { AuthenticationService } from './../../services/authentication/authentication.service';
+
+import { Observable } from 'rxjs/Observable';
+import { select } from './../redux/decorators/select';
 
 @Component({
     selector: 'app',
@@ -15,4 +19,12 @@ import { Component, ViewEncapsulation } from '@angular/core';
     //styles: [require("../../../css/_common.scss")]
 })
 export class AppComponent {
+    //@select(['isLogin']) isLoginPage: Observable<Boolean>;
+
+    constructor (private auth: AuthenticationService) {
+        this.auth.getLogginFlag().subscribe(
+            res => console.log(res),
+            (data) => {debugger;}
+        );
+    }
 }

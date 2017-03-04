@@ -12,5 +12,11 @@
 
 import * as models from './models';
 
-export interface SecuredEntity extends models.Entity {
+export interface TestSet extends models.Entity {
+    test?: models.Test;
+
+    dueDate?: Date;
+
+    actorsAssigned?: Array<models.Actor>;
+
 }

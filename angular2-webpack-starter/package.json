@@ -92,7 +92,13 @@
     "webpack-merge": "^3.0.0",
     "zone.js": "0.7.6",
     "bootstrap-sass": "3.3.7",
-    "font-awesome": "4.7.0"
+    "font-awesome": "4.7.0",
+    "@angular-redux/form": "^6.0.1",
+    "@angular-redux/router": "^6.0.1",
+    "@angular-redux/store": "^6.0.1",
+    "redux": "^3.6.0",
+    "redux-logger": "^2.8.1",
+    "redux-observable": "^0.13.0"
   },
   "devDependencies": {
     "@angular/compiler-cli": "2.4.6",
@@ -103,6 +109,7 @@
     "@types/source-map": "^0.5.0",
     "@types/uglify-js": "^2.0.27",
     "@types/webpack": "^2.0.0",
+    "@types/redux-logger": "^2.6.34",
     "add-asset-html-webpack-plugin": "^1.0.2",
     "angular2-template-loader": "^0.6.0",
     "assets-webpack-plugin": "^3.5.1",

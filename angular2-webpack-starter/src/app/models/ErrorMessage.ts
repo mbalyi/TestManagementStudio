@@ -12,5 +12,9 @@
 
 import * as models from './models';
 
-export interface SecuredEntity extends models.Entity {
+export interface ErrorMessage {
+    title?: string;
+
+    text?: string;
+
 }
