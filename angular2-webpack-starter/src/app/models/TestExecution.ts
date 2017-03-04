@@ -12,5 +12,13 @@
 
 import * as models from './models';
 
-export interface SecuredEntity extends models.Entity {
+export interface TestExecution extends models.Entity {
+    test?: models.Test;
+
+    answersGiven?: Array<models.Answer>;
+
+    dateOfStart?: Date;
+
+    dateOfFill?: Date;
+
 }

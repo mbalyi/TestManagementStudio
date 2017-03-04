@@ -12,5 +12,15 @@
 
 import * as models from './models';
 
-export interface SecuredEntity extends models.Entity {
+/**
+ * Anyone who can does actions. (Users & Groups)
+ */
+export interface Actor extends models.SecuredEntity {
+    roles?: Array<models.Role>;
+
+    /**
+     * Tests to to be completed, assigned to the actor
+     */
+    testSets?: Array<models.TestSet>;
+
 }

@@ -12,5 +12,15 @@
 
 import * as models from './models';
 
-export interface SecuredEntity extends models.Entity {
+export interface Category extends models.SecuredEntity {
+    name?: string;
+
+    parent?: models.Category;
+
+    childrens?: Array<models.Category>;
+
+    questions?: Array<models.Question>;
+
+    tests?: Array<models.Test>;
+
 }

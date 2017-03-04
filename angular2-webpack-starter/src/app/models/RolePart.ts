@@ -12,5 +12,5 @@
 
 import * as models from './models';
 
-export interface SecuredEntity extends models.Entity {
+export interface RolePart extends models.Entity {
 }

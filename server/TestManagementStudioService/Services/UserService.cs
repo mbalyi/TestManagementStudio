@@ -24,8 +24,8 @@ namespace TestManagementStudioService.Services
         public User FindOnebyUsernameAndPassword(string username, string password)
         {
 
-            if (username == "MickeyMouse" &&
-                password == "MickeyMouseIsBoss123")
+            if (username == "test" &&
+                password == "test")
             {
                 return new User()
                 {

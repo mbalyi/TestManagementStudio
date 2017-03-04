@@ -8,6 +8,7 @@ import { Users } from '../../models/users.model';
 
 import { AuthenticationService } from './../../services/authentication/authentication.service';
 import {AuthApi} from "../../api/v1/AuthApi";
+import { LoginActions } from './../../actions/login.actions';
 
 @Component({
     selector: 'login',
@@ -30,10 +31,10 @@ export class LoginComponent {
     private loginEnable: Boolean = true;
     private rememberme: Boolean = false;
 
-    public email:string = "";
+    public username:string = "";
     public password:string="";
 
-    constructor(private authApi: AuthApi,private auth: AuthenticationService, private router: Router) {}
+    constructor(private authApi: AuthApi, private auth: AuthenticationService, private router: Router, private loginAction: LoginActions) {}
 
     showLoginForm() {
         this.loginEnable = true;
@@ -44,13 +45,13 @@ export class LoginComponent {
     }
 
     show() {
-        console.log( this.email, this.password)
+        console.log( this.username, this.password)
     }
 
     login() {
         console.error('Start login process');
         // try authenticate
-        this.authApi.login(this.email, this.password).subscribe(
+        this.authApi.login(this.username, this.password).subscribe(
             (data) => {
                 console.error('Data: ' + data);
                 try{
@@ -60,7 +61,7 @@ export class LoginComponent {
                     //set logged in flag
                     this.auth.setLogginFlag(true).subscribe(
                         () => {
-                            console.log();
+                            this.loginAction.login();
                         }
                     );
 
@@ -87,6 +88,7 @@ export class LoginComponent {
 
     logout() {
         this.auth.logout();
+        this.loginAction.logout();
     }
 
     register() {
