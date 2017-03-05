@@ -31,6 +31,7 @@ import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModul
 
 import {ApiModule} from "./api/api.module";
 
+// Components
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { CounterComponent } from './components/counter/counter.component';
@@ -52,12 +53,16 @@ import {Ng2BootstrapModule} from "ng2-bootstrap";
 
 import { provideAuth } from 'angular2-jwt';
 
+// Actions
 import { AppActions } from './app.actions';
 import { LoginActions } from './actions/login.actions';
+import { NavPageActions } from './actions/navheader.actions';
+import { CurrentUserActions } from './actions/current.user.actions';
 
 // Redux
 import { loginReducer } from './reducers/login.reducer';
 import { currentUserReducer } from './reducers/current.user.reducer';
+import { navHeaderReducer } from './reducers/navheader.reducer';
 
 import '../styles/styles.scss';
 
@@ -124,7 +129,9 @@ const APP_PROVIDERS = [
     UserService,
     // Actions
     AppActions,
-    LoginActions
+    LoginActions,
+    NavPageActions,
+    CurrentUserActions
   ]
 
 })
@@ -143,7 +150,8 @@ export class AppModule {
       combineReducers({
         router: routerReducer,
         islogin: loginReducer,
-        currentuser: currentUserReducer
+        currentuser: currentUserReducer,
+        navpage: navHeaderReducer
     }));
 
     // Tell Redux about our reducers and epics. If the Redux DevTools

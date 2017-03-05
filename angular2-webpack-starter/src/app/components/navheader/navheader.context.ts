@@ -25,3 +25,17 @@ export class NavHeaders {
     public headers: NavHeaderContext[] = [this.home, this.users, this.admin, this.subjects];
     public adminMenu: NavHeaderContext[] = [this.adminUser, this.adminGroup, this.adminRole];
 }
+
+export type NavPage = 'home' | 'login' | 'users' | 'admin' | 'subjects';
+
+export class NavPages {
+  static home: NavPage = 'home';
+  static login: NavPage = 'login';
+  static users: NavPage = 'users';
+  static admin: NavPage = 'admin';
+  static subjects: NavPage = 'subjects';
+}
+
+export interface NavContext {
+    page: NavPage;
+}
