@@ -5,45 +5,93 @@
     <p-column field="email" header="Email" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
     <p-column field="address" header="Address" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
     <p-column field="roleId" header="Role" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
+
+    <p-column styleClass="col-button">
+        <template pTemplate="header">
+
+        </template>
+        <template let-user="rowData" pTemplate="body">
+            <button class="btn btn-success" type="button" (click)="viewUser(user)"><i class="fa fa-search"></i> </button>
+            <button class="btn btn-primary" type="button" (click)="editUser(user)"><i class="fa fa-edit"></i> </button>
+            <button class="btn btn-danger" type="button" (click)="deleteUser(user)"><i class="fa fa-trash"></i> </button>
+        </template>
+    </p-column>
+
     <p-footer>
         <div class="ui-helper-clearfix" style="width:100%">
-            <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Add">
-                </button>
+            <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Add"></button>
             </div>
         </p-footer>
 </p-dataTable>
 
-<p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
-    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="user">
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4"><label for="nickname">Nickname</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="nickname" [(ngModel)]="user.nickname" /></div>
+<p-dialog [(header)]="modalHeader" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [minWidth]="'600px'" [width]="'50%'">
+    <p-tabMenu [model]="tabs" [activeItem]="activeTab"></p-tabMenu>
+
+    <!-- User Tab -->
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="user && activeTab.label =='User'">
+        <div class="inputRow">
+            <div class="inputField1-2">
+                <div><label for="nickname">Nickname</label></div>
+                <div><input class="form-control" pInputText id="nickname" [(ngModel)]="user.nickname" [disabled]="readonlyForm"></div>
+            </div>
+            <div class="inputField1-2">
+            </div>
         </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4"><label for="firstname">firstname</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="firstname" [(ngModel)]="user.firstname" /></div>
+        <div class="inputRow">
+            <div class="inputField1-2">
+                <div><label for="firstname">Firstname</label></div>
+                <div><input class="form-control" pInputText id="firstname" [(ngModel)]="user.firstname" [disabled]="readonlyForm"></div>
+            </div>
+            <div class="inputField1-2">
+                <div><label for="lastname">Lastname</label></div>
+                <div><input class="form-control" id="lastname" [(ngModel)]="user.lastname" [disabled]="readonlyForm"></div>
+            </div>
         </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4"><label for="lastname">lastname</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="lastname" [(ngModel)]="user.lastname" /></div>
+        <div class="inputRow">
+            <div class="inputField1-2">
+                <div><label for="email">Email</label></div>
+                <div><input class="form-control" pInputText id="email" [(ngModel)]="user.email" [disabled]="readonlyForm"></div>
+             </div>
+            <div class="inputField1-2">
+                <div><label for="address">Address</label></div>
+                <div><input class="form-control" pInputText id="address" [(ngModel)]="user.address" [disabled]="readonlyForm"></div>
+            </div>
         </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4"><label for="email">email</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="email" [(ngModel)]="user.email" /></div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4"><label for="address">address</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="address" [(ngModel)]="user.address" /></div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4"><label for="roleId">roleId</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="roleId" [(ngModel)]="user.roleId" /></div>
+        <div class="inputRow">
+            <div class="inputField1-2">
+                <div><label for="phone">Phone</label></div>
+                <div><input class="form-control" pInputText id="phone" [(ngModel)]="user.phone" [disabled]="readonlyForm"></div>
+            </div>
         </div>
     </div>
+
+    <!-- Role Tab -->
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="roles && activeTab.label =='Role'">
+        <div *ngFor="let role of roles" class="inputRow">
+            <div class="inputField-checkbox">
+                <div>
+                    <p-checkbox [label]="role.name" [(ngModel)]="selectedRoles" [disabled]="readonlyForm"></p-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group Tab -->
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="groups && activeTab.label =='Group'">
+        <div *ngFor="let group of groups" class="inputRow">
+            <div class="inputField-checkbox">
+                <div>
+                    <p-checkbox [label]="group.name" [(ngModel)]="selectedGroups" [disabled]="readonlyForm"></p-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <p-footer>
         <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-            <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
-            <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+            <button *ngIf="!readonlyForm" type="button btn btn-success" pButton icon="fa-check" (click)="save()" label="Save"></button>
+            <button *ngIf="!readonlyForm" type="button btn btn-danger" pButton icon="fa-trash" (click)="delete()" label="Delete"></button>
+            <button type="button" pButton icon="fa-close" (click)="cancel()" label="Cancel"></button>
         </div>
     </p-footer>
 </p-dialog>

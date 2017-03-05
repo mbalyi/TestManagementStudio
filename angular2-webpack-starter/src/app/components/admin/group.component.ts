@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Http } from "@angular/http";
 import { Observable } from 'rxjs/Rx';
 
@@ -13,16 +13,15 @@ import { Group } from './../../models/Group';
 import { FakeAdminServer } from './fake.admin.server';
 
 @Component({
-    selector: 'tms-admin',
-    template: require('./admin.component.html')
+    selector: 'tms-group',
+    template: require('./group.component.html')
 })
 
-export class AdminComponent implements OnInit {
-    public user: Users;
+export class GroupComponent implements OnInit {
     private readonlyForm: boolean = false;
     private displayDialog: boolean = false;
 
-    private modalHeader: string = "Add new user";
+    private modalHeader: string = "Add new group";
 
     private tabs: MenuItem[];
     private activeTab: MenuItem;
@@ -36,6 +35,8 @@ export class AdminComponent implements OnInit {
     private roles: Roles[] = [];
     private groups: Group[] = [];
 
+    private group: Group;
+
     constructor(private userService: UserService) { }
 
     ngOnInit() {
@@ -43,48 +44,40 @@ export class AdminComponent implements OnInit {
         this.roles = this.fakeServer.getRoles();
         this.groups = this.fakeServer.getGroups();
 
-        this.getUsers();
         this.tabs = [
-            {label: 'User', icon: 'fa-user', command: (event) => this.activeTab = event.item},
             {label: 'Group', icon: 'fa-group', command: (event) => this.activeTab = event.item},
-            {label: 'Role', icon: 'fa-server', command: (event) => this.activeTab = event.item}
+            {label: 'Role', icon: 'fa-server', command: (event) => this.activeTab = event.item},
+            {label: 'User', icon: 'fa-user', command: (event) => this.activeTab = event.item}
         ];
         this.activeTab = this.tabs[0];
     }
 
-    getUsers() {
-        /*this.userService.getUsers().subscribe(
-            users => this.users = users,
-            err => { console.log(err); }
-        );*/
-    }
-
-    showDialogToAdd() {
-        this.user = { userid: null, nickname: "", password: "", lastname: "", firstname: "", email: "", address: "", phone: "", roleid: null };
+    addGroup() {
+        this.group = { "name": "", "isPrivate": false, "creator": null, "members": null};
         this.displayDialog = true;
         this.readonlyForm = false;
         this.activeTab = this.tabs[0];
-        this.modalHeader = "Add new user";
+        this.modalHeader = "Add new group";
     }
 
-    editUser(user: Users) {
-        this.user = user;
+    editGroup(group: Group) {
+        this.group = group;
         this.displayDialog = true;
         this.readonlyForm = false;
         this.activeTab = this.tabs[0];
-        this.modalHeader = "User: "+this.user.nickname;
+        this.modalHeader = "Group: "+this.group.name;
     }
 
-    deleteUser(user: Users) {
+    deleteGroup(group: Group) {
 
     }
 
-    viewUser(user: Users) {
-        this.user = user;
+    viewGroup(group: Group) {
+        this.group = group;
         this.displayDialog = true;
         this.readonlyForm = true;
         this.activeTab = this.tabs[0];
-        this.modalHeader = "View: "+this.user.nickname;
+        this.modalHeader = "View: "+this.group.name;
     }
 
     cancel() {

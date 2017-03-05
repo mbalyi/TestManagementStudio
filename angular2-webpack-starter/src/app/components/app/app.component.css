@@ -25,3 +25,8 @@ div.row {
 div.container-fluid {
     height: 100%;
 }
+
+div.mainbody {
+    width: 86%!important;
+    height: calc( 100% - 51.6px);
+}

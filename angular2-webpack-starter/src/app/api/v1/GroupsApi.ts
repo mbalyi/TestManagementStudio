@@ -27,7 +27,7 @@ import { Configuration }                                     from '../configurat
 
 @Injectable()
 export class GroupsApi {
-    protected basePath = 'http://localhost/v1';
+    protected basePath = 'http://testmanagementstudio.azurewebsites.net/v1';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
@@ -41,11 +41,28 @@ export class GroupsApi {
     }
 
     /**
-     * Add a new group
+     * Add a new group to the actual user
      * 
      */
-    public addGroup(extraHttpRequestParams?: any): Observable<{}> {
-        return this.addGroupWithHttpInfo(extraHttpRequestParams)
+    public addActualUserGroup(extraHttpRequestParams?: any): Observable<models.Group> {
+        return this.addActualUserGroupWithHttpInfo(extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * Add a new group
+     * 
+     * @param name Name of the group
+     * @param isGlobal 
+     */
+    public addGroup(name: string, isGlobal?: boolean, extraHttpRequestParams?: any): Observable<models.Group> {
+        return this.addGroupWithHttpInfo(name, isGlobal, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -59,9 +76,27 @@ export class GroupsApi {
      * Add a user as member of the group
      * 
      * @param groupId The group identifier number
+     * @param userId Id of the user
      */
-    public addGroupMember(groupId: number, extraHttpRequestParams?: any): Observable<{}> {
-        return this.addGroupMemberWithHttpInfo(groupId, extraHttpRequestParams)
+    public addGroupMember(groupId: number, userId: string, extraHttpRequestParams?: any): Observable<models.Group> {
+        return this.addGroupMemberWithHttpInfo(groupId, userId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * Add a role to the group
+     * 
+     * @param groupId The group identifier number
+     * @param roleId Id of the role
+     */
+    public addGroupRole(groupId: number, roleId: string, extraHttpRequestParams?: any): Observable<models.Group> {
+        return this.addGroupRoleWithHttpInfo(groupId, roleId, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -105,12 +140,91 @@ export class GroupsApi {
     }
 
     /**
+     * remove a role from the group
+     * 
+     * @param groupId The group identifier number
+     * @param roleId The role identifier number
+     */
+    public deleteGroupRole(groupId: number, roleId: number, extraHttpRequestParams?: any): Observable<{}> {
+        return this.deleteGroupRoleWithHttpInfo(groupId, roleId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
      * Get a group
      * 
      * @param groupId The group identifier number
      */
-    public getGroup(groupId: number, extraHttpRequestParams?: any): Observable<{}> {
+    public getGroup(groupId: number, extraHttpRequestParams?: any): Observable<models.Group> {
         return this.getGroupWithHttpInfo(groupId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * List all groups which were created by the  user
+     * 
+     * @param userId The entity identifier number
+     */
+    public getUserGroups(userId: number, extraHttpRequestParams?: any): Observable<Array<models.Group>> {
+        return this.getUserGroupsWithHttpInfo(userId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * lists all the groups of which the user is among the members
+     * 
+     * @param userId The entity identifier number
+     */
+    public getUserMemberships(userId: number, extraHttpRequestParams?: any): Observable<Array<models.Group>> {
+        return this.getUserMembershipsWithHttpInfo(userId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * List all groups which were created by the actual user
+     * 
+     */
+    public listActualUserGroups(extraHttpRequestParams?: any): Observable<Array<models.Group>> {
+        return this.listActualUserGroupsWithHttpInfo(extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * lists all the groups of which the actual user is among the members
+     * 
+     */
+    public listActualuserMemberships(extraHttpRequestParams?: any): Observable<Array<models.Group>> {
+        return this.listActualuserMembershipsWithHttpInfo(extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -125,8 +239,24 @@ export class GroupsApi {
      * 
      * @param groupId The group identifier number
      */
-    public listGroupMembers(groupId: number, extraHttpRequestParams?: any): Observable<{}> {
+    public listGroupMembers(groupId: number, extraHttpRequestParams?: any): Observable<models.User> {
         return this.listGroupMembersWithHttpInfo(groupId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * Get roles of the group
+     * 
+     * @param groupId The group identifier number
+     */
+    public listGroupRoles(groupId: number, extraHttpRequestParams?: any): Observable<Array<models.Group>> {
+        return this.listGroupRolesWithHttpInfo(groupId, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -140,7 +270,7 @@ export class GroupsApi {
      * Get all global group
      * 
      */
-    public listGroups(extraHttpRequestParams?: any): Observable<{}> {
+    public listGroups(extraHttpRequestParams?: any): Observable<Array<models.Group>> {
         return this.listGroupsWithHttpInfo(extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -155,9 +285,10 @@ export class GroupsApi {
      * Update a group
      * 
      * @param groupId The group identifier number
+     * @param name Name of the group
      */
-    public updateGroup(groupId: number, extraHttpRequestParams?: any): Observable<{}> {
-        return this.updateGroupWithHttpInfo(groupId, extraHttpRequestParams)
+    public updateGroup(groupId: number, name: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.updateGroupWithHttpInfo(groupId, name, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -169,11 +300,11 @@ export class GroupsApi {
 
 
     /**
-     * Add a new group
+     * Add a new group to the actual user
      * 
      */
-    public addGroupWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/groups`;
+    public addActualUserGroupWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/me/groups`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -208,18 +339,21 @@ export class GroupsApi {
     }
 
     /**
-     * Add a user as member of the group
+     * Add a new group
      * 
-     * @param groupId The group identifier number
+     * @param name Name of the group
+     * @param isGlobal 
      */
-    public addGroupMemberWithHttpInfo(groupId: number, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/groups/${groupId}/members`;
+    public addGroupWithHttpInfo(name: string, isGlobal?: boolean, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/groups`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // verify required parameter 'groupId' is not null or undefined
-        if (groupId === null || groupId === undefined) {
-            throw new Error('Required parameter groupId was null or undefined when calling addGroupMember.');
+        let formParams = new URLSearchParams();
+
+        // verify required parameter 'name' is not null or undefined
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling addGroup.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -237,9 +371,136 @@ export class GroupsApi {
             headers.set('Authorization', this.configuration.apiKey);
         }
 
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+        if (name !== undefined) {
+            formParams.set('name', <any>name);
+        }
+
+        if (isGlobal !== undefined) {
+            formParams.set('isGlobal', <any>isGlobal);
+        }
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
+            body: formParams.toString(),
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Add a user as member of the group
+     * 
+     * @param groupId The group identifier number
+     * @param userId Id of the user
+     */
+    public addGroupMemberWithHttpInfo(groupId: number, userId: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/groups/${groupId}/members`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        let formParams = new URLSearchParams();
+
+        // verify required parameter 'groupId' is not null or undefined
+        if (groupId === null || groupId === undefined) {
+            throw new Error('Required parameter groupId was null or undefined when calling addGroupMember.');
+        }
+        // verify required parameter 'userId' is not null or undefined
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling addGroupMember.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+        if (userId !== undefined) {
+            formParams.set('userId', <any>userId);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: formParams.toString(),
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Add a role to the group
+     * 
+     * @param groupId The group identifier number
+     * @param roleId Id of the role
+     */
+    public addGroupRoleWithHttpInfo(groupId: number, roleId: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/groups/${groupId}/roles`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        let formParams = new URLSearchParams();
+
+        // verify required parameter 'groupId' is not null or undefined
+        if (groupId === null || groupId === undefined) {
+            throw new Error('Required parameter groupId was null or undefined when calling addGroupRole.');
+        }
+        // verify required parameter 'roleId' is not null or undefined
+        if (roleId === null || roleId === undefined) {
+            throw new Error('Required parameter roleId was null or undefined when calling addGroupRole.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+        if (roleId !== undefined) {
+            formParams.set('roleId', <any>roleId);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: formParams.toString(),
             search: queryParameters
         });
 
@@ -345,6 +606,55 @@ export class GroupsApi {
     }
 
     /**
+     * remove a role from the group
+     * 
+     * @param groupId The group identifier number
+     * @param roleId The role identifier number
+     */
+    public deleteGroupRoleWithHttpInfo(groupId: number, roleId: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/groups/${groupId}/roles/${roleId}`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'groupId' is not null or undefined
+        if (groupId === null || groupId === undefined) {
+            throw new Error('Required parameter groupId was null or undefined when calling deleteGroupRole.');
+        }
+        // verify required parameter 'roleId' is not null or undefined
+        if (roleId === null || roleId === undefined) {
+            throw new Error('Required parameter roleId was null or undefined when calling deleteGroupRole.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Delete,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
      * Get a group
      * 
      * @param groupId The group identifier number
@@ -358,6 +668,172 @@ export class GroupsApi {
         if (groupId === null || groupId === undefined) {
             throw new Error('Required parameter groupId was null or undefined when calling getGroup.');
         }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * List all groups which were created by the  user
+     * 
+     * @param userId The entity identifier number
+     */
+    public getUserGroupsWithHttpInfo(userId: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/${userId}/groups`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'userId' is not null or undefined
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling getUserGroups.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * lists all the groups of which the user is among the members
+     * 
+     * @param userId The entity identifier number
+     */
+    public getUserMembershipsWithHttpInfo(userId: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/${userId}/memberships`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'userId' is not null or undefined
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling getUserMemberships.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * List all groups which were created by the actual user
+     * 
+     */
+    public listActualUserGroupsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/me/groups`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * lists all the groups of which the actual user is among the members
+     * 
+     */
+    public listActualuserMembershipsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/me/memberships`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // to determine the Content-Type header
         let consumes: string[] = [
             'application/x-www-form-urlencoded', 
@@ -433,6 +909,50 @@ export class GroupsApi {
     }
 
     /**
+     * Get roles of the group
+     * 
+     * @param groupId The group identifier number
+     */
+    public listGroupRolesWithHttpInfo(groupId: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/groups/${groupId}/roles`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'groupId' is not null or undefined
+        if (groupId === null || groupId === undefined) {
+            throw new Error('Required parameter groupId was null or undefined when calling listGroupRoles.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
      * Get all global group
      * 
      */
@@ -475,15 +995,22 @@ export class GroupsApi {
      * Update a group
      * 
      * @param groupId The group identifier number
+     * @param name Name of the group
      */
-    public updateGroupWithHttpInfo(groupId: number, extraHttpRequestParams?: any): Observable<Response> {
+    public updateGroupWithHttpInfo(groupId: number, name: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/groups/${groupId}`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        let formParams = new URLSearchParams();
+
         // verify required parameter 'groupId' is not null or undefined
         if (groupId === null || groupId === undefined) {
             throw new Error('Required parameter groupId was null or undefined when calling updateGroup.');
+        }
+        // verify required parameter 'name' is not null or undefined
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling updateGroup.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -501,9 +1028,16 @@ export class GroupsApi {
             headers.set('Authorization', this.configuration.apiKey);
         }
 
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+        if (name !== undefined) {
+            formParams.set('name', <any>name);
+        }
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Put,
             headers: headers,
+            body: formParams.toString(),
             search: queryParameters
         });
 

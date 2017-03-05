@@ -1,0 +1,84 @@
+<p-dataTable [value]="groups" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
+    <p-column field="name" header="Name" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
+    <p-column field="isprivate" header="Private" [sortable]="true"></p-column>
+    <p-column field="creator" header="Creator" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
+    <p-column styleClass="col-button">
+        <template pTemplate="header">
+
+        </template>
+        <template let-group="rowData" pTemplate="body">
+            <button class="btn btn-success" type="button" (click)="viewGroup(group)"><i class="fa fa-search"></i> </button>
+            <button class="btn btn-primary" type="button" (click)="editGroup(group)"><i class="fa fa-edit"></i> </button>
+            <button class="btn btn-danger" type="button" (click)="deleteGroup(group)"><i class="fa fa-trash"></i> </button>
+        </template>
+    </p-column>
+
+    <p-footer>
+        <div class="ui-helper-clearfix" style="width:100%">
+            <button type="button" pButton icon="fa-plus" style="float:left" (click)="addGroup()" label="Add"></button>
+            </div>
+        </p-footer>
+</p-dataTable>
+
+<p-dialog [(header)]="modalHeader" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+    <p-tabMenu [model]="tabs" [activeItem]="activeTab"></p-tabMenu>
+
+    <!-- Group Tab -->
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="group && activeTab.label =='Group'">
+        <div class="name">
+            <div class="inputField1-2">
+                <div><label for="nickname">Name</label></div>
+                <div><input class="form-control" pInputText id="name" [(ngModel)]="group.name" [disabled]="readonlyForm"></div>
+            </div>
+            <div class="inputField1-2">
+            </div>
+        </div>
+        <div class="inputRow">
+            <div class="inputField-checkbox">
+                <div>
+                    <p-checkbox [label]="'Private'" [(ngModel)]="selectedGroups" [disabled]="readonlyForm" [(value)]="group.isPrivate"></p-checkbox>
+                </div>
+            </div>
+            <div class="inputField1-2">
+            </div>
+        </div>
+        <div class="inputRow">
+            <div class="inputField1-2">
+                <div><label for="creator">Creator</label></div>
+                <div><input class="form-control" pInputText id="creator" [(ngModel)]="group.creator" [disabled]="readonlyForm"></div>
+             </div>
+            <div class="inputField1-2">
+            </div>
+        </div>
+    </div>
+
+    <!-- Role Tab -->
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="roles && activeTab.label =='Role'">
+        <div *ngFor="let role of roles" class="inputRow">
+            <div class="inputField-checkbox">
+                <div>
+                    <p-checkbox [label]="role.name" [(ngModel)]="selectedRoles" [disabled]="readonlyForm"></p-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Tab -->
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="users && activeTab.label =='User'">
+        <p-dataTable [value]="users" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
+            <p-column field="nickname" header="Nickname" [sortable]="true"></p-column>
+            <p-column field="firstname" header="Firstname" [sortable]="true"></p-column>
+            <p-column field="lastname" header="Lastname" [sortable]="true"></p-column>
+            <p-column field="email" header="Email" [sortable]="true"></p-column>
+            <p-column field="address" header="Address" [sortable]="true"></p-column>
+        </p-dataTable>
+    </div>
+
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button *ngIf="!readonlyForm" type="button btn btn-success" pButton icon="fa-check" (click)="save()" label="Save"></button>
+            <button *ngIf="!readonlyForm" type="button btn btn-danger" pButton icon="fa-trash" (click)="delete()" label="Delete"></button>
+            <button type="button" pButton icon="fa-close" (click)="cancel()" label="Cancel"></button>
+        </div>
+    </p-footer>
+</p-dialog>

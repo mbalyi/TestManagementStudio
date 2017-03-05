@@ -8,6 +8,8 @@ import {CounterComponent} from "./components/counter/counter.component";
 import {FetchDataComponent} from "./components/fetchdata/fetchdata.component";
 import {UsersComponent} from "./components/users/users.component";
 import {AdminComponent} from "./components/admin/admin.component";
+import { GroupComponent } from './components/admin/group.component';
+import { RoleComponent } from './components/admin/role.component';
 import {SubjectsComponent} from "./components/subjects/subjects.component";
 
 export const ROUTES: Routes = [
@@ -18,6 +20,8 @@ export const ROUTES: Routes = [
   { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },
   { path: 'users-data', component: UsersComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
+  { path: 'groups', component: GroupComponent, canActivate: [AuthGuard] },
+  { path: 'roles', component: RoleComponent, canActivate: [AuthGuard] },
   { path: 'subjects', component: SubjectsComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home' }
 ];

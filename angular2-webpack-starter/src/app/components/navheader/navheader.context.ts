@@ -18,5 +18,10 @@ export class NavHeaders {
     private admin: NavHeaderContext = new NavHeaderContext('admin', '/admin', 'glyphicon glyphicon-briefcase', 1);
     private subjects: NavHeaderContext = new NavHeaderContext('subjects', '/subjects', 'glyphicon glyphicon-book', 4);
 
+    private adminUser: NavHeaderContext = new NavHeaderContext('users', '/admin', 'fa fa-user', 1);
+    private adminGroup: NavHeaderContext = new NavHeaderContext('groups', '/groups', 'fa fa-group', 1);
+    private adminRole: NavHeaderContext = new NavHeaderContext('roles', '/roles', 'fa fa-server', 1);
+
     public headers: NavHeaderContext[] = [this.home, this.users, this.admin, this.subjects];
+    public adminMenu: NavHeaderContext[] = [this.adminUser, this.adminGroup, this.adminRole];
 }

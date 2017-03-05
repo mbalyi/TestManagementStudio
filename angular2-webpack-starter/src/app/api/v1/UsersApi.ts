@@ -27,7 +27,7 @@ import { Configuration }                                     from '../configurat
 
 @Injectable()
 export class UsersApi {
-    protected basePath = 'http://localhost/v1';
+    protected basePath = 'http://testmanagementstudio.azurewebsites.net/v1';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
@@ -41,12 +41,11 @@ export class UsersApi {
     }
 
     /**
-     * Add a user as member of the group
+     * Add a new group to the actual user
      * 
-     * @param groupId The group identifier number
      */
-    public addGroupMember(groupId: number, extraHttpRequestParams?: any): Observable<{}> {
-        return this.addGroupMemberWithHttpInfo(groupId, extraHttpRequestParams)
+    public addActualUserGroup(extraHttpRequestParams?: any): Observable<models.Group> {
+        return this.addActualUserGroupWithHttpInfo(extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -66,6 +65,23 @@ export class UsersApi {
      */
     public addUser(email: string, password: string, firstName?: string, lastName?: string, extraHttpRequestParams?: any): Observable<string> {
         return this.addUserWithHttpInfo(email, password, firstName, lastName, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * Add a new role to the user
+     * 
+     * @param userId The entity identifier number
+     * @param roleId Id of the role
+     */
+    public addUserRole(userId: number, roleId: string, extraHttpRequestParams?: any): Observable<models.Group> {
+        return this.addUserRoleWithHttpInfo(userId, roleId, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -109,6 +125,23 @@ export class UsersApi {
     }
 
     /**
+     * remove a role from the user
+     * 
+     * @param userId The entity identifier number
+     * @param roleId The role identifier number
+     */
+    public deleteUserRole(userId: number, roleId: number, extraHttpRequestParams?: any): Observable<{}> {
+        return this.deleteUserRoleWithHttpInfo(userId, roleId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
      * Get the actual user
      * 
      */
@@ -140,12 +173,105 @@ export class UsersApi {
     }
 
     /**
+     * List all groups which were created by the  user
+     * 
+     * @param userId The entity identifier number
+     */
+    public getUserGroups(userId: number, extraHttpRequestParams?: any): Observable<Array<models.Group>> {
+        return this.getUserGroupsWithHttpInfo(userId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * lists all the groups of which the user is among the members
+     * 
+     * @param userId The entity identifier number
+     */
+    public getUserMemberships(userId: number, extraHttpRequestParams?: any): Observable<Array<models.Group>> {
+        return this.getUserMembershipsWithHttpInfo(userId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * List all groups which were created by the actual user
+     * 
+     */
+    public listActualUserGroups(extraHttpRequestParams?: any): Observable<Array<models.Group>> {
+        return this.listActualUserGroupsWithHttpInfo(extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * Get all roles of the actual user
+     * 
+     */
+    public listActualUserRoles(extraHttpRequestParams?: any): Observable<{}> {
+        return this.listActualUserRolesWithHttpInfo(extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * lists all the groups of which the actual user is among the members
+     * 
+     */
+    public listActualuserMemberships(extraHttpRequestParams?: any): Observable<Array<models.Group>> {
+        return this.listActualuserMembershipsWithHttpInfo(extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
      * Get members of the group
      * 
      * @param groupId The group identifier number
      */
-    public listGroupMembers(groupId: number, extraHttpRequestParams?: any): Observable<{}> {
+    public listGroupMembers(groupId: number, extraHttpRequestParams?: any): Observable<models.User> {
         return this.listGroupMembersWithHttpInfo(groupId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * Get all roles of the  user
+     * 
+     * @param userId The entity identifier number
+     */
+    public listUserRoles(userId: number, extraHttpRequestParams?: any): Observable<Array<models.Group>> {
+        return this.listUserRolesWithHttpInfo(userId, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -211,19 +337,14 @@ export class UsersApi {
 
 
     /**
-     * Add a user as member of the group
+     * Add a new group to the actual user
      * 
-     * @param groupId The group identifier number
      */
-    public addGroupMemberWithHttpInfo(groupId: number, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/groups/${groupId}/members`;
+    public addActualUserGroupWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/me/groups`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // verify required parameter 'groupId' is not null or undefined
-        if (groupId === null || groupId === undefined) {
-            throw new Error('Required parameter groupId was null or undefined when calling addGroupMember.');
-        }
         // to determine the Content-Type header
         let consumes: string[] = [
             'application/x-www-form-urlencoded', 
@@ -326,6 +447,64 @@ export class UsersApi {
     }
 
     /**
+     * Add a new role to the user
+     * 
+     * @param userId The entity identifier number
+     * @param roleId Id of the role
+     */
+    public addUserRoleWithHttpInfo(userId: number, roleId: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/${userId}/roles`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        let formParams = new URLSearchParams();
+
+        // verify required parameter 'userId' is not null or undefined
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling addUserRole.');
+        }
+        // verify required parameter 'roleId' is not null or undefined
+        if (roleId === null || roleId === undefined) {
+            throw new Error('Required parameter roleId was null or undefined when calling addUserRole.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+        if (roleId !== undefined) {
+            formParams.set('roleId', <any>roleId);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: formParams.toString(),
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
      * Remove a user from a group
      * 
      * @param groupId The group identifier number
@@ -387,6 +566,55 @@ export class UsersApi {
         // verify required parameter 'userId' is not null or undefined
         if (userId === null || userId === undefined) {
             throw new Error('Required parameter userId was null or undefined when calling deleteUser.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Delete,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * remove a role from the user
+     * 
+     * @param userId The entity identifier number
+     * @param roleId The role identifier number
+     */
+    public deleteUserRoleWithHttpInfo(userId: number, roleId: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/${userId}/roles/${roleId}`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'userId' is not null or undefined
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling deleteUserRole.');
+        }
+        // verify required parameter 'roleId' is not null or undefined
+        if (roleId === null || roleId === undefined) {
+            throw new Error('Required parameter roleId was null or undefined when calling deleteUserRole.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -502,6 +730,211 @@ export class UsersApi {
     }
 
     /**
+     * List all groups which were created by the  user
+     * 
+     * @param userId The entity identifier number
+     */
+    public getUserGroupsWithHttpInfo(userId: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/${userId}/groups`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'userId' is not null or undefined
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling getUserGroups.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * lists all the groups of which the user is among the members
+     * 
+     * @param userId The entity identifier number
+     */
+    public getUserMembershipsWithHttpInfo(userId: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/${userId}/memberships`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'userId' is not null or undefined
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling getUserMemberships.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * List all groups which were created by the actual user
+     * 
+     */
+    public listActualUserGroupsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/me/groups`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Get all roles of the actual user
+     * 
+     */
+    public listActualUserRolesWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/me/roles`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * lists all the groups of which the actual user is among the members
+     * 
+     */
+    public listActualuserMembershipsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/me/memberships`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
      * Get members of the group
      * 
      * @param groupId The group identifier number
@@ -514,6 +947,50 @@ export class UsersApi {
         // verify required parameter 'groupId' is not null or undefined
         if (groupId === null || groupId === undefined) {
             throw new Error('Required parameter groupId was null or undefined when calling listGroupMembers.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded', 
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Get all roles of the  user
+     * 
+     * @param userId The entity identifier number
+     */
+    public listUserRolesWithHttpInfo(userId: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/users/${userId}/roles`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'userId' is not null or undefined
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling listUserRoles.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [

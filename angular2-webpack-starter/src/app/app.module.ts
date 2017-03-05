@@ -27,7 +27,7 @@ import { ROUTES } from './app.routes';
 // App is our top level component
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 
-import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModule } from 'primeng/primeng';
+import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModule, TabMenuModule, CheckboxModule } from 'primeng/primeng';
 
 import {ApiModule} from "./api/api.module";
 
@@ -41,6 +41,9 @@ import { UsersComponent } from './components/users/users.component';
 import { LoginComponent } from './components/login/login.component';
 import { SubjectsComponent } from './components/subjects/subjects.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { GroupComponent } from './components/admin/group.component';
+import { RoleComponent } from './components/admin/role.component';
+
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { AuthGuard } from './guards/authentication.guard';
 import { AuthenticationService } from './services/authentication/authentication.service';
@@ -80,6 +83,8 @@ const APP_PROVIDERS = [
         LoginComponent,
         SubjectsComponent,
         AdminComponent,
+        GroupComponent,
+        RoleComponent,
         // Widgets
 
         // Pipes
@@ -97,6 +102,8 @@ const APP_PROVIDERS = [
     SharedModule,
     ButtonModule,
     TabViewModule,
+    TabMenuModule,
+    CheckboxModule,
     Ng2BootstrapModule,
     // Redux
     NgReduxModule,
