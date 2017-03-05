@@ -3,6 +3,8 @@ import { Http } from "@angular/http";
 import { Observable } from 'rxjs/Rx';
 
 import { UserService } from './../../services/user/user.service';
+import { NavPageActions } from './../../actions/navheader.actions';
+import { NavPages } from './../navheader/navheader.context';
 
 import { MenuItem } from 'primeng/primeng';
 
@@ -36,7 +38,9 @@ export class AdminComponent implements OnInit {
     private roles: Roles[] = [];
     private groups: Group[] = [];
 
-    constructor(private userService: UserService) { }
+    constructor(private userService: UserService, private pageAction: NavPageActions) { 
+        pageAction.login(NavPages.login);
+    }
 
     ngOnInit() {
         this.users = this.fakeServer.getUsers();
