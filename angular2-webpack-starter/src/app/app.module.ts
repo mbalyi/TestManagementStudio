@@ -55,7 +55,9 @@ import { provideAuth } from 'angular2-jwt';
 import { AppActions } from './app.actions';
 import { LoginActions } from './actions/login.actions';
 
+// Redux
 import { loginReducer } from './reducers/login.reducer';
+import { currentUserReducer } from './reducers/current.user.reducer';
 
 import '../styles/styles.scss';
 
@@ -140,7 +142,8 @@ export class AppModule {
       defaultFormReducer(),
       combineReducers({
         router: routerReducer,
-        islogin: loginReducer
+        islogin: loginReducer,
+        currentuser: currentUserReducer
     }));
 
     // Tell Redux about our reducers and epics. If the Redux DevTools
