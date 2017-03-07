@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { NavHeaders } from './../navheader/navheader.context';
+import { NavHeaderContext, NavPage, NavContext } from './../navheader/navheader.context';
+
+import { select } from '@angular-redux/store';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'tms-navmenu',
@@ -7,9 +10,10 @@ import { NavHeaders } from './../navheader/navheader.context';
     styles: [require('./navmenu.component.css')]
 })
 export class NavMenuComponent {
-    private headers: NavHeaders;
+    @select(['navpage']) readonly nav$: Observable<NavContext>;
+    private nav: NavContext;
 
     ngOnInit() {
-        this.headers = new NavHeaders();
+        this.nav$.subscribe((s) => this.nav = s );
     }
 }

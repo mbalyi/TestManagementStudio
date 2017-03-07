@@ -1,5 +1,7 @@
 ﻿import { Component } from '@angular/core';
-import { NavHeaders } from './navheader.context';
+import { NavHeaders, NavPages, NavPage } from './navheader.context';
+
+import { NavPageActions } from './../../actions/navheader.actions';
 
 @Component({
     selector: 'navheader',
@@ -9,7 +11,15 @@ import { NavHeaders } from './navheader.context';
 export class NavHeaderComponent {
     private headers: NavHeaders;
 
+    constructor(private pageAction: NavPageActions) { 
+        pageAction.setPage(NavPages.login);
+    }
+
     ngOnInit() {
         this.headers = new NavHeaders();
+    }
+
+    setPage(page: NavPage) {
+        this.pageAction.setPage(page);
     }
 }

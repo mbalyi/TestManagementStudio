@@ -12,7 +12,7 @@
             </div>
             <ul class='nav navbar-nav'>
                 <li *ngFor="let link of headers.headers" [routerLinkActive]="['link-active']">
-                    <a [routerLink]="[link.url]">
+                    <a [routerLink]="[link.url]" (click)="setPage(link.page)">
                         <span [class]="link.icon"></span> {{link.name | capitalize}}
                     </a>
                 </li>

@@ -1,6 +1,6 @@
 <div class="col-lg-1 navbar-inverse">
     <ul class='nav navbar-nav'>
-        <li *ngFor="let link of headers.adminMenu" [routerLinkActive]="['link-active']">
+        <li *ngFor="let link of nav.menuItems" [routerLinkActive]="['link-active']">
             <a [routerLink]="[link.url]">
                 <span [class]="link.icon"></span> {{link.name | capitalize}}
             </a>

@@ -1,16 +1,14 @@
-<div *ngIf="islogin$" class='container-fluid'>
-    {{islogin$}}
+<div  class='container-fluid'>
     <div class='row'>
-        <navheader></navheader>
-        <tms-navmenu></tms-navmenu>
-        <div class='col-lg-8 body-content mainbody'>
+        <navheader *ngIf="islogin.isLogin"></navheader>
+        <tms-navmenu *ngIf="islogin.isLogin"></tms-navmenu>
+        <div [ngClass]="{'col-lg-8 body-content mainbody': islogin.isLogin}">
             <router-outlet></router-outlet>
         </div>
     </div>
 </div>
-<div *ngIf="!islogin$" class='container-fluid'>
-    {{islogin$}}
+<!--<div *ngIf="!count.isLogin" class='container-fluid'>
     <div class='row'>
         <router-outlet></router-outlet>
     </div>
-</div>
+</div>-->

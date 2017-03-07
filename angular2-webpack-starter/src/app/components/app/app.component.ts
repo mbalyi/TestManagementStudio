@@ -4,12 +4,11 @@ import { AuthenticationService } from './../../services/authentication/authentic
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
-import { IsLogin } from './../../reducers/login.reducer'
+import { IsLogin } from './../../reducers/login.reducer';
 
 @Component({
     selector: 'app',
     template: require('./app.component.html'),
-    //styleUrls: [require("./app.component.scss")],
     encapsulation: ViewEncapsulation.None,
     styles: [
         require('./app.component.css'),
@@ -20,16 +19,17 @@ import { IsLogin } from './../../reducers/login.reducer'
         ]
 })
 export class AppComponent {
-    @select(['islogin']) islogin$: Observable<IsLogin>;
+    @select(['islogin']) readonly islogin$: Observable<IsLogin>;
+    private islogin: IsLogin;
 
     constructor (private auth: AuthenticationService) {
         this.auth.getLogginFlag().subscribe(
             res => console.log(res),
-            (data) => {debugger;}
+            (data) => {console.log(data)}
         );
     }
+
     ngOnInit() {
-        console.log(this.islogin$);
-        
+        this.islogin$.subscribe((s) => this.islogin = s);
     }
 }

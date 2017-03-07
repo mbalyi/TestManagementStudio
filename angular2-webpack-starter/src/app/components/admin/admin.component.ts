@@ -39,7 +39,7 @@ export class AdminComponent implements OnInit {
     private groups: Group[] = [];
 
     constructor(private userService: UserService, private pageAction: NavPageActions) { 
-        pageAction.login(NavPages.login);
+        pageAction.setPage(NavPages.login);
     }
 
     ngOnInit() {

@@ -47,8 +47,11 @@ import { RoleComponent } from './components/admin/role.component';
 
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { AuthGuard } from './guards/authentication.guard';
+
+// Services
 import { AuthenticationService } from './services/authentication/authentication.service';
 import { UserService } from './services/user/user.service';
+import { CurrentPageService } from './services/current.page.service';
 import {Ng2BootstrapModule} from "ng2-bootstrap";
 
 import { provideAuth } from 'angular2-jwt';
@@ -60,6 +63,7 @@ import { NavPageActions } from './actions/navheader.actions';
 import { CurrentUserActions } from './actions/current.user.actions';
 
 // Redux
+import { IAppState } from './reducers/store/app.state';
 import { loginReducer } from './reducers/login.reducer';
 import { currentUserReducer } from './reducers/current.user.reducer';
 import { navHeaderReducer } from './reducers/navheader.reducer';
@@ -127,6 +131,7 @@ const APP_PROVIDERS = [
     // Services
     AuthenticationService,
     UserService,
+    CurrentPageService,
     // Actions
     AppActions,
     LoginActions,
@@ -138,7 +143,7 @@ const APP_PROVIDERS = [
 
 export class AppModule {
   constructor(
-    private ngRedux: NgRedux<any>,
+    private ngRedux: NgRedux<IAppState>,
     private actions: AppActions,
     devTools: DevToolsExtension,
     ngReduxRouter: NgReduxRouter
@@ -147,11 +152,11 @@ export class AppModule {
     // reducers together into a given structure.
     const rootReducer = composeReducers(
       defaultFormReducer(),
-      combineReducers({
-        router: routerReducer,
+      combineReducers<IAppState>({
         islogin: loginReducer,
         currentuser: currentUserReducer,
-        navpage: navHeaderReducer
+        navpage: navHeaderReducer,
+        router: routerReducer
     }));
 
     // Tell Redux about our reducers and epics. If the Redux DevTools

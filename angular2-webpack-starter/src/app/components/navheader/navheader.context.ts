@@ -3,24 +3,26 @@
     public url: String;
     public icon: String;
     public role: Number;
+    public page: NavPage;
 
-    constructor(name: string, url: string, icon: string, role: number) {
+    constructor(name: string, url: string, icon: string, role: number, page: NavPage) {
         this.name = name;
         this.url = url;
         this.icon = icon;
         this.role = role;
+        this.page = page;
     }
 }
 
 export class NavHeaders {
-    private home: NavHeaderContext = new NavHeaderContext('home', '/home','glyphicon glyphicon-home', 4);
-    private users: NavHeaderContext = new NavHeaderContext('users', '/users-data', 'glyphicon glyphicon-th-list', 1);
-    private admin: NavHeaderContext = new NavHeaderContext('admin', '/admin', 'glyphicon glyphicon-briefcase', 1);
-    private subjects: NavHeaderContext = new NavHeaderContext('subjects', '/subjects', 'glyphicon glyphicon-book', 4);
+    private home: NavHeaderContext = new NavHeaderContext('home', '/home','glyphicon glyphicon-home', 4, NavPages.home);
+    private users: NavHeaderContext = new NavHeaderContext('users', '/users-data', 'glyphicon glyphicon-th-list', 1, NavPages.users);
+    private admin: NavHeaderContext = new NavHeaderContext('admin', '/admin', 'glyphicon glyphicon-briefcase', 1, NavPages.admin);
+    private subjects: NavHeaderContext = new NavHeaderContext('subjects', '/subjects', 'glyphicon glyphicon-book', 4, NavPages.subjects);
 
-    private adminUser: NavHeaderContext = new NavHeaderContext('users', '/admin', 'fa fa-user', 1);
-    private adminGroup: NavHeaderContext = new NavHeaderContext('groups', '/groups', 'fa fa-group', 1);
-    private adminRole: NavHeaderContext = new NavHeaderContext('roles', '/roles', 'fa fa-server', 1);
+    private adminUser: NavHeaderContext = new NavHeaderContext('users', '/admin', 'fa fa-user', 1, NavPages.admin);
+    private adminGroup: NavHeaderContext = new NavHeaderContext('groups', '/groups', 'fa fa-group', 1, NavPages.admin);
+    private adminRole: NavHeaderContext = new NavHeaderContext('roles', '/roles', 'fa fa-server', 1, NavPages.admin);
 
     public headers: NavHeaderContext[] = [this.home, this.users, this.admin, this.subjects];
     public adminMenu: NavHeaderContext[] = [this.adminUser, this.adminGroup, this.adminRole];
@@ -38,4 +40,5 @@ export class NavPages {
 
 export interface NavContext {
     page: NavPage;
+    menuItems: NavHeaderContext[];
 }
