@@ -1,0 +1,60 @@
+@mixin fill-width() {
+  width: 100%;
+}
+
+@mixin fill-height() {
+  height: 100%;
+}
+
+@mixin fill() {
+  width: 100%;
+  height: 100%
+}
+
+@mixin menu-height() {
+    height: calc( 100% - 61.6px);
+}
+
+html,
+body {
+    @include fill();
+    background: gray;
+
+    app {
+        @include fill();
+
+        nav-menu {
+            @include fill-height();
+        }
+
+        div.row {
+            @include fill-height();
+        }
+
+        div.container-fluid {
+            @include fill-height();
+        }
+
+        div.mainbody {
+            @include menu-height();
+            width: 86%!important;
+        }
+
+        div.col-lg-1.navbar-inverse {
+            @include menu-height();
+            width: 14%;
+        }
+
+        .sidenav {
+            @include fill-height();
+            padding-top: 20px;
+            background-color: #f1f1f1;
+        }
+
+        nav.navbar.navbar-inverse  {
+            margin-bottom: 0px;
+            border-radius: 0px !important;
+        }
+    }
+}
+

@@ -11,7 +11,6 @@ import { IsLogin } from './../../reducers/login.reducer';
     template: require('./app.component.html'),
     encapsulation: ViewEncapsulation.None,
     styles: [
-        require('./app.component.css'),
         require('./../../../../node_modules/bootstrap/dist/css/bootstrap.min.css'),
         require('./../../../../node_modules/primeng/resources/themes/omega/theme.css'),
         require('./../../../../node_modules/primeng/resources/primeng.min.css'),

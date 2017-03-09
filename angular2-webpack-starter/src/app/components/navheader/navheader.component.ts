@@ -5,8 +5,7 @@ import { NavPageActions } from './../../actions/navheader.actions';
 
 @Component({
     selector: 'navheader',
-    template: require('./navheader.component.html'),
-    styles: [require('./navheader.component.css')]
+    template: require('./navheader.component.html')
 })
 export class NavHeaderComponent {
     private headers: NavHeaders;

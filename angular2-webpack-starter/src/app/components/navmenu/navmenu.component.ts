@@ -6,8 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'tms-navmenu',
-    template: require('./navmenu.component.html'),
-    styles: [require('./navmenu.component.css')]
+    template: require('./navmenu.component.html')
 })
 export class NavMenuComponent {
     @select(['navpage']) readonly nav$: Observable<NavContext>;
