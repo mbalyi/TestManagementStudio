@@ -27,7 +27,7 @@ import { ROUTES } from './app.routes';
 // App is our top level component
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 
-import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModule, TabMenuModule, CheckboxModule, StepsModule, MenuItem } from 'primeng/primeng';
+import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModule, TabMenuModule, CheckboxModule, StepsModule, MenuItem, DropdownModule } from 'primeng/primeng';
 
 import {ApiModule} from "./api/api.module";
 
@@ -120,6 +120,7 @@ const APP_PROVIDERS = [
     TabMenuModule,
     CheckboxModule,
     StepsModule,
+    DropdownModule,
     Ng2BootstrapModule,
     // Redux
     NgReduxModule,

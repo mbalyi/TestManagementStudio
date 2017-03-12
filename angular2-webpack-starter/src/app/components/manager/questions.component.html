@@ -1,0 +1,18 @@
+﻿<div class="main-nav-header">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <ul class='nav navbar-nav'>
+                <li>Filter: </li>
+                <li>
+                    <p-dropdown [options]="categories" [(ngModel)]="selectedCategory"></p-dropdown>
+                </li>
+                <li>
+                    <input class="form-control" pInputText id="search" [(ngModel)]="search" placeholder="Search Question">
+                </li>
+                <li>
+                    <button class="btn btn-success" type="button" (click)="addQuestion()"><i class="fa fa-check"></i> Add new Question </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

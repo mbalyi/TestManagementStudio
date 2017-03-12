@@ -12,6 +12,7 @@ import { GroupComponent } from './components/admin/group.component';
 import { RoleComponent } from './components/admin/role.component';
 import { SubjectsComponent } from "./components/subjects/subjects.component";
 import { ManagerComponent } from './components/manager/manager.component';
+import { QuestionsComponent } from './components/manager/questions.component';
 
 export const ROUTES: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full', canActivate: [AuthGuard] },
@@ -25,5 +26,6 @@ export const ROUTES: Routes = [
   { path: 'roles', component: RoleComponent, canActivate: [AuthGuard] },
   { path: 'subjects', component: SubjectsComponent, canActivate: [AuthGuard] },
   { path: 'manager', component: ManagerComponent, canActivate: [AuthGuard] },
+  { path: 'questions', component: QuestionsComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home' }
 ];
