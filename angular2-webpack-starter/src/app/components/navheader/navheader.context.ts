@@ -17,6 +17,7 @@
 export class NavHeaders {
     private home: NavHeaderContext = new NavHeaderContext('home', '/home','glyphicon glyphicon-home', 4, NavPages.home);
     private users: NavHeaderContext = new NavHeaderContext('users', '/users-data', 'glyphicon glyphicon-th-list', 1, NavPages.users);
+    private manager: NavHeaderContext = new NavHeaderContext('manager', '/manager', 'glyphicon glyphicon-folder-open', 1, NavPages.manager);
     private admin: NavHeaderContext = new NavHeaderContext('admin', '/admin', 'glyphicon glyphicon-briefcase', 1, NavPages.admin);
     private subjects: NavHeaderContext = new NavHeaderContext('subjects', '/subjects', 'glyphicon glyphicon-book', 4, NavPages.subjects);
 
@@ -24,11 +25,16 @@ export class NavHeaders {
     private adminGroup: NavHeaderContext = new NavHeaderContext('groups', '/groups', 'fa fa-group', 1, NavPages.admin);
     private adminRole: NavHeaderContext = new NavHeaderContext('roles', '/roles', 'fa fa-server', 1, NavPages.admin);
 
-    public headers: NavHeaderContext[] = [this.home, this.users, this.admin, this.subjects];
+    private managerCategory: NavHeaderContext = new NavHeaderContext('category', '/manager', 'fa fa-folder-open-o', 1, NavPages.manager);
+    private managerTest: NavHeaderContext = new NavHeaderContext('test', '/manager', 'fa fa-pencil', 1, NavPages.manager);
+    private managerQuestion: NavHeaderContext = new NavHeaderContext('question', '/manager', 'fa fa-question', 1, NavPages.manager);
+
+    public headers: NavHeaderContext[] = [this.home, this.manager, this.admin, this.subjects];
     public adminMenu: NavHeaderContext[] = [this.adminUser, this.adminGroup, this.adminRole];
+    public managerMenu: NavHeaderContext[] = [this.managerCategory, this.managerTest, this.managerQuestion];
 }
 
-export type NavPage = 'home' | 'login' | 'users' | 'admin' | 'subjects';
+export type NavPage = 'home' | 'login' | 'users' | 'admin' | 'subjects' | 'manager';
 
 export class NavPages {
   static home: NavPage = 'home';
@@ -36,6 +42,7 @@ export class NavPages {
   static users: NavPage = 'users';
   static admin: NavPage = 'admin';
   static subjects: NavPage = 'subjects';
+  static manager: NavPage = 'manager';
 }
 
 export interface NavContext {

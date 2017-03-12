@@ -44,6 +44,7 @@ import { SubjectsComponent } from './components/subjects/subjects.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { GroupComponent } from './components/admin/group.component';
 import { RoleComponent } from './components/admin/role.component';
+import { ManagerComponent } from './components/manager/manager.component';
 
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { AuthGuard } from './guards/authentication.guard';
@@ -96,6 +97,7 @@ const APP_PROVIDERS = [
         AdminComponent,
         GroupComponent,
         RoleComponent,
+        ManagerComponent,
         // Widgets
 
         // Pipes

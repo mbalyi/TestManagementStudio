@@ -1,16 +1,17 @@
 import { Routes } from '@angular/router';
 
 import { DataResolver } from './app.resolver';
-import {AuthGuard} from "./guards/authentication.guard";
-import {HomeComponent} from "./components/home/home.component";
-import {LoginComponent} from "./components/login/login.component";
-import {CounterComponent} from "./components/counter/counter.component";
-import {FetchDataComponent} from "./components/fetchdata/fetchdata.component";
-import {UsersComponent} from "./components/users/users.component";
-import {AdminComponent} from "./components/admin/admin.component";
+import { AuthGuard } from "./guards/authentication.guard";
+import { HomeComponent } from "./components/home/home.component";
+import { LoginComponent } from "./components/login/login.component";
+import { CounterComponent } from "./components/counter/counter.component";
+import { FetchDataComponent } from "./components/fetchdata/fetchdata.component";
+import { UsersComponent } from "./components/users/users.component";
+import { AdminComponent } from "./components/admin/admin.component";
 import { GroupComponent } from './components/admin/group.component';
 import { RoleComponent } from './components/admin/role.component';
-import {SubjectsComponent} from "./components/subjects/subjects.component";
+import { SubjectsComponent } from "./components/subjects/subjects.component";
+import { ManagerComponent } from './components/manager/manager.component';
 
 export const ROUTES: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full', canActivate: [AuthGuard] },
@@ -23,5 +24,6 @@ export const ROUTES: Routes = [
   { path: 'groups', component: GroupComponent, canActivate: [AuthGuard] },
   { path: 'roles', component: RoleComponent, canActivate: [AuthGuard] },
   { path: 'subjects', component: SubjectsComponent, canActivate: [AuthGuard] },
+  { path: 'manager', component: ManagerComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home' }
 ];

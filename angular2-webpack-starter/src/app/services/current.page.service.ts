@@ -19,6 +19,8 @@ export class CurrentPageService {
         if (this.currentPage != null) {
             if(this.currentPage == NavPages.admin) {
                 return this.headers.adminMenu;
+            } else if (this.currentPage == NavPages.manager) {
+                return this.headers.managerMenu;
             } else {
                 return [];
             }
