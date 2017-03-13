@@ -64,13 +64,11 @@
     </div>
 
     <!-- User Tab -->
-    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="users && activeTab.label =='User'">
-        <p-dataTable [value]="users" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
-            <p-column field="nickname" header="Nickname" [sortable]="true"></p-column>
-            <p-column field="firstname" header="Firstname" [sortable]="true"></p-column>
-            <p-column field="lastname" header="Lastname" [sortable]="true"></p-column>
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="group && group.members  && activeTab.label =='User'">
+        <p-dataTable [value]="group.members" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
+            <p-column field="firstName" header="Firstname" [sortable]="true"></p-column>
+            <p-column field="lastName" header="Lastname" [sortable]="true"></p-column>
             <p-column field="email" header="Email" [sortable]="true"></p-column>
-            <p-column field="address" header="Address" [sortable]="true"></p-column>
         </p-dataTable>
     </div>
 

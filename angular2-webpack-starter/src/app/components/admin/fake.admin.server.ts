@@ -1,17 +1,18 @@
 import { Users } from "./../../models/users.model";
 import { Roles } from "./../../models/roles.model";
-import { Group } from './../../models/Group';
+import { User, Group, Role, Category, Question, Answer, Test } from './../../api/index';
 
 export class FakeAdminServer {
-    private users: Users[] = [
-        {"userid": 1, "nickname": "admin", "password": null, lastname: "Ad", firstname: "min", email: "admin@tms2.com", "phone": "00000", address: "bud", "roleid": 1},
-        {"userid": 2, "nickname": "kacsa", "password": null, lastname: "Ka", firstname: "min", email: "admin@tms2.com", "phone": "00000", address: "bud", "roleid": 2},
-        {"userid": 3, "nickname": "manag", "password": null, lastname: "Ma", firstname: "min", email: "admin@tms2.com", "phone": "00000", address: "bud", "roleid": 2},
-        {"userid": 4, "nickname": "cicac", "password": null, lastname: "Ci", firstname: "min", email: "admin@tms2.com", "phone": "00000", address: "bud", "roleid": 3},
-        {"userid": 5, "nickname": "markb", "password": null, lastname: "Ma", firstname: "min", email: "admin@tms2.com", "phone": "00000", address: "bud", "roleid": 3},
-        {"userid": 6, "nickname": "userx", "password": null, lastname: "XX", firstname: "min", email: "admin@tms2.com", "phone": "00000", address: "bud", "roleid": 4},
-        {"userid": 7, "nickname": "usery", "password": null, lastname: "YY", firstname: "min", email: "admin@tms2.com", "phone": "00000", address: "bud", "roleid": 4},
-        {"userid": 8, "nickname": "userz", "password": null, lastname: "ZZ", firstname: "min", email: "admin@tms2.com", "phone": "00000", address: "bud", "roleid": 1},
+
+    private users: User[] = [
+        {"id": 1, "email": "admin@tms2.com", "password": null, "firstName": "admin", "lastName": "admin", "roles": null, "permissions": null},
+        {"id": 2, "email": "admin@tms2.com", "password": null, "firstName": "kacsa", "lastName": "admin", "roles": null, "permissions": null},
+        {"id": 3, "email": "admin@tms2.com", "password": null, "firstName": "manag", "lastName": "admin", "roles": null, "permissions": null},
+        {"id": 4, "email": "admin@tms2.com", "password": null, "firstName": "cicac", "lastName": "admin", "roles": null, "permissions": null},
+        {"id": 5, "email": "markb", "password": null, "lastName": "Ma", "firstName": "min", "roles": null, "permissions": null},
+        {"id": 6, "email": "userx", "password": null, "lastName": "XX", "firstName": "min", "roles": null, "permissions": null},
+        {"id": 7, "email": "usery", "password": null, "lastName": "YY", "firstName": "min", "roles": null, "permissions": null},
+        {"id": 8, "email": "userz", "password": null, "lastName": "ZZ", "firstName": "min", "roles": null, "permissions": null}
     ];
 
     private roles: Roles[] = [
@@ -22,12 +23,61 @@ export class FakeAdminServer {
     ];
 
     private groups: Group[] = [
-        { 'name': "admin", "isPrivate": true, "creator": null, "members": null},
-        { 'name': "reporter", "isPrivate": true, "creator": null, "members": null},
-        { 'name': "developer", "isPrivate": true, "creator": null, "members": null}
+        { id: 1, 'name': "admin", "isPrivate": true, "creator": null, "members": null},
+        { id: 2, 'name': "manager", "isPrivate": true, "creator": null, "members": null},
+        { id: 3, 'name': "developer", "isPrivate": true, "creator": null, "members": null}
     ];
 
-    constructor() {}
+    private categories: Category[] = [
+        { id: 1, name: "Basics of Programing", parent: null, childrens: null, questions: null, tests: null },
+        { id: 2, name: "Analitich", parent: null, childrens: null, questions: null, tests: null },
+        { id: 3, name: "Automatic Systems", parent: null, childrens: null, questions: null, tests: null },
+        { id: 4, name: "Gazdhuman ize", parent: null, childrens: null, questions: null, tests: null }
+    ];
+
+    private questions: Question[] = [
+        { id: 1, text: "What do you eat for breakfast?", answersAll: null, categories: null },
+        { id: 2, text: "What do you eat for lunch?", answersAll: null, categories: null },
+        { id: 3, text: "Are you a good programmer?", answersAll: null, categories: null },
+        { id: 4, text: "What can I do for you?", answersAll: null, categories: null }
+    ];
+
+    private answers: Answer[] = [
+        { id: 1, text: "Nothing.", correct: true },
+        { id: 2, text: "Everything.", correct: false },
+        { id: 3, text: "Ravens", correct: true },
+        { id: 4, text: "No.", correct: false },
+        { id: 5, text: "I don't think so.", correct: false },
+        { id: 6, text: "You have to tell me.", correct: true },
+        { id: 7, text: "Nothing.", correct: false },
+        { id: 8, text: "Give me your money!", correct: true }
+    ];
+
+    private tests: Test[] = [
+        { id: 1, text: "First programer test", questions: null, owner: null },
+        { id: 2, text: "Second programer test", questions: null, owner: null },
+        { id: 3, text: "Exam", questions: null, owner: null },
+        { id: 4, text: "Test", questions: null, owner: null }
+    ];
+
+    constructor() {
+        this.groups[0].members = [this.users[0],this.users[1]];
+        this.groups[1].members = [this.users[3],this.users[4]];
+        this.groups[2].members = [this.users[5],this.users[6]];
+
+        this.questions[0].answersAll = [this.answers[0],this.answers[1]];
+        this.questions[1].answersAll = [this.answers[1],this.answers[2]];
+        this.questions[2].answersAll = [this.answers[3],this.answers[4],this.answers[5]];
+        this.questions[3].answersAll = [this.answers[6],this.answers[7]];
+
+        this.tests[0].questions = [this.questions[1],this.questions[3]];
+        this.tests[1].questions = [this.questions[1],this.questions[3],this.questions[0]];
+        this.tests[2].questions = [this.questions[0],this.questions[2]];
+        this.tests[3].questions = [this.questions[2],this.questions[3]];
+
+        this.categories[0].questions = [this.questions[1],this.questions[3],this.questions[0]];
+        this.categories[0].tests = [this.tests[0],this.tests[2]];
+    }
 
     getUsers(): Users[] {
         return this.users;
@@ -36,10 +86,7 @@ export class FakeAdminServer {
     getUsersByRole(id: number = 0): Users[] {
         let roleUser: Users[] = [];
 
-        for(let i=0; i< this.users.length; i++) {
-            if (this.users[i].roleid == id)
-                roleUser.push(this.users[i]);
-        }
+        
 
         return roleUser;
     }
@@ -50,5 +97,9 @@ export class FakeAdminServer {
 
     getRoles(): Roles[] {
         return this.roles;
+    }
+
+    getCategories(): Category[] {
+        return this.categories;
     }
 }

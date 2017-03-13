@@ -8,9 +8,8 @@ import { NavPages } from './../navheader/navheader.context';
 
 import { MenuItem } from 'primeng/primeng';
 
-import { Users } from "./../../models/users.model";
 import { Roles } from "./../../models/roles.model";
-import { Group } from './../../models/Group';
+import { User, Group } from './../../api/index';
 
 import { FakeAdminServer } from './fake.admin.server';
 
@@ -20,7 +19,7 @@ import { FakeAdminServer } from './fake.admin.server';
 })
 
 export class AdminComponent implements OnInit {
-    public user: Users;
+    public user: User;
     private readonlyForm: boolean = false;
     private displayDialog: boolean = false;
 
@@ -34,7 +33,7 @@ export class AdminComponent implements OnInit {
 
     private fakeServer: FakeAdminServer = new FakeAdminServer();
 
-    private users: Users[] = [];
+    private users: User[] = [];
     private roles: Roles[] = [];
     private groups: Group[] = [];
 

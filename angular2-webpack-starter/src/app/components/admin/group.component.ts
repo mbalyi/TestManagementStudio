@@ -8,7 +8,7 @@ import { MenuItem } from 'primeng/primeng';
 
 import { Users } from "./../../models/users.model";
 import { Roles } from "./../../models/roles.model";
-import { Group } from './../../models/Group';
+import { Group } from './../../api/index';
 
 import { FakeAdminServer } from './fake.admin.server';
 

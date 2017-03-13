@@ -6,7 +6,7 @@ import { UserService } from './../../services/user/user.service';
 import { NavPageActions } from './../../actions/navheader.actions';
 import { NavPages } from './../navheader/navheader.context';
 
-import { Users } from "./../../models/users.model";
+import { User, Group, Role, Category, Question, Answer, Test } from './../../api/index';
 
 import { StepsModule, MenuItem, InputTextareaModule } from 'primeng/primeng';
 import { FakeAdminServer } from './../admin/fake.admin.server';
@@ -21,13 +21,15 @@ export class ManagerComponent implements OnInit {
     private displayDialog: boolean = false;
     private finishEnable: boolean = false;
     private modalHeader: string = "Add new Category";
-    private categories: any[];
     private activeIndex: number = 0;
 
     private fakeServer: FakeAdminServer = new FakeAdminServer();
 
-    private users: Users[] = [];
-    private selectedUsers: Users[] = [];
+    private users: User[] = [];
+    private selectedUsers: User[] = [];
+
+    private categories: Category[] = [];
+    private selectedCategory: Category;
 
     constructor(private userService: UserService, private pageAction: NavPageActions) { 
         pageAction.setPage(NavPages.manager);
@@ -35,6 +37,7 @@ export class ManagerComponent implements OnInit {
 
     ngOnInit() {
         this.users = this.fakeServer.getUsers();
+        this.categories = this.fakeServer.getCategories();
         this.items = [{
                 label: 'Category',
                 command: (event: any) => {
@@ -64,7 +67,7 @@ export class ManagerComponent implements OnInit {
     }
 
     
-    move(direction: string, user: Users) {
+    move(direction: string, user: User) {
         if (direction == 'left') {
             this.users.push(user);
             this.selectedUsers.splice(this.users.indexOf(user),1);

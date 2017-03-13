@@ -1,10 +1,7 @@
 ﻿<p-dataTable [value]="users" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
-    <p-column field="nickname" header="Nickname" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
-    <p-column field="firstname" header="Firstname" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
-    <p-column field="lastname" header="Lastname" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
+    <p-column field="firstName" header="Firstname" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
+    <p-column field="lastName" header="Lastname" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
     <p-column field="email" header="Email" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
-    <p-column field="address" header="Address" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
-    <p-column field="roleId" header="Role" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
 
     <p-column styleClass="col-button">
         <template pTemplate="header">
@@ -31,36 +28,20 @@
     <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="user && activeTab.label =='User'">
         <div class="inputRow">
             <div class="inputField1-2">
-                <div><label for="nickname">Nickname</label></div>
-                <div><input class="form-control" pInputText id="nickname" [(ngModel)]="user.nickname" [disabled]="readonlyForm"></div>
-            </div>
-            <div class="inputField1-2">
-            </div>
-        </div>
-        <div class="inputRow">
-            <div class="inputField1-2">
-                <div><label for="firstname">Firstname</label></div>
-                <div><input class="form-control" pInputText id="firstname" [(ngModel)]="user.firstname" [disabled]="readonlyForm"></div>
-            </div>
-            <div class="inputField1-2">
-                <div><label for="lastname">Lastname</label></div>
-                <div><input class="form-control" id="lastname" [(ngModel)]="user.lastname" [disabled]="readonlyForm"></div>
-            </div>
-        </div>
-        <div class="inputRow">
-            <div class="inputField1-2">
                 <div><label for="email">Email</label></div>
                 <div><input class="form-control" pInputText id="email" [(ngModel)]="user.email" [disabled]="readonlyForm"></div>
              </div>
             <div class="inputField1-2">
-                <div><label for="address">Address</label></div>
-                <div><input class="form-control" pInputText id="address" [(ngModel)]="user.address" [disabled]="readonlyForm"></div>
             </div>
         </div>
         <div class="inputRow">
             <div class="inputField1-2">
-                <div><label for="phone">Phone</label></div>
-                <div><input class="form-control" pInputText id="phone" [(ngModel)]="user.phone" [disabled]="readonlyForm"></div>
+                <div><label for="firstName">Firstname</label></div>
+                <div><input class="form-control" pInputText id="firstName" [(ngModel)]="user.firstName" [disabled]="readonlyForm"></div>
+            </div>
+            <div class="inputField1-2">
+                <div><label for="lastName">Lastname</label></div>
+                <div><input class="form-control" id="lastName" [(ngModel)]="user.lastName" [disabled]="readonlyForm"></div>
             </div>
         </div>
     </div>
