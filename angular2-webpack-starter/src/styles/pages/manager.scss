@@ -1,0 +1,44 @@
+tms-questions {
+    
+    div.main-nav-header {
+        position: absolute;
+        left: 0%;
+        @include fill-width();
+
+        ul {
+            @include fill-width();
+
+            li > span {
+                color: white;
+            }
+
+            li label {
+                color: white;
+            }
+        }
+
+        ul > li:nth-child(1) {
+            font-size: 1.5em;
+            color: white;
+            margin-top: 0.2%;
+        }
+
+        ul > li:nth-child(2) {
+            left: 5%;
+            margin-top: 0.2%;
+        }
+
+        ul > li:nth-child(3) {
+            left: 15%;
+            margin-top: 0.1%;
+
+            input {
+                min-width: 300px;
+            }
+        }
+
+        ul > li:nth-child(4) {
+            float: right;
+        }
+    }
+}
