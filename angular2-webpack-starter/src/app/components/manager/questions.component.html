@@ -5,13 +5,13 @@
                 <li>Filter: </li>
                 <li>
                     <span>Category</span>
-                    <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" [style]="{'min-width':'350px'}"></p-dropdown>
+                    <p-dropdown [options]="categoryItems" [(ngModel)]="selectedCategoryItem" [ngModelOptions]="{standalone: true}" [style]="{'min-width':'350px'}" (onChange)="changeCategory()"></p-dropdown>
                 </li>
                 <li> 
                     <form class="form-inline">
                         <div class="form-group">
                             <label for="search">Question</label>
-                            <input type="text" class="form-control" pInputText id="search" [(ngModel)]="search" name="search" placeholder="Search Question">
+                            <input type="text" class="form-control" pInputText id="search" [(ngModel)]="search" (keyup)="search=$event.target.value;find()" name="search" placeholder="Search Question">
                         </div>
                     </form>
                 </li>
@@ -21,4 +21,7 @@
             </ul>
         </div>
     </nav>
+</div>
+<div class="questions">
+    <tms-question-readonly *ngFor="let question of filteredQuestions" [question]="question.text" [answers]="question.answersAll"></tms-question-readonly>
 </div>

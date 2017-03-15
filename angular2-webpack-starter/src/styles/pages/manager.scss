@@ -12,7 +12,7 @@ tms-questions {
                 color: white;
             }
 
-            li label {
+            li > label {
                 color: white;
             }
         }
@@ -39,6 +39,17 @@ tms-questions {
 
         ul > li:nth-child(4) {
             float: right;
+        }
+    }
+
+    div.questions {
+        position: absolute;
+        width: 98%;
+        top: 10%;
+
+        .answers > div {
+
+            display: inline;
         }
     }
 }
