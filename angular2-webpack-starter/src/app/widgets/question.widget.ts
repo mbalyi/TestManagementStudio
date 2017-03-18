@@ -1,5 +1,5 @@
 import { Component, Input, ElementRef, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
-import { Answer } from './../api/index';
+import { Answer, Question } from './../api/index';
 
 @Component({
     selector: 'tms-question-readonly',
@@ -13,10 +13,14 @@ import { Answer } from './../api/index';
                 </div>
                 <div class="col-lg-11">
                     <div class="row">
-                        {{question}}
+                        <div class="col-lg-11">{{question.text}}</div>
+                        <div class="col-lg-1">
+                            <button class="btn btn-primary" type="button" (click)="editQuestion()"><i class="fa fa-edit"></i> </button>
+                            <button class="btn btn-danger" type="button" (click)="deleteQuestion()"><i class="fa fa-trash"></i> </button>
+                        </div>
                     </div>
                     <div *ngIf="isOpen">
-                        <div *ngFor="let answer of answers; let i = index" class="row answers">
+                        <div *ngFor="let answer of question.answersAll; let i = index" class="row answers">
                             <!--<div>
                                 <button type="button" [class]="answer==selectedAnswer ? 'btn btn-sm btn-info' : 'btn btn-sm btn-default'" (click)="selectAnswer(answer)">
                                     {{i+1}}.
@@ -38,8 +42,10 @@ import { Answer } from './../api/index';
     `
 })
 export class QuestionWidget {
-    @Input() question: string = "";
-    @Input() answers: Answer[] = [];
+    @Input() question: Question = {text: '', answersAll: []};
+
+    @Output() edit = new EventEmitter<Question>();
+    @Output() delete = new EventEmitter<Question>();
 
     private isOpen: boolean = false;
     private selectedAnswer: Answer;
@@ -47,10 +53,11 @@ export class QuestionWidget {
     constructor(element: ElementRef) {
     }
 
-    selectAnswer(answer: Answer) {
-        /*if (this.selectedAnswer == answer)
-            this.selectedAnswer = null;
-        else
-            this.selectedAnswer = answer;*/
+    editQuestion() {
+        this.edit.emit(this.question);
+    }
+
+    deleteQuestion() {
+        this.delete.emit(this.question);
     }
 }

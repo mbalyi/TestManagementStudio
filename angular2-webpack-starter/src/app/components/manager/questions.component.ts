@@ -11,10 +11,14 @@ import { Category, Question, Answer } from './../../api/index';
 })
 export class QuestionsComponent {
     private questions: Question[] = [];
-    private filteredQuestions: Question[] = []
+    private question: Question = null;
+    private filteredQuestions: Question[] = [];
+    private selectedCategory: Category = null;
     private categories: Category[] = [];
     private categoryItems: SelectItem[] = [];
     private search: string = '';
+    private displayDialog: boolean = false;
+    private isNew: boolean = true;
 
     private selectedCategoryItem: any;
 
@@ -27,13 +31,17 @@ export class QuestionsComponent {
             this.categoryItems.push({label: this.categories[i].name, value: { id: this.categories[i].id, name: this.categories[i].name } });
         }
         this.changeCategory();
+        this.selectedCategory = null;
     }
 
     changeCategory() {
-        if (this.selectedCategoryItem != null && this.selectedCategoryItem.id != 0)
+        this.questions = this.fakeBackend.getQuestions();
+        this.selectedCategory = null;
+
+        if (this.selectedCategoryItem != null && this.selectedCategoryItem.id != 0) {
             this.questions = this.fakeBackend.getQuestionsByCatId(this.selectedCategoryItem.id);
-        else
-            this.questions = this.fakeBackend.getQuestions();
+            this.selectedCategory = this.fakeBackend.getCategoryById(this.selectedCategoryItem.id);
+        }
         
         this.search = '';
         this.showQuestionPuller();
@@ -50,5 +58,33 @@ export class QuestionsComponent {
                 this.filteredQuestions.push(this.questions[i]);
             }
         }
+    }
+
+    addQuestion() {
+        this.displayDialog = true;
+        this.isNew = true;
+        this.question = { id: null, text: "", answersAll: null, categories: null };
+    }
+
+    editQuestion(question: Question) {
+        this.displayDialog = true;
+        this.isNew = false;
+        this.question = question;
+    }
+
+    addNewQuestion(question: Question) {
+        if (this.isNew)
+            this.questions.push(question);
+        else
+            for (let i = 0; i < this.questions.length; i++) {
+                if (this.questions[i].id == question.id) {
+                    this.questions[i] = question;
+                    break;
+                }
+            }
+    }
+
+    deleteQuestion(question: Question) {
+        this.questions.splice(this.questions.indexOf(question),1);
     }
 }

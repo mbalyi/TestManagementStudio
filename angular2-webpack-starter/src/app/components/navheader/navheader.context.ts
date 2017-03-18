@@ -30,7 +30,7 @@ export class NavHeaders {
     private managerQuestion: NavHeaderContext = new NavHeaderContext('question', '/questions', 'fa fa-question', 1, NavPages.manager);
 
     public headers: NavHeaderContext[] = [this.home, this.manager, this.admin, this.subjects];
-    public adminMenu: NavHeaderContext[] = [this.adminUser, this.adminGroup, this.adminRole];
+    public adminMenu: NavHeaderContext[] = [this.adminUser, this.adminGroup];
     public managerMenu: NavHeaderContext[] = [this.managerCategory, this.managerTest, this.managerQuestion];
 }
 

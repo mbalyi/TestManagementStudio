@@ -103,6 +103,14 @@ export class FakeAdminServer {
         return this.categories;
     }
 
+    getCategoryById(id: number): Category {
+        for(let i = 0; i < this.categories.length; i++) {
+            if (this.categories[i].id == id)
+                return this.categories[i];
+        }
+        return null;
+    }
+
     getQuestions(): Question[] {
         return this.questions;
     }

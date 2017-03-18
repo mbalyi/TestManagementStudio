@@ -49,6 +49,7 @@ import { QuestionsComponent } from './components/manager/questions.component';
 
 // Widgets
 import { QuestionWidget } from './widgets/question.widget';
+import { QuestionFormWidget } from './widgets/question.form.widget';
 
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { AuthGuard } from './guards/authentication.guard';
@@ -105,6 +106,7 @@ const APP_PROVIDERS = [
         QuestionsComponent,
         // Widgets
         QuestionWidget,
+        QuestionFormWidget,
 
         // Pipes
         CapitalizePipe
