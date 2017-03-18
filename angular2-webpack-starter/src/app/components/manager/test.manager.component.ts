@@ -91,7 +91,7 @@ export class TestManagerComponent {
     }
 
     deleteQuestion(event) {
-        if(this.draggedQuestion) {
+        if(this.draggedQuestion && this.moveFrom.indexOf('selectedQuestions') > -1) {
             if (this.selectedQuestions.indexOf(this.draggedQuestion) > -1)
                 this.selectedQuestions.splice(this.selectedQuestions.indexOf(this.draggedQuestion), 1);
             this.filteredQuestions.push(this.draggedQuestion);
