@@ -26,7 +26,7 @@ export class NavHeaders {
     private adminRole: NavHeaderContext = new NavHeaderContext('roles', '/roles', 'fa fa-server', 1, NavPages.admin);
 
     private managerCategory: NavHeaderContext = new NavHeaderContext('category', '/manager', 'fa fa-folder-open-o', 1, NavPages.manager);
-    private managerTest: NavHeaderContext = new NavHeaderContext('test', '/manager', 'fa fa-pencil', 1, NavPages.manager);
+    private managerTest: NavHeaderContext = new NavHeaderContext('test', '/test-manager', 'fa fa-pencil', 1, NavPages.manager);
     private managerQuestion: NavHeaderContext = new NavHeaderContext('question', '/questions', 'fa fa-question', 1, NavPages.manager);
 
     public headers: NavHeaderContext[] = [this.home, this.manager, this.admin, this.subjects];

@@ -27,7 +27,7 @@ import { ROUTES } from './app.routes';
 // App is our top level component
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 
-import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModule, TabMenuModule, CheckboxModule, StepsModule, MenuItem, DropdownModule, GrowlModule } from 'primeng/primeng';
+import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModule, TabMenuModule, CheckboxModule, StepsModule, MenuItem, DropdownModule, GrowlModule, DragDropModule } from 'primeng/primeng';
 
 import {ApiModule} from "./api/api.module";
 
@@ -46,6 +46,7 @@ import { GroupComponent } from './components/admin/group.component';
 import { RoleComponent } from './components/admin/role.component';
 import { ManagerComponent } from './components/manager/manager.component';
 import { QuestionsComponent } from './components/manager/questions.component';
+import { TestManagerComponent } from './components/manager/test.manager.component';
 
 // Widgets
 import { QuestionWidget } from './widgets/question.widget';
@@ -106,6 +107,7 @@ const APP_PROVIDERS = [
         GroupComponent,
         RoleComponent,
         ManagerComponent,
+        TestManagerComponent,
         QuestionsComponent,
         // Widgets
         QuestionWidget,
@@ -131,6 +133,7 @@ const APP_PROVIDERS = [
     StepsModule,
     DropdownModule,
     GrowlModule,
+    DragDropModule,
     Ng2BootstrapModule,
     // Redux
     NgReduxModule,
