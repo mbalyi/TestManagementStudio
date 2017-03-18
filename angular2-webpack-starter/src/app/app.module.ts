@@ -59,6 +59,8 @@ import { AuthenticationService } from './services/authentication/authentication.
 import { UserService } from './services/user/user.service';
 import { CurrentPageService } from './services/current.page.service';
 import { QuestionService } from './services/question.service';
+import { RequestService } from './services/request.service';
+import { CategoryService } from './services/category.service';
 import { Ng2BootstrapModule } from "ng2-bootstrap";
 
 import { provideAuth } from 'angular2-jwt';
@@ -147,6 +149,8 @@ const APP_PROVIDERS = [
     UserService,
     CurrentPageService,
     QuestionService,
+    CategoryService,
+    RequestService,
     // Actions
     AppActions,
     LoginActions,

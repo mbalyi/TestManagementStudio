@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { DropdownModule, SelectItem } from 'primeng/primeng';
 
+import { QuestionService } from './../../services/question.service';
+import { CategoryService } from './../../services/category.service';
+
 import { FakeAdminServer } from './../admin/fake.admin.server';
 
 import { Category, Question, Answer } from './../../api/index';
@@ -24,7 +27,9 @@ export class QuestionsComponent {
 
     private fakeBackend: FakeAdminServer = new FakeAdminServer();
 
-    constructor() {
+    constructor(private questionService: QuestionService, private categoryService: CategoryService) {
+        //TO DO: get categories from server
+        //categoryService.getAll().subscribe((data) => this.categories = data);
         this.categories = this.fakeBackend.getCategories();
         this.categoryItems.push({label: 'All Categories', value: { id: 0, name: 'All Categories' } });
         for(let i = 0; i < this.categories.length; i++) {
@@ -35,6 +40,17 @@ export class QuestionsComponent {
     }
 
     changeCategory() {
+        //TO DO: get questions from server
+        /*if ( this.selectedCategoryItem.id == 0) {
+            this.questionService.getAll().subscribe(
+                (data) => this.questions = data
+            );
+        } else {
+            this.questionService.getByCategoryId(this.selectedCategoryItem.id).subscribe(
+                (data) => this.questions = data
+            );
+        }*/
+        
         this.questions = this.fakeBackend.getQuestions();
         this.selectedCategory = null;
 
