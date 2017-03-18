@@ -1,6 +1,8 @@
 import { Component, Input, ElementRef, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { Answer, Question, Category } from './../api/index';
 
+import { QuestionService } from './../services/question.service'
+
 @Component({
     selector: 'tms-question-form',
     template: `
@@ -69,7 +71,7 @@ export class QuestionFormWidget {
 
     private selectedAnswer: Answer;
 
-    constructor(element: ElementRef) {
+    constructor(private element: ElementRef, private questionService: QuestionService) {
     }
 
     save() {
@@ -87,6 +89,7 @@ export class QuestionFormWidget {
                 this._question.categories.push(this.category);
             else
                 this._question.categories = this.categories;
+            //TO DO: question service
             this.addQuestion.emit(this._question);
             this.display = false;
             this.displayEmit.emit(this.display);
@@ -99,6 +102,7 @@ export class QuestionFormWidget {
     }
 
     delete() {
+        //TO DO: question service
         this.deleteQuestion.emit(null);
         this.display = false;
         this.displayEmit.emit(this.display);
