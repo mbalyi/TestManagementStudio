@@ -63,31 +63,31 @@ export class AdminComponent implements OnInit {
     }
 
     showDialogToAdd() {
-        this.user = { userid: null, nickname: "", password: "", lastname: "", firstname: "", email: "", address: "", phone: "", roleid: null };
+        this.user = { id: null, password: "", lastName: "", firstName: "", email: "", roles: null, permissions: null };
         this.displayDialog = true;
         this.readonlyForm = false;
         this.activeTab = this.tabs[0];
         this.modalHeader = "Add new user";
     }
 
-    editUser(user: Users) {
+    editUser(user: User) {
         this.user = user;
         this.displayDialog = true;
         this.readonlyForm = false;
         this.activeTab = this.tabs[0];
-        this.modalHeader = "User: "+this.user.nickname;
+        this.modalHeader = "User: "+this.user.firstName+" "+this.user.lastName;
     }
 
-    deleteUser(user: Users) {
+    deleteUser(user: User) {
 
     }
 
-    viewUser(user: Users) {
+    viewUser(user: User) {
         this.user = user;
         this.displayDialog = true;
         this.readonlyForm = true;
         this.activeTab = this.tabs[0];
-        this.modalHeader = "View: "+this.user.nickname;
+        this.modalHeader = "View: "+this.user.firstName+" "+this.user.lastName;
     }
 
     cancel() {

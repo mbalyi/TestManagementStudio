@@ -27,7 +27,7 @@ import { ROUTES } from './app.routes';
 // App is our top level component
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 
-import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModule, TabMenuModule, CheckboxModule, StepsModule, MenuItem, DropdownModule } from 'primeng/primeng';
+import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModule, TabMenuModule, CheckboxModule, StepsModule, MenuItem, DropdownModule, GrowlModule } from 'primeng/primeng';
 
 import {ApiModule} from "./api/api.module";
 
@@ -58,7 +58,7 @@ import { AuthGuard } from './guards/authentication.guard';
 import { AuthenticationService } from './services/authentication/authentication.service';
 import { UserService } from './services/user/user.service';
 import { CurrentPageService } from './services/current.page.service';
-import { QuestionService } from './services/questionservice';
+import { QuestionService } from './services/question.service';
 import { Ng2BootstrapModule } from "ng2-bootstrap";
 
 import { provideAuth } from 'angular2-jwt';
@@ -128,6 +128,7 @@ const APP_PROVIDERS = [
     CheckboxModule,
     StepsModule,
     DropdownModule,
+    GrowlModule,
     Ng2BootstrapModule,
     // Redux
     NgReduxModule,
