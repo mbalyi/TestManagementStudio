@@ -18,10 +18,11 @@
     </div>
     <div class="col-lg-6">
         Test editor
+        <div style="width:50px;height:50px;background:red;" pDroppable="question" (onDrop)="deleteQuestion($event)"></div>
         <div class="ui-grid ui-grid-pad ui-grid-responsive">
             <div class="ui-grid-row">
-                <div class="ui-grid-col-6 ui-widget-content" pDroppable="question" (onDrop)="drop($event)" style="height:500px;">
-                    <div *ngFor="let question of selectedQuestions">{{question.text}}</div>
+                <div class="ui-grid-col-6 ui-widget-content selectedQuestions" pDroppable="question" (onDrop)="drop($event)" style="height:500px;">
+                    <div *ngFor="let question of selectedQuestions" pDraggable="question" (onDragStart)="dragStart($event,question)" (onDragEnd)="dragEnd($event)">{{question.text}}</div>
             </div>
         </div>
     </div>
@@ -32,11 +33,7 @@
         <div class="ui-grid ui-grid-pad ui-grid-responsive">
             <div class="ui-grid-row">
                 <div class="ui-grid-col-6 ui-widget-content" style="border-right:0 none">
-                    <ul style="margin:0;padding:0">
-                        <li *ngFor="let question of filteredQuestions" class="ui-state-default ui-helper-clearfix" pDraggable="question" (onDragStart)="dragStart($event,question)" (onDragEnd)="dragEnd($event)">
-                            <div style="margin:8px 0 0 8px;float:left">{{question.text}}</div>
-                        </li>
-                    </ul>
+                    <div *ngFor="let question of filteredQuestions" pDraggable="question" (onDragStart)="dragStart($event,question)" (onDragEnd)="dragEnd($event)">{{question.text}}</div>
                 </div>
             </div>
         </div>

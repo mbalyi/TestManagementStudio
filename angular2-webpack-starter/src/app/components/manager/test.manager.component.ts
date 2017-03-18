@@ -30,6 +30,8 @@ export class TestManagerComponent {
 
     private fakeBackend: FakeAdminServer = new FakeAdminServer();
 
+    private moveFrom: string = '';
+
     constructor(private questionService: QuestionService, private categoryService: CategoryService) {
         //TO DO: get categories from server
         //categoryService.getAll().subscribe((data) => this.categories = data);
@@ -75,28 +77,28 @@ export class TestManagerComponent {
 
     dragStart(event,question: Question) {
         this.draggedQuestion = question;
+        this.moveFrom = event.currentTarget.parentElement.className;
     }
     
     drop(event) {
-        if(this.draggedQuestion) {
+        if(this.draggedQuestion && this.moveFrom.indexOf('selectedQuestions') == -1) {
             this.selectedQuestions.push(this.draggedQuestion);
-            this.filteredQuestions.splice(this.findIndex(this.draggedQuestion), 1);
-            this.draggedQuestion = null;
+            this.filteredQuestions.splice(this.filteredQuestions.indexOf(this.draggedQuestion), 1);
+        } else if(this.draggedQuestion && this.moveFrom.indexOf('selectedQuestions') > -1) {
+            this.selectedQuestions.splice(this.selectedQuestions.indexOf(this.draggedQuestion), 1);
+            this.selectedQuestions.push(this.draggedQuestion);
+        }
+    }
+
+    deleteQuestion(event) {
+        if(this.draggedQuestion) {
+            if (this.selectedQuestions.indexOf(this.draggedQuestion) > -1)
+                this.selectedQuestions.splice(this.selectedQuestions.indexOf(this.draggedQuestion), 1);
+            this.filteredQuestions.push(this.draggedQuestion);
         }
     }
     
     dragEnd(event) {
         this.draggedQuestion = null;
-    }
-
-    findIndex(question: Question) {
-        let index = -1;
-        for(let i = 0; i < this.filteredQuestions.length; i++) {
-            if(question.text === this.filteredQuestions[i].text) {
-                index = i;
-                break;
-            }
-        }
-        return index;
     }
 }
