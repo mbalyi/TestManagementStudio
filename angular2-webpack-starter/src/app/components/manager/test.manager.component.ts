@@ -3,6 +3,7 @@ import { DropdownModule, SelectItem, Message } from 'primeng/primeng';
 
 import { QuestionService } from './../../services/question.service';
 import { CategoryService } from './../../services/category.service';
+import { TestService } from './../../services/test.service';
 
 import { FakeAdminServer } from './../admin/fake.admin.server';
 
@@ -48,7 +49,7 @@ export class TestManagerComponent {
 
     private msgs: Message[] = [];
 
-    constructor(private questionService: QuestionService, private categoryService: CategoryService) {
+    constructor(private questionService: QuestionService, private categoryService: CategoryService, private testService: TestService) {
         //TO DO: get categories from server
         //categoryService.getAll().subscribe((data) => this.categories = data);
         this.categories = this.fakeBackend.getCategories();
@@ -68,16 +69,22 @@ export class TestManagerComponent {
     }
 
     changeCategory() {
-        //TO DO: get questions, tests from server
-        /*if ( this.selectedCategoryItem.id == 0) {
-            this.questionService.getAll().subscribe(
-                (data) => this.questions = data
-            );
-        } else {
-            this.questionService.getByCategoryId(this.selectedCategoryItem.id).subscribe(
-                (data) => this.questions = data
-            );
-        }*/
+        // //TO DO: get questions, tests from server
+        // if ( this.selectedCategoryItem.id == 0) {
+        //     this.questionService.getAll().subscribe(
+        //         (data) => this.questions = data
+        //     );
+        //     this.testService.getAll().subscribe(
+        //         (data) => this.tests = data
+        //     );
+        // } else {
+        //     this.questionService.getByCategoryId(this.selectedCategoryItem.id).subscribe(
+        //         (data) => this.questions = data
+        //     );
+        //     this.testService.getByCategoryId(this.selectedCategoryItem.id).subscribe(
+        //         (data) => this.tests = data
+        //     );
+        // }
         
         this.questions = this.fakeBackend.getQuestions();
         this.tests = this.fakeBackend.getTest();
@@ -169,7 +176,18 @@ export class TestManagerComponent {
         if (this.selectedTest = event) {
             this.resetForm();
         }
-        //TO DO delete test
+        // //TO DO delete test
+        // this.testService.delete(event).subscribe(
+        //     (data) => {
+        //         if (data == true) {
+        //             this.selectedTest = { id: null, text: "", questions: null, owner: null };
+        //             this.filteredTests.splice(this.filteredTests.indexOf(event),1);
+        //             this.showNotification(true, 'Test deleted.', event.text);
+        //         } else {
+        //             this.showNotification(false, 'Request failed.', 'Something went wrong.');
+        //         }
+        //     }
+        // )
         this.selectedTest = { id: null, text: "", questions: null, owner: null };
         this.filteredTests.splice(this.filteredTests.indexOf(event),1);
         this.showNotification(true, 'Test deleted.', event.text);
@@ -196,7 +214,24 @@ export class TestManagerComponent {
             this.showNotification(false, 'Non question was selected!', 'Select questions.');
         } else { 
             if (this.selectedTest != null && this.selectedTest.id != null) {
-                //TO DO update existing test
+                // //TO DO update existing test
+                // this.testService.update(this.selectedTest).subscribe(
+                //     (data) => {
+                //         if (data != null || data != '') {
+                //             for (let i = 0; i < this.filteredTests.length; i++) {
+                //                 if (this.filteredTests[i].id == this.selectedTest.id) {
+                //                     this.filteredTests[i] = Object.assign({}, this.selectedTest);
+                //                     break;
+                //                 }
+                //             }
+                //             this.selectedTest = Object.assign({}, data);
+                //             this.showNotification(true, 'Test updated.', this.selectedTest.text);
+                //         } else {
+                //             this.showNotification(false, 'Request failed.', 'Something went wrong.');
+                //         }
+                //     }
+                // );
+                this.selectedTest.questions = this.selectedQuestions;
                 for (let i = 0; i < this.filteredTests.length; i++) {
                     if (this.filteredTests[i].id == this.selectedTest.id) {
                         this.filteredTests[i] = Object.assign({}, this.selectedTest);
@@ -204,7 +239,21 @@ export class TestManagerComponent {
                     }
                 }
             } else {
-                //TO DO save new test
+                // //TO DO save new test
+                // let own = this.selectedTest == null || this.selectedTest.owner == null ? this.user : this.selectedTest.owner;
+                // let cat = this.selectedCategory == null || this.selectedCategory.id == 0 ? null : this.selectedCategory;
+                // let test = { id: 20, text: this.selectedTest.text, questions: this.selectedQuestions, owner: own, category: cat };
+                // this.testService.save(test).subscribe(
+                //     (data) => {
+                //         if (data != null || data != '') {
+                //             this.filteredTests.push(data);
+                //             this.showNotification(true, 'Test stored.', this.selectedTest.text);
+                //             this.selectedTest = Object.assign({}, data);
+                //         } else {
+                //             this.showNotification(false, 'Request failed.', 'Something went wrong.');
+                //         }
+                //     }
+                // );
                 let own = this.selectedTest == null || this.selectedTest.owner == null ? this.user : this.selectedTest.owner;
                 let cat = this.selectedCategory == null || this.selectedCategory.id == 0 ? null : this.selectedCategory;
                 this.filteredTests.push({id: 20, text: this.selectedTest.text, 
