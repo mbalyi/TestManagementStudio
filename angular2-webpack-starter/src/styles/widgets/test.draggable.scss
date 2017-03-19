@@ -1,0 +1,27 @@
+tms-test-draggable {
+    @include fill-width();
+
+    .row {
+        @include fill-width();
+        height: inherit!important;
+        cursor: pointer;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        margin-left: 0px;
+        margin-right: 0px;
+        border: 0.1em solid black;
+        border-radius: 0.2em;
+
+        span:nth-child(1) {
+            width: 89%;
+            float: left;
+            margin-top: 2%;
+            margin-left: 1%;
+        }
+
+        span:nth-child(2) {
+            width: 10%;
+            float: right;
+        }
+    }
+}

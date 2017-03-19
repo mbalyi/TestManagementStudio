@@ -1,14 +1,14 @@
 <div class="row">
-    <div class="col-lg-3">
+    <div class="col-lg-3 left-bar">
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <ul class='nav navbar-nav'>
                     <li>
-                        <p-dropdown [options]="categoryItems" [(ngModel)]="selectedCategoryItem" [ngModelOptions]="{standalone: true}" [style]="{'min-width':'150px'}" (onChange)="changeCategory()"></p-dropdown>
+                        <p-dropdown [options]="categoryItems" [(ngModel)]="selectedCategoryItem" [ngModelOptions]="{standalone: true}" [style]="{'width':'250px'}" (onChange)="changeCategory()"></p-dropdown>
                     </li>
                     <li>
-                        <button *ngIf="addBtnActive" class="btn btn-success" (click)="addTest()"><span class="glyphicon glyphicon-plus"></span> Add</button>
-                        <button *ngIf="!addBtnActive" class="btn btn-success" (click)="addTest()" disabled="disabled"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                        <button *ngIf="addBtnActive" class="btn btn-success btn-sm" (click)="addTest()"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                        <button *ngIf="!addBtnActive" class="btn btn-success btn-sm" (click)="addTest()" disabled="disabled"><span class="glyphicon glyphicon-plus"></span> Add</button>
                     </li>
                 </ul>
             </div>
