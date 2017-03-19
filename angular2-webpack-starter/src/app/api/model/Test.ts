@@ -19,4 +19,6 @@ export interface Test extends models.SecuredEntity {
 
     owner?: models.User;
 
+    category?: models.Category;
+
 }

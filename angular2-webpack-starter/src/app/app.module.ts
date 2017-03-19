@@ -27,7 +27,7 @@ import { ROUTES } from './app.routes';
 // App is our top level component
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 
-import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModule, TabMenuModule, CheckboxModule, StepsModule, MenuItem, DropdownModule, GrowlModule, DragDropModule } from 'primeng/primeng';
+import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModule, TabMenuModule, CheckboxModule, StepsModule, MenuItem, DropdownModule, GrowlModule, DragDropModule, CalendarModule } from 'primeng/primeng';
 
 import {ApiModule} from "./api/api.module";
 
@@ -51,6 +51,8 @@ import { TestManagerComponent } from './components/manager/test.manager.componen
 // Widgets
 import { QuestionWidget } from './widgets/question.widget';
 import { QuestionFormWidget } from './widgets/question.form.widget';
+import { TestDraggableWidget } from './widgets/test.draggable.widget';
+import { QuestionDraggableWidget } from './widgets/question.draggable.widget';
 
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { AuthGuard } from './guards/authentication.guard';
@@ -112,7 +114,8 @@ const APP_PROVIDERS = [
         // Widgets
         QuestionWidget,
         QuestionFormWidget,
-
+        TestDraggableWidget,
+        QuestionDraggableWidget,
         // Pipes
         CapitalizePipe
     ],
@@ -134,6 +137,7 @@ const APP_PROVIDERS = [
     DropdownModule,
     GrowlModule,
     DragDropModule,
+    CalendarModule,
     Ng2BootstrapModule,
     // Redux
     NgReduxModule,

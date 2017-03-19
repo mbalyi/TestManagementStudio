@@ -15,6 +15,7 @@ import { Category, Question, Test } from './../../api/index';
 
 export class TestManagerComponent {
     private addBtnActive: boolean = true;
+    private readonlyForm: boolean = true;
     private questions: Question[] = [];
     private question: Question = null;
     private filteredQuestions: Question[] = [];
@@ -22,6 +23,12 @@ export class TestManagerComponent {
     private categories: Category[] = [];
     private categoryItems: SelectItem[] = [];
     private isNew: boolean = true;
+
+    private selectedTest: Test = null;
+    private tests: Test[] = [];
+    private filteredTests: Test[] = [];
+    private date: Date = null;
+    private owner: string = '';
 
     private selectedCategoryItem: any;
     
@@ -43,10 +50,12 @@ export class TestManagerComponent {
         this.changeCategory();
         this.selectedCategory = null;
         this.selectedQuestions = [];
+        this.selectedTest = { id: null, text: "", questions: null, owner: null };
+        this.date = new Date();
     }
 
     changeCategory() {
-        //TO DO: get questions from server
+        //TO DO: get questions, tests from server
         /*if ( this.selectedCategoryItem.id == 0) {
             this.questionService.getAll().subscribe(
                 (data) => this.questions = data
@@ -58,21 +67,27 @@ export class TestManagerComponent {
         }*/
         
         this.questions = this.fakeBackend.getQuestions();
+        this.tests = this.fakeBackend.getTest();
         this.selectedCategory = null;
 
         if (this.selectedCategoryItem != null && this.selectedCategoryItem.id != 0) {
             this.questions = this.fakeBackend.getQuestionsByCatId(this.selectedCategoryItem.id);
+            this.tests = this.fakeBackend.getTestByCatId(this.selectedCategoryItem.id);
             this.selectedCategory = this.fakeBackend.getCategoryById(this.selectedCategoryItem.id);
         }
-        this.showQuestionPuller();
+        this.showPuller();
     }
 
-    showQuestionPuller() {
+    showPuller() {
         this.filteredQuestions = this.questions;
+        this.filteredTests = this.tests;
+        this.selectedTest = { id: null, text: "", questions: null, owner: null };
+        this.readonlyForm = true;
     }
 
     addTest() {
         this.addBtnActive = !this.addBtnActive;
+        this.readonlyForm = false;
     }
 
     dragStart(event,question: Question) {
@@ -100,5 +115,25 @@ export class TestManagerComponent {
     
     dragEnd(event) {
         this.draggedQuestion = null;
+    }
+
+    openTest(event) {
+        this.readonlyForm = false;
+        this.selectedTest = event;
+        if (event.questions != null) {
+            this.selectedQuestions = event.questions;
+            for (let i = 0; i < event.questions.length; i++) {
+                this.filteredQuestions.splice(this.filteredQuestions.indexOf(event.questions[i]),1);
+            }
+        }
+    }
+
+    deleteTest(event) {
+        if (this.selectedTest = event) {
+            this.selectedTest = { id: null, text: "", questions: null, owner: null };
+            this.readonlyForm = true;
+        }
+        //TO DO delete test
+        this.filteredTests.splice(this.filteredTests.indexOf(event),1);
     }
 }
