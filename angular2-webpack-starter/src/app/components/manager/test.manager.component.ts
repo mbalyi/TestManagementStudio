@@ -29,6 +29,7 @@ export class TestManagerComponent {
     private categories: Category[] = [];
     private categoryItems: SelectItem[] = [];
     private isNew: boolean = true;
+    private displayDialog: boolean = false;
 
     private selectedTest: Test = null;
     private tests: Test[] = [];
@@ -155,9 +156,32 @@ export class TestManagerComponent {
     deleteTest(event) {
         if (this.selectedTest = event) {
             this.selectedTest = { id: null, text: "", questions: null, owner: null };
-            this.readonlyForm = true;
+            this.resetForm();
         }
         //TO DO delete test
         this.filteredTests.splice(this.filteredTests.indexOf(event),1);
+    }
+
+    cancel() {
+        this.resetForm();
+    }
+
+    saveTest() {
+
+    }
+
+    resetForm() {
+        this.addBtnActive = true;
+        this.readonlyForm = true;
+        this.filteredQuestions = [];
+        this.questions.forEach((x) => {
+                this.filteredQuestions.push(Object.assign({}, x));
+            });
+        this.selectedQuestions = [];
+    }
+
+    openQuestion(event) {
+        this.question = event;
+        this.displayDialog = true;
     }
 }

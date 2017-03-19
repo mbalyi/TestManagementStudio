@@ -19,6 +19,15 @@
     </div>
     <div class="col-lg-6">
         <div class="inputRow">
+            <div class="inputField1-1 control-btns">
+                <button *ngIf="!readonlyForm && selectedTest.id != null" type="button" class="btn btn-danger btn-sm" (click)="deleteTest(selectedTest)">Delete</button>
+                <button *ngIf="!readonlyForm" type="button" class="btn btn-default btn-sm" (click)="cancel()">Cancel</button>
+                <button *ngIf="!readonlyForm" type="button" class="btn btn-success btn-sm" (click)="saveTest()">Save</button>
+                <button *ngIf="readonlyForm" type="button" class="btn btn-default btn-sm" (click)="cancel()" disabled="disabled">Cancel</button>
+                <button *ngIf="readonlyForm" type="button" class="btn btn-success btn-sm" (click)="saveTest()" disabled="disabled">Save</button>
+            </div>
+        </div>
+        <div class="inputRow">
             <div class="inputField1-1">
                 <div><label for="title">Title</label></div>
                 <div><input class="form-control" pInputText id="title" [(ngModel)]="selectedTest.text" [disabled]="readonlyForm"></div>
@@ -43,22 +52,24 @@
                 <div><p-calendar [(ngModel)]="date" dateFormat="yy.mm.dd." [disabled]="true" [showIcon]="true"></p-calendar></div>
              </div>
              <div class="inputField1-3">
-                 <div *ngIf="!readonlyForm" class="rubbish" pDroppable="question" (onDrop)="deleteQuestion($event)"></div>
-                 <div *ngIf="readonlyForm" class="rubbish"></div>
+                 <div *ngIf="!readonlyForm" class="trash" pDroppable="question" (onDrop)="deleteQuestion($event)"><span class="glyphicon glyphicon-trash"></span></div>
+                 <div *ngIf="readonlyForm" class="trash"><span class="glyphicon glyphicon-trash"></span></div>
              </div>
         </div>
-        <div class="ui-grid ui-grid-pad ui-grid-responsive test-container">
+        
+        <div><label for="test-container">Questions</label></div>
+        <div class="ui-grid ui-grid-pad ui-grid-responsive test-container" id="test-container">
             <div class="ui-grid-row" *ngIf="!readonlyForm">
                 <div class="ui-grid-col-6 ui-widget-content selectedQuestions" pDroppable="question" (onDrop)="drop($event)" style="width:100%;height:100%;">
                     <div pDraggable="question" *ngFor="let question of selectedQuestions" (onDragStart)="dragStart($event,question)" (onDragEnd)="dragEnd($event)">
-                        <tms-question-draggable [question]="question"></tms-question-draggable>
+                        <tms-question-draggable [question]="question" (open)="openQuestion($event)"></tms-question-draggable>
                     </div>
                 </div>
             </div>
             <div class="ui-grid-row" *ngIf="readonlyForm">
                 <div class="ui-grid-col-6 ui-widget-content selectedQuestions" style="width:100%;height:100%;">
                     <div *ngFor="let question of selectedQuestions">
-                        <tms-question-draggable [question]="question"></tms-question-draggable>
+                        <tms-question-draggable [question]="question" (open)="openQuestion($event)"></tms-question-draggable>
                     </div>
                 </div>
             </div>
@@ -76,13 +87,15 @@
         </nav>
         <div class="questions" *ngIf="readonlyForm">
             <div *ngFor="let question of filteredQuestions">
-                <tms-question-draggable [question]="question"></tms-question-draggable>
+                <tms-question-draggable [question]="question" (open)="openQuestion($event)"></tms-question-draggable>
             </div>
         </div>
         <div class="questions" *ngIf="!readonlyForm">
             <div *ngFor="let question of filteredQuestions" pDraggable="question" (onDragStart)="dragStart($event,question)" (onDragEnd)="dragEnd($event)">
-                <tms-question-draggable [question]="question"></tms-question-draggable>
+                <tms-question-draggable [question]="question" (open)="openQuestion($event)"></tms-question-draggable>
             </div>
         </div>
     </div>
+
+    <tms-question-form [(display)]="displayDialog" [new]="false" [readonly]="true" [category]="selectedCategory" [question]="question" [answers]="question==null?[]:question.answersAll" (displayEmit)="displayDialog=$event;"></tms-question-form>
 </div>

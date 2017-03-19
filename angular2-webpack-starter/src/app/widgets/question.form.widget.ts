@@ -10,7 +10,9 @@ import { QuestionService } from './../services/question.service'
     template: `
         <p-dialog [(visible)]="display" [modal]="true" (onBeforeHide)="displayEmit.emit(false)">
             <p-header *ngIf="new">Add new Question</p-header>
-            <p-header *ngIf="!new">Edit Question</p-header>
+            <p-header *ngIf="!new && !readonly">Edit Question</p-header>
+            <p-header *ngIf="!new && readonly">Show Question</p-header>
+            <div *ngIf="readonly" class="question-form-mask"></div>
             <div class="inputRow">
                 <div class="inputField1-1">
                     <div><label for="question">Question</label></div>
@@ -36,8 +38,8 @@ import { QuestionService } from './../services/question.service'
             </div>
             <p-footer>
                 <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-                    <button type="button btn btn-success" pButton icon="fa-check" (click)="save()" label="Save"></button>
-                    <button type="button btn btn-danger" pButton icon="fa-trash" (click)="delete()" label="Delete"></button>
+                    <button *ngIf="!readonly" type="button btn btn-success" pButton icon="fa-check" (click)="save()" label="Save"></button>
+                    <button *ngIf="!readonly" type="button btn btn-danger" pButton icon="fa-trash" (click)="delete()" label="Delete"></button>
                     <button type="button" pButton icon="fa-close" (click)="cancel()" label="Cancel"></button>
                 </div>
             </p-footer>
@@ -49,6 +51,7 @@ export class QuestionFormWidget {
     @Input()  display: boolean = false;
     @Output() displayEmit: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Input()  new: boolean = true;
+    @Input()  readonly: boolean = false;
 
     private _question: Question;
     private _answers: Answer[] = [];

@@ -27,7 +27,7 @@ export class QuestionDraggableWidget {
 
     openQuestion() {
         this.open.emit(this.question);
-        this.isOpened = !this.isOpened;
+        //this.isOpened = !this.isOpened;
         this.class = this.isOpened ? 'glyphicon glyphicon-zoom-out' : 'glyphicon glyphicon-zoom-in';
     }
 }

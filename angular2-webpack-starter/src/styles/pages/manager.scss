@@ -114,5 +114,50 @@ tms-test-manager {
                 color: #9d9d9d;
             }
         }
+
+        .trash {
+            @include fill-height();
+            min-height: 59.35px;
+            width: 30%!important;
+            float: right;
+            border: 0.1em solid #d9534f;
+            border-radius: 0.2em;
+            background: #d9534f;
+            vertical-align: middle;
+            text-align: center;
+
+            span {
+                margin-top: 32%;
+            }
+        }
+
+        .col-lg-6 {
+            @include fill-height();
+
+            .control-btns {
+                margin-top: 1%;
+                margin-bottom: 1%;
+
+                button {
+                    float: right;
+                    margin-left: 0.5%;
+                }
+            }
+
+            .test-container {
+                height: 50%;
+
+                .ui-grid-row {
+                    @include fill-height();
+
+                    .selectedQuestions {
+                        @include fill-height();
+                        padding: 1%;
+                        overflow-y: scroll;
+                        overflow-x: hidden;
+                    }
+                }
+            }
+        }
     }
 }
