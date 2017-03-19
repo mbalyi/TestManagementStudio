@@ -97,5 +97,22 @@ tms-test-manager {
                 overflow-x: hidden;
             }
         }
+
+        .right-bar {
+            border-left: 0.1em solid black;
+            @include fill-height();
+
+            .questions {
+                height: calc( 100% - 50px );
+                padding: 1%;
+                overflow-y: scroll;
+                overflow-x: hidden;
+            }
+
+            .nav li {
+                font-size: 1.3em;
+                color: #9d9d9d;
+            }
+        }
     }
 }

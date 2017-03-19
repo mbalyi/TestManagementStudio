@@ -9,6 +9,7 @@ import { Users } from '../../models/users.model';
 import { AuthenticationService } from './../../services/authentication/authentication.service';
 import {AuthApi} from "../../api/v1/AuthApi";
 import { LoginActions } from './../../actions/login.actions';
+import { CurrentUserActions } from './../../actions/current.user.actions';
 
 @Component({
     selector: 'login',
@@ -34,7 +35,7 @@ export class LoginComponent {
     public username:string = "";
     public password:string="";
 
-    constructor(private authApi: AuthApi, private auth: AuthenticationService, private router: Router, private loginAction: LoginActions) {}
+    constructor(private authApi: AuthApi, private auth: AuthenticationService, private router: Router, private loginAction: LoginActions, private userAction: CurrentUserActions) {}
 
     showLoginForm() {
         this.loginEnable = true;
@@ -62,6 +63,7 @@ export class LoginComponent {
                     this.auth.setLogginFlag(true).subscribe(
                         () => {
                             this.loginAction.login();
+                            this.userAction.login({id: 1, email: "admin@tms2.com", password: null, firstName: "Mark", lastName: "Balyi", roles: [], permissions: []});
                         }
                     );
 

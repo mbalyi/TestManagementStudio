@@ -64,19 +64,24 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-3">
-        <div class="ui-grid ui-grid-pad ui-grid-responsive">
-            <div class="ui-grid-row">
-                <div class="ui-grid-col-6 ui-widget-content" *ngIf="readonlyForm">
-                    <div *ngFor="let question of filteredQuestions">
-                        <tms-question-draggable [question]="question"></tms-question-draggable>
-                    </div>
-                </div>
-                <div class="ui-grid-col-6 ui-widget-content" *ngIf="!readonlyForm">
-                    <div *ngFor="let question of filteredQuestions" pDraggable="question" (onDragStart)="dragStart($event,question)" (onDragEnd)="dragEnd($event)">
-                        <tms-question-draggable [question]="question"></tms-question-draggable>
-                    </div>
-                </div>
+    <div class="col-lg-3 right-bar">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <ul class='nav navbar-nav'>
+                    <li>
+                        Questions
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="questions" *ngIf="readonlyForm">
+            <div *ngFor="let question of filteredQuestions">
+                <tms-question-draggable [question]="question"></tms-question-draggable>
+            </div>
+        </div>
+        <div class="questions" *ngIf="!readonlyForm">
+            <div *ngFor="let question of filteredQuestions" pDraggable="question" (onDragStart)="dragStart($event,question)" (onDragEnd)="dragEnd($event)">
+                <tms-question-draggable [question]="question"></tms-question-draggable>
             </div>
         </div>
     </div>

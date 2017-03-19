@@ -1,21 +1,19 @@
 import { AppActions } from '../app.actions';
 import { CurrentUserAction, CurrentUserActions } from './../actions/current.user.actions';
 import { IPayloadAction } from './utils/payload-action';
-import { Users } from './../models/users.model';
+import { User } from './../api/index';
 
-const INITIAL_STATE: Users = {
-    userid: null,
-    nickname: "",
+const INITIAL_STATE: User = {
+    id: null,
     password: null,
-    lastname: "",
-    firstname: "",
+    lastName: "",
+    firstName: "",
     email: "",
-    phone: "",
-    address: "",
-    roleid: null
+    roles: [],
+    permissions: []
 };
 
-export function currentUserReducer( state: Users = INITIAL_STATE, action: CurrentUserAction = null): Users {
+export function currentUserReducer( state: User = INITIAL_STATE, action: CurrentUserAction = null): User {
     if (!action) return state;
 
     switch (action.type) {

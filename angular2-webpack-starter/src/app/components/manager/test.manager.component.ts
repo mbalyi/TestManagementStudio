@@ -6,7 +6,10 @@ import { CategoryService } from './../../services/category.service';
 
 import { FakeAdminServer } from './../admin/fake.admin.server';
 
-import { Category, Question, Test } from './../../api/index';
+import { Category, Question, Test, User } from './../../api/index';
+
+import { select } from '@angular-redux/store';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'tms-test-manager',
@@ -14,6 +17,9 @@ import { Category, Question, Test } from './../../api/index';
 })
 
 export class TestManagerComponent {
+    @select(['currentuser']) readonly user$: Observable<User>;
+    private user: User;
+
     private addBtnActive: boolean = true;
     private readonlyForm: boolean = true;
     private questions: Question[] = [];
@@ -54,6 +60,10 @@ export class TestManagerComponent {
         this.date = new Date();
     }
 
+    ngOnInit() {
+        this.user$.subscribe((s) => this.user = s );
+    }
+
     changeCategory() {
         //TO DO: get questions, tests from server
         /*if ( this.selectedCategoryItem.id == 0) {
@@ -79,7 +89,11 @@ export class TestManagerComponent {
     }
 
     showPuller() {
-        this.filteredQuestions = this.questions;
+        this.selectedTest = { id: null, text: "", questions: null, owner: null };
+        this.filteredQuestions = [];
+        this.questions.forEach((x) => {
+                this.filteredQuestions.push(Object.assign({}, x));
+            });
         this.filteredTests = this.tests;
         this.selectedTest = { id: null, text: "", questions: null, owner: null };
         this.readonlyForm = true;
@@ -88,6 +102,12 @@ export class TestManagerComponent {
     addTest() {
         this.addBtnActive = !this.addBtnActive;
         this.readonlyForm = false;
+        this.filteredQuestions = [];
+        this.questions.forEach((x) => {
+                this.filteredQuestions.push(Object.assign({}, x));
+            });
+        this.selectedQuestions = [];
+        this.owner = this.user.firstName+' '+this.user.lastName;
     }
 
     dragStart(event,question: Question) {
@@ -122,6 +142,10 @@ export class TestManagerComponent {
         this.selectedTest = event;
         if (event.questions != null) {
             this.selectedQuestions = event.questions;
+            this.filteredQuestions = [];
+            this.questions.forEach((x) => {
+                this.filteredQuestions.push(Object.assign({}, x));
+            });
             for (let i = 0; i < event.questions.length; i++) {
                 this.filteredQuestions.splice(this.filteredQuestions.indexOf(event.questions[i]),1);
             }
