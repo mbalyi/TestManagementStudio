@@ -14,12 +14,13 @@
             </div>
         </nav>
         <div class="tests">
-            <tms-test-draggable *ngFor="let t of filteredTests" [test]="t" (open)="openTest($event)" (delete)="deleteTest($event)"></tms-test-draggable>
+            <tms-test-draggable *ngFor="let t of filteredTests" [test]="t" (open)="openTest($event)" (delete)="deleteTest($event)" [selected]="selectedTest != null && selectedTest.id != null && t.id == selectedTest.id"></tms-test-draggable>
         </div>
     </div>
     <div class="col-lg-6">
         <div class="inputRow">
             <div class="inputField1-1 control-btns">
+                <button *ngIf="readonlyForm && selectedTest != null && selectedTest.id != null" type="button" class="btn btn-info btn-sm" (click)="editTest()">Edit</button>
                 <button *ngIf="!readonlyForm && selectedTest.id != null" type="button" class="btn btn-danger btn-sm" (click)="deleteTest(selectedTest)">Delete</button>
                 <button *ngIf="!readonlyForm" type="button" class="btn btn-default btn-sm" (click)="cancel()">Cancel</button>
                 <button *ngIf="!readonlyForm" type="button" class="btn btn-success btn-sm" (click)="saveTest()">Save</button>
@@ -99,3 +100,4 @@
 
     <tms-question-form [(display)]="displayDialog" [new]="false" [readonly]="true" [category]="selectedCategory" [question]="question" [answers]="question==null?[]:question.answersAll" (displayEmit)="displayDialog=$event;"></tms-question-form>
 </div>
+<p-growl [value]="msgs"></p-growl>

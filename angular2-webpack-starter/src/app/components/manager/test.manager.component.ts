@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DropdownModule, SelectItem } from 'primeng/primeng';
+import { DropdownModule, SelectItem, Message } from 'primeng/primeng';
 
 import { QuestionService } from './../../services/question.service';
 import { CategoryService } from './../../services/category.service';
@@ -45,6 +45,8 @@ export class TestManagerComponent {
     private fakeBackend: FakeAdminServer = new FakeAdminServer();
 
     private moveFrom: string = '';
+
+    private msgs: Message[] = [];
 
     constructor(private questionService: QuestionService, private categoryService: CategoryService) {
         //TO DO: get categories from server
@@ -95,7 +97,9 @@ export class TestManagerComponent {
         this.questions.forEach((x) => {
                 this.filteredQuestions.push(Object.assign({}, x));
             });
-        this.filteredTests = this.tests;
+        this.tests.forEach((x) => {
+                this.filteredTests.push(Object.assign({}, x));
+            });
         this.selectedTest = { id: null, text: "", questions: null, owner: null };
         this.readonlyForm = true;
     }
@@ -109,6 +113,7 @@ export class TestManagerComponent {
             });
         this.selectedQuestions = [];
         this.owner = this.user.firstName+' '+this.user.lastName;
+        this.selectedTest = { id: null, text: "", questions: null, owner: null };
     }
 
     dragStart(event,question: Question) {
@@ -139,35 +144,78 @@ export class TestManagerComponent {
     }
 
     openTest(event) {
-        this.readonlyForm = false;
-        this.selectedTest = event;
+        this.readonlyForm = true;
+        this.selectedTest = Object.assign({}, event);
         if (event.questions != null) {
-            this.selectedQuestions = event.questions;
+            this.selectedQuestions = [];
+            event.questions.forEach((x) => {
+                this.selectedQuestions.push(Object.assign({}, x));
+            });
             this.filteredQuestions = [];
             this.questions.forEach((x) => {
                 this.filteredQuestions.push(Object.assign({}, x));
             });
-            for (let i = 0; i < event.questions.length; i++) {
-                this.filteredQuestions.splice(this.filteredQuestions.indexOf(event.questions[i]),1);
-            }
+            for (let i = 0; i < event.questions.length; i++) { 
+                this.filteredQuestions.splice(this.filteredQuestions.indexOf(event.questions[i]),1); 
+            } 
         }
+    }
+
+    editTest() {
+        this.readonlyForm = false;
     }
 
     deleteTest(event) {
         if (this.selectedTest = event) {
-            this.selectedTest = { id: null, text: "", questions: null, owner: null };
             this.resetForm();
         }
         //TO DO delete test
+        this.selectedTest = { id: null, text: "", questions: null, owner: null };
         this.filteredTests.splice(this.filteredTests.indexOf(event),1);
+        this.showNotification(true, 'Test deleted.', event.text);
     }
 
     cancel() {
-        this.resetForm();
+        if (this.selectedTest == null || this.selectedTest.id == null) {
+            this.resetForm();
+        }
+        else {
+            for (let i = 0; i < this.tests.length; i++) {
+                if (this.selectedTest.id == this.tests[i].id) {
+                    this.openTest(Object.assign({}, this.tests[i]));
+                    break;
+                }
+            }
+        }
     }
 
     saveTest() {
-
+        if (this.selectedTest.text == '' || this.selectedTest.text == null) {
+            this.showNotification(false, 'Title is missing!', 'Type the title of the new test.');
+        } else if (this.selectedQuestions == null || this.selectedQuestions.length == 0) {
+            this.showNotification(false, 'Non question was selected!', 'Select questions.');
+        } else { 
+            if (this.selectedTest != null && this.selectedTest.id != null) {
+                //TO DO update existing test
+                for (let i = 0; i < this.filteredTests.length; i++) {
+                    if (this.filteredTests[i].id == this.selectedTest.id) {
+                        this.filteredTests[i] = Object.assign({}, this.selectedTest);
+                        break;
+                    }
+                }
+            } else {
+                //TO DO save new test
+                let own = this.selectedTest == null || this.selectedTest.owner == null ? this.user : this.selectedTest.owner;
+                let cat = this.selectedCategory == null || this.selectedCategory.id == 0 ? null : this.selectedCategory;
+                this.filteredTests.push({id: 20, text: this.selectedTest.text, 
+                        questions: this.selectedQuestions, owner: own,
+                        category: cat
+                });
+            }
+            this.showNotification(true, 'Test stored.', this.selectedTest.text);
+            this.addBtnActive = true;
+            this.readonlyForm = true;
+        }
     }
 
     resetForm() {
@@ -178,10 +226,16 @@ export class TestManagerComponent {
                 this.filteredQuestions.push(Object.assign({}, x));
             });
         this.selectedQuestions = [];
+        this.selectedTest = { id: null, text: "", questions: null, owner: null };
     }
 
     openQuestion(event) {
         this.question = event;
         this.displayDialog = true;
+    }
+
+    showNotification(success: boolean = true, msg: string = '', detail: string = '') {
+        this.msgs = [];
+        this.msgs.push({severity: success?'success':'error', summary: msg, detail: detail});
     }
 }

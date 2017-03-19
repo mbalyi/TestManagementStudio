@@ -23,13 +23,16 @@ export class TestDraggableWidget {
     @Output() open = new EventEmitter<Test>();
     @Output() delete = new EventEmitter<Test>();
 
+    @Input()  set selected(selected: boolean) {
+        this.class = selected ? 'row selected-test' : 'row';
+    }
+
     constructor(element: ElementRef) {
     }
 
     openTest() {
         this.open.emit(this.test);
         this.isOpened = !this.isOpened;
-        this.class = this.isOpened? 'row selected-test' : 'row';
     }
 
     deleteTest() {
