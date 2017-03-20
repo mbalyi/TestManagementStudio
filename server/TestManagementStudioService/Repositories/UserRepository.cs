@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+using Dapper;
 using TestManagementStudioService.Models;
+using System.Data;
 
 namespace TestManagementStudioService.Repositories
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : BasicRepository, IRepository<User>
     {
         public void Add(User entity)
         {
@@ -24,14 +23,18 @@ namespace TestManagementStudioService.Repositories
             throw new NotImplementedException();
         }
 
-        public User Get(Func<User, bool> predicate)
+        public User GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<User> GetAll(Expression<Func<User, bool>> predicate = null)
+        public IEnumerable<User> GetAll()
         {
-            throw new NotImplementedException();
+            using (IDbConnection dbConnection = Connection)
+            {
+                dbConnection.Open();
+                return dbConnection.Query<User>("SELECT * FROM User");
+            }
         }
     }
 }

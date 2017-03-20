@@ -51,7 +51,7 @@ namespace TestManagementStudioService.Services
 
         public IEnumerable<User> GetAll()
         {
-            throw new NotImplementedException();
+            return _userRepository.GetAll();
         }
 
         public void Insert(User entity)

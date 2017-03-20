@@ -12,12 +12,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="1.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.1" />
-    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="7.0.6-IR31" />
-    <PackageReference Include="MySql.Data.EntityFrameworkCore.Design" Version="6.10.1-beta" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.1-beta1" />
     <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>
