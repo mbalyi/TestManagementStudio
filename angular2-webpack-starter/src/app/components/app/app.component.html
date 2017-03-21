@@ -1,4 +1,4 @@
-<div  class='container-fluid'>
+<div  class='container-fluid' [class.login-background]="!islogin.isLogin">
     <div class='row'>
         <navheader *ngIf="islogin.isLogin"></navheader>
         <tms-navmenu *ngIf="islogin.isLogin"></tms-navmenu>

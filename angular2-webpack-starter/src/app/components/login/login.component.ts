@@ -3,6 +3,7 @@ import { Http, Headers, Response } from "@angular/http";
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
+import { Message } from 'primeng/primeng';
 
 import { Users } from '../../models/users.model';
 
@@ -12,7 +13,7 @@ import { LoginActions } from './../../actions/login.actions';
 import { CurrentUserActions } from './../../actions/current.user.actions';
 
 @Component({
-    selector: 'login',
+    selector: 'tms-login',
     animations: [
         trigger('visibilityChanged', [
             state('true', style({ opacity: 1, transform: 'scale(1.0)' })),
@@ -34,6 +35,8 @@ export class LoginComponent {
 
     public username:string = "";
     public password:string="";
+
+    private msgs: Message[] = [];
 
     constructor(private authApi: AuthApi, private auth: AuthenticationService, private router: Router, private loginAction: LoginActions, private userAction: CurrentUserActions) {}
 
@@ -82,6 +85,8 @@ export class LoginComponent {
             },
             err => {
                 console.log(err);
+                this.msgs = [];
+                this.msgs.push({severity: 'error', summary: 'Login failed.', detail: err.json().text});
             },
             () => {
                 //TODO: log it?
