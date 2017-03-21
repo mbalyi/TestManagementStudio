@@ -9,17 +9,17 @@ tms-questions {
             @include fill-width();
 
             li > span {
-                color: white;
+                color: $gray-lighter;
             }
 
             li > label {
-                color: white;
+                color: $gray-lighter;
             }
         }
 
         ul > li:nth-child(1) {
             font-size: 1.5em;
-            color: white;
+            color: $gray-lighter;
             margin-top: 0.2%;
         }
 
@@ -87,7 +87,7 @@ tms-test-manager {
         }
 
         .left-bar {
-            border-right: 0.1em solid black;
+            border-right: 0.1em solid $gray-darker;
             @include fill-height();
 
             .tests {
@@ -99,7 +99,7 @@ tms-test-manager {
         }
 
         .right-bar {
-            border-left: 0.1em solid black;
+            border-left: 0.1em solid $gray-darker;
             @include fill-height();
 
             .questions {
@@ -111,7 +111,7 @@ tms-test-manager {
 
             .nav li {
                 font-size: 1.3em;
-                color: #9d9d9d;
+                color: $gray-light;
             }
         }
 
@@ -120,9 +120,9 @@ tms-test-manager {
             min-height: 59.35px;
             width: 30%!important;
             float: right;
-            border: 0.1em solid #d9534f;
+            border: 0.1em solid $brand-red;
             border-radius: 0.2em;
-            background: #d9534f;
+            background: $brand-red;
             vertical-align: middle;
             text-align: center;
 

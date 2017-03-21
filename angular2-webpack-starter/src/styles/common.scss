@@ -18,7 +18,7 @@
 html,
 body {
     @include fill();
-    background: gray;
+    background: $gray-light;
 
     app {
         @include fill();
@@ -48,7 +48,7 @@ body {
         .sidenav {
             @include fill-height();
             padding-top: 20px;
-            background-color: #f1f1f1;
+            background-color: $gray-lighter;
         }
 
         nav.navbar.navbar-inverse  {

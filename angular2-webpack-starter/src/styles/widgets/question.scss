@@ -1,12 +1,12 @@
 tms-question-readonly {
 
     .container-fluid {
-        border: 0.15em solid #333;
+        border: 0.15em solid $gray-dark;
         border-radius: 0.5em;
-        background: #555;
+        background: $gray;
         margin-top: 0.5%;
         margin-bottom: 0.5%;
-        color: #eee;
+        color: $gray-lighter;
 
         .row > .col-lg-1 {
             width: 2%;
@@ -37,7 +37,7 @@ tms-question-form {
         position: absolute;
         height: 100%;
         width: 100%;
-        background-color: grey;
+        background-color: $gray;
         opacity: 0.4;
         z-index: 2;
         left: 0px;
