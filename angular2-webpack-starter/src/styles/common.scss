@@ -25,22 +25,6 @@ body {
     app {
         @include fill();
 
-        > div {
-            @include fill();
-
-            > .row {
-                @include fill();
-
-                > div {
-                    @include fill();
-
-                    > router-outlet {
-                        @include fill();
-                    }
-                }
-            }
-        }
-
         > .container-fluid.login-background {
             background: -moz-radial-gradient(0% 100%, ellipse cover, $gray 10%,rgba(138,114,76,0) 40%),-moz-linear-gradient(top,  rgba(57,173,219,.25) 0%, rgba(42,60,87,.4) 100%), -moz-linear-gradient(-45deg, $gray-darker 0%, $gray-darker 70%, $brand-blue-dark 100%)!important;
             background: -webkit-radial-gradient(0% 100%, ellipse cover, $gray 10%,rgba(138,114,76,0) 40%), -webkit-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -webkit-linear-gradient(-45deg, $gray-darker 0%, $gray-darker 70%, $brand-blue-dark 100%)!important;

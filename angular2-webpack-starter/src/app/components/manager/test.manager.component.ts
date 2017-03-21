@@ -89,7 +89,6 @@ export class TestManagerComponent {
         this.questions = this.fakeBackend.getQuestions();
         this.tests = this.fakeBackend.getTest();
         this.selectedCategory = null;
-
         if (this.selectedCategoryItem != null && this.selectedCategoryItem.id != 0) {
             this.questions = this.fakeBackend.getQuestionsByCatId(this.selectedCategoryItem.id);
             this.tests = this.fakeBackend.getTestByCatId(this.selectedCategoryItem.id);
@@ -101,12 +100,15 @@ export class TestManagerComponent {
     showPuller() {
         this.selectedTest = { id: null, text: "", questions: null, owner: null };
         this.filteredQuestions = [];
-        this.questions.forEach((x) => {
-                this.filteredQuestions.push(Object.assign({}, x));
-            });
-        this.tests.forEach((x) => {
-                this.filteredTests.push(Object.assign({}, x));
-            });
+        this.filteredTests = [];
+        if ( this.questions != null && this.questions.length > 0)
+            this.questions.forEach((x) => {
+                    this.filteredQuestions.push(Object.assign({}, x));
+                });
+        if ( this.tests != null && this.tests.length > 0)
+            this.tests.forEach((x) => {
+                    this.filteredTests.push(Object.assign({}, x));
+                });
         this.selectedTest = { id: null, text: "", questions: null, owner: null };
         this.readonlyForm = true;
     }
