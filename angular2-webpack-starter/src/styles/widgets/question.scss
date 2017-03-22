@@ -2,11 +2,15 @@ tms-question-readonly {
 
     .container-fluid {
         border: 0.15em solid $gray-dark;
-        border-radius: 0.5em;
-        background: $gray;
+        border-radius: 0.1em;
+        background: $gray-darker;
         margin-top: 0.5%;
         margin-bottom: 0.5%;
         color: $gray-lighter;
+
+        > .row {
+            min-height: 35px;
+        }
 
         .row > .col-lg-1 {
             width: 2%;
@@ -25,8 +29,44 @@ tms-question-readonly {
             margin-right: 1.5%;
 
             button {
-                border-radius: 50%;
+                border-radius: 0.2em;
+                color: $brand-blue-light;
+                border-color: $brand-blue-light;
+                background: transparent;
             }
+
+            button.correct {
+                background: $brand-blue-light;
+                color: $white;
+            }
+        }
+    }
+
+    .button-group {
+        position: absolute;
+        right: 0px;
+        display: inline-flex;
+        vertical-align: middle;
+
+        button {
+            color: $brand-blue-light;
+            border-color: $brand-blue-light;
+            background: transparent;
+        }
+
+        button:nth-child(1) {
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        button:nth-child(2) {
+            border-bottom-left-radius: 0;
+            border-top-left-radius: 0;
+        }
+
+        button:hover {
+            background: $brand-blue-light;
+            color: $white;
         }
     }
 }

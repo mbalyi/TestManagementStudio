@@ -3,8 +3,9 @@ tms-navmenu {
     div.col-lg-1.navbar-inverse {
         position: absolute;
         left: 0px;
-        background: $gray-dark-height;
+        background: $gray-darker;
         color: $gray-font-light;
+        border-right: 0.1em solid $black;
         padding: 0.3em;
 
         ul.navbar-nav > li {
@@ -38,7 +39,7 @@ tms-navheader {
 
     nav.navbar.navbar-inverse {
         height: 1em;
-        background: $gray-dark-height;
+        background: $gray-darker;
         color: $gray-font-light;
 
         a {

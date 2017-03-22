@@ -19,8 +19,8 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/login']">
-                        <span class="glyphicon glyphicon-log-in"></span> Login
+                    <a [routerLink]="['/login']" (click)="logout()">
+                        <span class="glyphicon glyphicon-log-in"></span> Logout
                     </a>
                 </li>
             </ul>

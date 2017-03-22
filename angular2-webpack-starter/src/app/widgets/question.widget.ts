@@ -14,9 +14,9 @@ import { Answer, Question } from './../api/index';
                 <div class="col-lg-11">
                     <div class="row">
                         <div class="col-lg-11">{{question.text}}</div>
-                        <div class="col-lg-1">
-                            <button class="btn btn-primary" type="button" (click)="editQuestion()"><i class="fa fa-edit"></i> </button>
-                            <button class="btn btn-danger" type="button" (click)="deleteQuestion()"><i class="fa fa-trash"></i> </button>
+                        <div class="col-lg-1 button-group">
+                            <button class="btn" type="button" (click)="editQuestion()"><i class="fa fa-edit"></i> </button>
+                            <button class="btn" type="button" (click)="deleteQuestion()"><i class="fa fa-trash"></i> </button>
                         </div>
                     </div>
                     <div *ngIf="isOpen">
@@ -27,7 +27,7 @@ import { Answer, Question } from './../api/index';
                                 </button>
                             </div>-->
                             <div>
-                                <button type="button" [class]="answer.correct ? 'btn btn-sm btn-success' : 'btn btn-sm btn-default'">
+                                <button type="button" class="btn" [class.correct]="answer.correct">
                                     {{i+1}}.
                                 </button>
                             </div>

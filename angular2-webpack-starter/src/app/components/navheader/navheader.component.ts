@@ -1,6 +1,8 @@
 ﻿import { Component } from '@angular/core';
 import { NavHeaders, NavPages, NavPage } from './navheader.context';
 
+import { AuthenticationService } from './../../services/authentication/authentication.service';
+import { LoginActions } from './../../actions/login.actions';
 import { NavPageActions } from './../../actions/navheader.actions';
 
 @Component({
@@ -11,7 +13,7 @@ export class NavHeaderComponent {
     private headers: NavHeaders;
     private selectedModule: String = '';
 
-    constructor(private pageAction: NavPageActions) { 
+    constructor(private pageAction: NavPageActions, private auth: AuthenticationService, private loginAction: LoginActions) { 
         pageAction.setPage(NavPages.login);
     }
 
@@ -24,5 +26,10 @@ export class NavHeaderComponent {
 
     setPage(page: NavPage) {
         this.pageAction.setPage(page);
+    }
+
+    logout() {
+        this.auth.logout();
+        this.loginAction.logout();
     }
 }

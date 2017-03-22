@@ -36,6 +36,8 @@ body {
         > .container-fluid > .row > div {
             position: absolute;
             left: 14%;
+            background: $gray-dark-height;
+            color: $gray-font-light;
         }
 
         nav-menu {
