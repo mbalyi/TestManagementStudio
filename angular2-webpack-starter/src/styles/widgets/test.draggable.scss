@@ -11,6 +11,7 @@ tms-test-draggable {
         margin-right: 0px;
         border: 0.1em solid $gray-darker;
         border-radius: 0.2em;
+        color: $white;
 
         span:nth-child(1) {
             width: 89%;
@@ -26,6 +27,6 @@ tms-test-draggable {
     }
 
     .selected-test {
-        background-color: $brand-green;
+        background-color: $brand-blue-light;
     }
 }

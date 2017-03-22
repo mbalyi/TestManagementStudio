@@ -7,8 +7,8 @@
                         <p-dropdown [options]="categoryItems" [(ngModel)]="selectedCategoryItem" [ngModelOptions]="{standalone: true}" [style]="{'width':'250px'}" (onChange)="changeCategory()"></p-dropdown>
                     </li>
                     <li>
-                        <button *ngIf="addBtnActive" class="btn btn-success btn-sm" (click)="addTest()"><span class="glyphicon glyphicon-plus"></span> Add</button>
-                        <button *ngIf="!addBtnActive" class="btn btn-success btn-sm" (click)="addTest()" disabled="disabled"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                        <tms-button *ngIf="addBtnActive" (command)="addTest()"><i class="fa fa-plus"></i> Add</tms-button>
+                        <tms-button *ngIf="!addBtnActive" (command)="addTest()" [disabled]="true"><i class="fa fa-plus"></i> Add</tms-button>
                     </li>
                 </ul>
             </div>
@@ -20,12 +20,10 @@
     <div class="col-lg-6">
         <div class="inputRow">
             <div class="inputField1-1 control-btns">
-                <button *ngIf="readonlyForm && selectedTest != null && selectedTest.id != null" type="button" class="btn btn-info btn-sm" (click)="editTest()">Edit</button>
-                <button *ngIf="!readonlyForm && selectedTest.id != null" type="button" class="btn btn-danger btn-sm" (click)="deleteTest(selectedTest)">Delete</button>
-                <button *ngIf="!readonlyForm" type="button" class="btn btn-default btn-sm" (click)="cancel()">Cancel</button>
-                <button *ngIf="!readonlyForm" type="button" class="btn btn-success btn-sm" (click)="saveTest()">Save</button>
-                <button *ngIf="readonlyForm" type="button" class="btn btn-default btn-sm" (click)="cancel()" disabled="disabled">Cancel</button>
-                <button *ngIf="readonlyForm" type="button" class="btn btn-success btn-sm" (click)="saveTest()" disabled="disabled">Save</button>
+                <tms-two-buttons *ngIf="readonlyForm && (selectedTest == null || selectedTest.id == null)" [left-disabled]="true" [right-disabled]="true" left-button="Save" right-button="Cancel" (leftCommand)="saveTest()" (rightCommand)="cancel()"></tms-two-buttons>
+                <tms-three-buttons *ngIf="readonlyForm && selectedTest != null && selectedTest.id != null" [left-disabled]="true" [middle-disabled]="true" left-button="Save" middle-button="Cancel" right-button="Edit" (leftCommand)="saveTest()" (middleCommand)="cancel()" (rightCommand)="editTest()"></tms-three-buttons>
+                <tms-two-buttons *ngIf="!readonlyForm && selectedTest.id == null" left-button="Save" right-button="Cancel" (leftCommand)="saveTest()" (rightCommand)="cancel()"></tms-two-buttons>
+                <tms-three-buttons *ngIf="!readonlyForm && selectedTest.id != null" left-button="Save" middle-button="Cancel" right-button="Delete" (leftCommand)="saveTest()" (middleCommand)="cancel()" (rightCommand)="deleteTest(selectedTest)"></tms-three-buttons>
             </div>
         </div>
         <div class="inputRow">

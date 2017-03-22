@@ -3,7 +3,7 @@
 @Component({
     selector: 'tms-button',
     template: `
-        <button type="button" class="btn" [class.blue]="color=='blue'" [class.green]="color=='green'" [class.selected]="selected" (click)="onClick()">
+        <button type="button" class="btn" [class.blue]="color=='blue'" [class.green]="color=='green'" [class.selected]="selected" (click)="onClick()" [disabled]="disabled">
             <ng-content></ng-content>
         </button>
     `
@@ -14,6 +14,7 @@ export class ButtonWidget {
 
     @Input() color: string = 'transparent';
     @Input() selected: boolean = false;
+    @Input() disabled: boolean = false;
 
     constructor(element: ElementRef, changeDetectorRef: ChangeDetectorRef) {
     }

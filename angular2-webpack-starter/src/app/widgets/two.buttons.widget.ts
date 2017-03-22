@@ -4,8 +4,8 @@
     selector: 'tms-two-buttons',
     template: `
         <div class="button-group">
-            <tms-button (command)="onLeftCommand()"><i *ngIf="leftIcon!=null" [class]="leftIcon"></i>{{leftButton}}</tms-button>
-            <tms-button (command)="onRightCommand()"><i *ngIf="rightIcon!=null" [class]="rightIcon"></i>{{rightButton}}</tms-button>
+            <tms-button (command)="onLeftCommand()" [disabled]="leftDisabled"><i *ngIf="leftIcon!=null" [class]="leftIcon"></i>{{leftButton}}</tms-button>
+            <tms-button (command)="onRightCommand()" [disabled]="rightDisabled"><i *ngIf="rightIcon!=null" [class]="rightIcon"></i>{{rightButton}}</tms-button>
         </div>
     `
 })
@@ -24,6 +24,10 @@ export class TwoButtonsWidget {
     @Output() leftCommand: EventEmitter<any> = new EventEmitter<any>();
     /** It is called when the right button is clicked. */
     @Output() rightCommand: EventEmitter<any> = new EventEmitter<any>();
+    /** Disable value of left button. */
+    @Input('left-disabled') leftDisabled: boolean = false;
+    /** Disable value of right button. */
+    @Input('right-disabled') rightDisabled: boolean = false;
     /** Raising the right button command. */
     onRightCommand() {
         this.rightCommand.emit();

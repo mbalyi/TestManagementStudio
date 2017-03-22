@@ -63,6 +63,10 @@ tms-test-manager {
 
     .row { 
         @include menu-height();
+
+        .navbar.navbar-inverse {
+            border-top: none!important;
+        }
         
         .col-lg-3 {
             padding: 0px!important;
@@ -92,7 +96,7 @@ tms-test-manager {
         }
 
         .left-bar {
-            border-right: 0.1em solid $gray-darker;
+            border-right: 0.1em solid $gray-light;
             @include fill-height();
 
             .tests {
@@ -104,7 +108,7 @@ tms-test-manager {
         }
 
         .right-bar {
-            border-left: 0.1em solid $gray-darker;
+            border-left: 0.1em solid $gray-light;
             @include fill-height();
 
             .questions {
@@ -127,7 +131,8 @@ tms-test-manager {
             float: right;
             border: 0.1em solid $brand-red;
             border-radius: 0.2em;
-            background: $brand-red;
+            color: $brand-red;
+            background: transparent;
             vertical-align: middle;
             text-align: center;
 
@@ -143,7 +148,7 @@ tms-test-manager {
                 margin-top: 1%;
                 margin-bottom: 1%;
 
-                button {
+                tms-three-buttons {
                     float: right;
                     margin-left: 0.5%;
                 }

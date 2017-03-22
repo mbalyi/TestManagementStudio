@@ -1,3 +1,7 @@
 tms-question-draggable {
     @extend tms-test-draggable;
+    
+    > div {
+        background-color: darken($brand-blue-light, 33%);
+    }
 }
