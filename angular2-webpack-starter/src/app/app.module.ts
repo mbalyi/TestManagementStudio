@@ -49,6 +49,7 @@ import { QuestionsComponent } from './components/manager/questions.component';
 import { TestManagerComponent } from './components/manager/test.manager.component';
 
 // Widgets
+import { ButtonWidget } from './widgets/button.widget';
 import { QuestionWidget } from './widgets/question.widget';
 import { QuestionFormWidget } from './widgets/question.form.widget';
 import { TestDraggableWidget } from './widgets/test.draggable.widget';
@@ -113,6 +114,7 @@ const APP_PROVIDERS = [
         TestManagerComponent,
         QuestionsComponent,
         // Widgets
+        ButtonWidget,
         QuestionWidget,
         QuestionFormWidget,
         TestDraggableWidget,

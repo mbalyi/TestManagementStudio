@@ -5,40 +5,45 @@ tms-questions {
         left: 0%;
         @include fill-width();
 
-        ul {
+        .navbar.navbar-inverse {
+            border-top: none;
+            border-left: none;
+        }
+
+        nav > div > ul {
             @include fill-width();
 
-            li > span {
+            > li > span {
                 color: $gray-lighter;
             }
 
-            li > label {
+            > li > label {
                 color: $gray-lighter;
             }
-        }
 
-        ul > li:nth-child(1) {
-            font-size: 1.5em;
-            color: $gray-lighter;
-            margin-top: 0.2%;
-        }
-
-        ul > li:nth-child(2) {
-            left: 5%;
-            margin-top: 0.2%;
-        }
-
-        ul > li:nth-child(3) {
-            left: 15%;
-            margin-top: 0.1%;
-
-            input {
-                min-width: 300px;
+            > li:nth-child(1) {
+                font-size: 1.5em;
+                color: $gray-lighter;
+                margin-top: 0.2%;
             }
-        }
 
-        ul > li:nth-child(4) {
-            float: right;
+            > li:nth-child(2) {
+                left: 5%;
+                margin-top: 0.2%;
+            }
+
+            > li:nth-child(3) {
+                left: 15%;
+                margin-top: 0.1%;
+
+                input {
+                    min-width: 300px;
+                }
+            }
+
+            > li:nth-child(4) {
+                float: right;
+            }
         }
     }
 

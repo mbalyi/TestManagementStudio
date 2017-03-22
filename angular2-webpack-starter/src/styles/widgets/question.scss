@@ -73,6 +73,24 @@ tms-question-readonly {
 
 tms-question-form {
 
+    .answers {
+        display: inline;
+        margin: 0px!important;
+
+        > div:nth-child(1) {
+            display: inline;
+        }
+
+        > div:nth-child(2) {
+            width: 94%!important;
+            display: inline-block;
+        }
+    }
+
+    .float-right {
+        margin-bottom: 0.5em;
+    }
+
     .question-form-mask {
         position: absolute;
         height: 100%;

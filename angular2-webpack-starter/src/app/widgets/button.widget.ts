@@ -1,19 +1,24 @@
 ﻿import { Component, Input, ElementRef, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 
 @Component({
-    selector: 'tms-buttons',
+    selector: 'tms-button',
     template: `
-        <div>
+        <button type="button" class="btn" [class.blue]="color=='blue'" [class.green]="color=='green'" [class.selected]="selected" (click)="onClick()">
             <ng-content></ng-content>
-        </div>
+        </button>
     `
 })
-export class ButtonsWidget {
+export class ButtonWidget {
     /** Event called when a valid click event happened */
     @Output() command: EventEmitter<any> = new EventEmitter<any>();
-    /** Event called when a valid hold event happened, called every 100 ms */
-    @Output() holdCommand: EventEmitter<any> = new EventEmitter<any>();
+
+    @Input() color: string = 'transparent';
+    @Input() selected: boolean = false;
 
     constructor(element: ElementRef, changeDetectorRef: ChangeDetectorRef) {
+    }
+
+    onClick() {
+        this.command.emit();
     }
 }

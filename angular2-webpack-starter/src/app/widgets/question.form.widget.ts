@@ -21,14 +21,16 @@ import { QuestionService } from './../services/question.service'
             </div>
             <div class="inputRow">
                 <div class="float-right">
-                    <button type="button" pButton icon="fa-plus" class="btn btn-success" (click)="addAnswer()" label="Add Answer"></button>
+                    <tms-button [color]="blue" (command)="addAnswer()">
+                        <span class="glyphicon glyphicon-plus"></span>Add Answer
+                    </tms-button>
                 </div>
                 <div class="inputField1-1">
                     <div *ngFor="let answer of _answers; let i = index" class="row answers">
                         <div>
-                            <button type="button" [class]="((new && answer==selectedAnswer) || (!new && answer.correct)) ? 'btn btn-sm btn-info' : 'btn btn-sm btn-default'" (click)="selectAnswer(answer)">
+                            <tms-button [color]="blue" [selected]="(new && answer==selectedAnswer) || (!new && answer.correct)" (command)="selectAnswer(answer)">
                                 {{i+1}}.
-                            </button>
+                            </tms-button>
                         </div>
                         <div>
                             <input class="form-control" [(ngModel)]="answer.text">
