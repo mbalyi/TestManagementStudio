@@ -7,6 +7,8 @@ $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 
 // Widgets
 @import './widgets/button.scss';
+@import './widgets/two.buttons.scss';
+@import './widgets/three.buttons.scss';
 @import './widgets/question.scss';
 @import './widgets/test.draggable.scss';
 @import './widgets/question.draggable.scss';

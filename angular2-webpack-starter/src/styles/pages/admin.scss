@@ -1,3 +1,9 @@
 tms-admin {
     @include fill();
+    @extend datatable-fill-total;
+}
+
+tms-group {
+    @include fill();
+    @extend datatable-fill-total;
 }

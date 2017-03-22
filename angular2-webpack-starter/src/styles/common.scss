@@ -15,6 +15,63 @@
     height: calc( 100% - 3.6em);
 }
 
+datatable-fill-total {
+    
+    p-dataTable {
+        @include fill();
+
+        > div {
+            @include fill-height();
+
+            > div.ui-datatable-scrollable-wrapper {
+                height: 85%;
+
+                > div.ui-datatable-scrollable-view {
+                    @include fill-height();
+
+                    > div.ui-datatable-scrollable-body {
+                        @include fill-height();
+
+                        div,table {
+                            @include fill-height();
+                        }
+                    }
+                }
+            }
+
+            div.ui-datatable-footer {
+                //height: 15.1%;
+                border: none!important;
+
+                > p-footer {
+                    position: absolute;
+                    bottom: 1%;
+                    right: 3%;
+                }
+            }
+        }
+
+        .ui-widget-header .ui-state-default, .ui-widget-content .ui-state-default, .ui-state-default, .ui-datatable-footer {
+            background: $gray-dark-height!important;
+            color: $gray-font-light;
+        }
+
+        .ui-datatable tbody > tr.ui-widget-content {
+            background: $gray-dark-height!important;
+            color: $gray-font-light;
+        }
+
+        .ui-datatable .ui-datatable-thead>tr>th, .ui-datatable .ui-datatable-tfoot>tr>td, .ui-datatable .ui-datatable-data>tr>td {
+            border: none!important;
+        }
+
+        .ui-widget-content, .ui-datatable-thead > tr {
+            border: none!important;
+            border-bottom: 0.1em solid $gray-font-light!important;
+        }
+    }
+}
+
 html,
 body {
     @include fill();
