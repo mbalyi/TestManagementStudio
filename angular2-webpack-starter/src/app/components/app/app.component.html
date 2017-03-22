@@ -1,6 +1,6 @@
 <div  class='container-fluid' [class.login-background]="!islogin.isLogin">
     <div class='row'>
-        <navheader *ngIf="islogin.isLogin"></navheader>
+        <tms-navheader *ngIf="islogin.isLogin"></tms-navheader>
         <tms-navmenu *ngIf="islogin.isLogin"></tms-navmenu>
         <div [ngClass]="{'col-lg-8 body-content mainbody': islogin.isLogin}">
             <router-outlet></router-outlet>

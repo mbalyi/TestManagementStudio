@@ -12,7 +12,14 @@ export class NavMenuComponent {
     @select(['navpage']) readonly nav$: Observable<NavContext>;
     private nav: NavContext;
 
+    private selectedMenu: String = '';
+
     ngOnInit() {
-        this.nav$.subscribe((s) => this.nav = s );
+        this.nav$.subscribe((s) => {
+            this.nav = s;
+            if (this.nav != null && this.nav.menuItems != null && this.nav.menuItems.length > 0) {
+                this.selectedMenu = this.nav.menuItems[0].name;
+            }
+        });
     }
 }

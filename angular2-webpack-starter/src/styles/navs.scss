@@ -1,6 +1,57 @@
 tms-navmenu {
-    ul.navbar-nav > li {
-        width: 100%;
-        font-size: 1.2em;
+
+    div.col-lg-1.navbar-inverse {
+        position: absolute;
+        left: 0px;
+        background: $gray-dark-height;
+        color: $gray-font-light;
+        padding: 0.3em;
+
+        ul.navbar-nav > li {
+            width: 100%;
+            font-size: 1.2em;
+
+            a {
+                color: $gray-font-light!important;
+                border-radius: 0.2em;
+                padding-top: 0.5em;
+                padding-bottom: 0.5em;
+            }
+
+            a:focus, a:hover {
+                text-decoration: none!important;
+                color: $white!important;
+            }
+
+            a.active:focus, a.active:hover {
+                background-color: $brand-blue-light;
+            }
+
+            a.active {
+                background-color: $brand-blue-light;
+            }
+        }
+    }
+}
+
+tms-navheader {
+
+    nav.navbar.navbar-inverse {
+        height: 1em;
+        background: $gray-dark-height;
+        color: $gray-font-light;
+
+        a {
+            padding-top: 0.5em;
+        }
+
+        li > a {
+            padding-top: 0.75em;
+        }
+
+        li > a.active {
+            color: $white;
+            font-weight: bold;
+        }
     }
 }
