@@ -20,6 +20,8 @@ export class NavHeaders {
     private manager: NavHeaderContext = new NavHeaderContext('manager', '/manager', 'glyphicon glyphicon-folder-open', 1, NavPages.manager);
     private admin: NavHeaderContext = new NavHeaderContext('admin', '/admin', 'glyphicon glyphicon-briefcase', 1, NavPages.admin);
     private subjects: NavHeaderContext = new NavHeaderContext('subjects', '/subjects', 'glyphicon glyphicon-book', 4, NavPages.subjects);
+    private results: NavHeaderContext = new NavHeaderContext('my results', '/my-results', 'glyphicon glyphicon-user', 4, NavPages.myResults);
+    private test: NavHeaderContext = new NavHeaderContext('tests', '/test-menu', '', 4, NavPages.testMenu);
 
     private adminUser: NavHeaderContext = new NavHeaderContext('users', '/admin', 'fa fa-user', 1, NavPages.admin);
     private adminGroup: NavHeaderContext = new NavHeaderContext('groups', '/groups', 'fa fa-group', 1, NavPages.admin);
@@ -29,14 +31,16 @@ export class NavHeaders {
     private managerTest: NavHeaderContext = new NavHeaderContext('test', '/test-manager', 'fa fa-pencil', 1, NavPages.manager);
     private managerQuestion: NavHeaderContext = new NavHeaderContext('question', '/questions', 'fa fa-question', 1, NavPages.manager);
 
-    private testMenu: NavHeaderContext = new NavHeaderContext('tests', '/test-menu', '', 4, NavPages.testMenu);
+    private myResults: NavHeaderContext = new NavHeaderContext('my results', '/my-results', '', 4, NavPages.myResults);
+    private myCategories: NavHeaderContext = new NavHeaderContext('my categories', '/my-categories', '', 4, NavPages.myResults);
 
-    public headers: NavHeaderContext[] = [this.home, this.testMenu, this.manager, this.admin, this.subjects];
+    public headers: NavHeaderContext[] = [this.home, this.results, this.test, this.manager, this.admin, this.subjects];
     public adminMenu: NavHeaderContext[] = [this.adminUser, this.adminGroup];
     public managerMenu: NavHeaderContext[] = [this.managerCategory, this.managerTest, this.managerQuestion];
+    public myResultsMenu: NavHeaderContext[] = [this.myResults, this.myCategories];
 }
 
-export type NavPage = 'home' | 'login' | 'users' | 'admin' | 'subjects' | 'manager' | 'test-menu' | 'test-execution';
+export type NavPage = 'home' | 'login' | 'users' | 'admin' | 'subjects' | 'manager' | 'test-menu' | 'test-execution' | 'my-results';
 
 export class NavPages {
   static home: NavPage = 'home';
@@ -47,6 +51,7 @@ export class NavPages {
   static manager: NavPage = 'manager';
   static testMenu: NavPage = 'test-menu';
   static testExecution: NavPage = 'test-execution';
+  static myResults: NavPage = 'my-results';
 }
 
 export interface NavContext {

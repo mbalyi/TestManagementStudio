@@ -49,6 +49,9 @@ import { QuestionsComponent } from './components/manager/questions.component';
 import { TestManagerComponent } from './components/manager/test.manager.component';
 import { TestMenuComponent } from './components/tests/test.menu.component';
 import { TestExecutionComponent } from './components/tests/test.execution.component';
+import { MyCategoriesComponent } from './components/myresults/my.categories.component';
+import { MyResultsComponent } from './components/myresults/my.results.component';
+
 
 // Widgets
 import { ButtonWidget } from './widgets/button.widget';
@@ -119,6 +122,8 @@ const APP_PROVIDERS = [
         QuestionsComponent,
         TestMenuComponent,
         TestExecutionComponent,
+        MyCategoriesComponent,
+        MyResultsComponent,
         // Widgets
         ButtonWidget,
         TwoButtonsWidget,
