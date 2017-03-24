@@ -29,12 +29,14 @@ export class NavHeaders {
     private managerTest: NavHeaderContext = new NavHeaderContext('test', '/test-manager', 'fa fa-pencil', 1, NavPages.manager);
     private managerQuestion: NavHeaderContext = new NavHeaderContext('question', '/questions', 'fa fa-question', 1, NavPages.manager);
 
-    public headers: NavHeaderContext[] = [this.home, this.manager, this.admin, this.subjects];
+    private testMenu: NavHeaderContext = new NavHeaderContext('tests', '/test-menu', '', 4, NavPages.testMenu);
+
+    public headers: NavHeaderContext[] = [this.home, this.testMenu, this.manager, this.admin, this.subjects];
     public adminMenu: NavHeaderContext[] = [this.adminUser, this.adminGroup];
     public managerMenu: NavHeaderContext[] = [this.managerCategory, this.managerTest, this.managerQuestion];
 }
 
-export type NavPage = 'home' | 'login' | 'users' | 'admin' | 'subjects' | 'manager';
+export type NavPage = 'home' | 'login' | 'users' | 'admin' | 'subjects' | 'manager' | 'test-menu' | 'test-execution';
 
 export class NavPages {
   static home: NavPage = 'home';
@@ -43,6 +45,8 @@ export class NavPages {
   static admin: NavPage = 'admin';
   static subjects: NavPage = 'subjects';
   static manager: NavPage = 'manager';
+  static testMenu: NavPage = 'test-menu';
+  static testExecution: NavPage = 'test-execution';
 }
 
 export interface NavContext {

@@ -14,6 +14,8 @@ import { SubjectsComponent } from "./components/subjects/subjects.component";
 import { ManagerComponent } from './components/manager/manager.component';
 import { TestManagerComponent } from './components/manager/test.manager.component';
 import { QuestionsComponent } from './components/manager/questions.component';
+import { TestMenuComponent } from './components/tests/test.menu.component';
+import { TestExecutionComponent } from './components/tests/test.execution.component';
 
 export const ROUTES: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full', canActivate: [AuthGuard] },
@@ -29,5 +31,7 @@ export const ROUTES: Routes = [
   { path: 'manager', component: ManagerComponent, canActivate: [AuthGuard] },
   { path: 'test-manager', component: TestManagerComponent, canActivate: [AuthGuard] },
   { path: 'questions', component: QuestionsComponent, canActivate: [AuthGuard] },
+  { path: 'test-menu', component: TestMenuComponent, canActivate: [AuthGuard] },
+  { path: 'test-execution', component: TestExecutionComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home' }
 ];

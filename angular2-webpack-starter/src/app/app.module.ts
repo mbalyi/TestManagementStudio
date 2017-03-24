@@ -47,6 +47,8 @@ import { RoleComponent } from './components/admin/role.component';
 import { ManagerComponent } from './components/manager/manager.component';
 import { QuestionsComponent } from './components/manager/questions.component';
 import { TestManagerComponent } from './components/manager/test.manager.component';
+import { TestMenuComponent } from './components/tests/test.menu.component';
+import { TestExecutionComponent } from './components/tests/test.execution.component';
 
 // Widgets
 import { ButtonWidget } from './widgets/button.widget';
@@ -115,6 +117,8 @@ const APP_PROVIDERS = [
         ManagerComponent,
         TestManagerComponent,
         QuestionsComponent,
+        TestMenuComponent,
+        TestExecutionComponent,
         // Widgets
         ButtonWidget,
         TwoButtonsWidget,

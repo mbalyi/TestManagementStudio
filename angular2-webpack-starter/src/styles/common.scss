@@ -65,9 +65,14 @@ datatable-fill-total {
             border: none!important;
         }
 
-        .ui-widget-content, .ui-datatable-thead > tr {
+        .ui-widget-content {
             border: none!important;
             border-bottom: 0.1em solid $gray!important;
+        }
+
+        .ui-datatable-thead > tr {
+            border: none!important;
+            border-bottom: 0.15em solid $brand-blue-light!important;
         }
     }
 }
