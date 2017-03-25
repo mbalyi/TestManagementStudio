@@ -71,7 +71,7 @@ export class FakeAdminServer {
 
     private testSet: TestSet = null;
 
-    private execution: TestExecution = null;
+    private execution: TestExecution = {id: 1, test: null, answersGiven: [], dateOfStart: new Date(), dateOfFill: null};
 
     constructor() {
         this.groups[0].members = [this.users[0],this.users[1]];
