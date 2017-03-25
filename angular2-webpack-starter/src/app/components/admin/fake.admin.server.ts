@@ -1,6 +1,8 @@
 import { Users } from "./../../models/users.model";
 import { Roles } from "./../../models/roles.model";
-import { User, Group, Role, Category, Question, Answer, Test, TestSet, TestExecution } from './../../api/index';
+import { User, Group, Role, 
+    Category, Question, Answer, 
+    Test, TestSet, TestExecution } from './../../api/index';
 
 export class FakeAdminServer {
 
@@ -69,6 +71,8 @@ export class FakeAdminServer {
 
     private testSet: TestSet = null;
 
+    private execution: TestExecution = null;
+
     constructor() {
         this.groups[0].members = [this.users[0],this.users[1]];
         this.groups[1].members = [this.users[3],this.users[4]];
@@ -94,6 +98,9 @@ export class FakeAdminServer {
 
         this.categories[0].questions = [this.questions[1],this.questions[3],this.questions[0]];
         this.categories[0].tests = [this.tests[0],this.tests[2]];
+
+        this.execution.test = this.tests[1];
+        this.execution.dateOfStart = new Date();
     }
 
     getUsers(): Users[] {
@@ -188,5 +195,9 @@ export class FakeAdminServer {
 
     getTestByTestSetId(id: number): TestExecution {
         return null;
+    }
+
+    getExecution(): TestExecution {
+        return this.execution;
     }
 }

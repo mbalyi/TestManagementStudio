@@ -92,6 +92,7 @@ import { LoginActions } from './actions/login.actions';
 import { NavPageActions } from './actions/navheader.actions';
 import { CurrentUserActions } from './actions/current.user.actions';
 import { NotificationActions } from './actions/notification.actions';
+import { ExecutionActions } from './actions/execution.actions';
 
 // Redux
 import { IAppState } from './reducers/store/app.state';
@@ -99,6 +100,7 @@ import { loginReducer } from './reducers/login.reducer';
 import { currentUserReducer } from './reducers/current.user.reducer';
 import { navHeaderReducer } from './reducers/navheader.reducer';
 import { notificationReducer } from './reducers/notification.reducer';
+import { executionReducer } from './reducers/execution.reducer';
 
 import '../styles/styles.scss';
 
@@ -193,7 +195,8 @@ const APP_PROVIDERS = [
     LoginActions,
     NavPageActions,
     CurrentUserActions,
-    NotificationActions
+    NotificationActions,
+    ExecutionActions
   ]
 
 })
@@ -214,6 +217,7 @@ export class AppModule {
         currentuser: currentUserReducer,
         navpage: navHeaderReducer,
         notification: notificationReducer,
+        execution: executionReducer,
         router: routerReducer
     }));
 
