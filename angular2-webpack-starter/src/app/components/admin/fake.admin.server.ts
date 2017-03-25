@@ -54,10 +54,10 @@ export class FakeAdminServer {
     ];
 
     private tests: Test[] = [
-        { id: 1, text: "First programer test", questions: null, owner: null },
-        { id: 2, text: "Second programer test", questions: null, owner: null },
-        { id: 3, text: "Exam", questions: null, owner: null },
-        { id: 4, text: "Test", questions: null, owner: null }
+        { id: 1, text: "First programer test", questions: null, owner: null, category: null },
+        { id: 2, text: "Second programer test", questions: null, owner: null, category: null },
+        { id: 3, text: "Exam", questions: null, owner: null, category: null },
+        { id: 4, text: "Test", questions: null, owner: null, category: null }
     ];
 
     constructor() {
@@ -71,9 +71,13 @@ export class FakeAdminServer {
         this.questions[3].answersAll = [this.answers[6],this.answers[7]];
 
         this.tests[0].questions = [this.questions[1],this.questions[3]];
+        this.tests[0].category = this.categories[0];
         this.tests[1].questions = [this.questions[1],this.questions[3],this.questions[0]];
+        this.tests[1].category = this.categories[0];
         this.tests[2].questions = [this.questions[0],this.questions[2]];
+        this.tests[2].category = this.categories[0];
         this.tests[3].questions = [this.questions[2],this.questions[3]];
+        this.tests[3].category = this.categories[0];
 
         this.categories[0].questions = [this.questions[1],this.questions[3],this.questions[0]];
         this.categories[0].tests = [this.tests[0],this.tests[2]];
@@ -101,5 +105,38 @@ export class FakeAdminServer {
 
     getCategories(): Category[] {
         return this.categories;
+    }
+
+    getCategoryById(id: number): Category {
+        for(let i = 0; i < this.categories.length; i++) {
+            if (this.categories[i].id == id)
+                return this.categories[i];
+        }
+        return null;
+    }
+
+    getQuestions(): Question[] {
+        return this.questions;
+    }
+
+    getQuestionsByCatId(id: number): Question[] {
+        for(let i = 0; i < this.categories.length; i++) {
+            if (this.categories[i].id == id)
+                return this.categories[i].questions;
+        }
+        return this.questions;
+    }
+
+    getTest(): Test[] {
+        return this.tests;
+    }
+
+    getTestByCatId(id: number): Test[] {
+        let selectedTest: Test[] = [];
+        for(let i = 0; i < this.tests.length; i++) {
+            if (this.tests[i].category.id == id)
+                selectedTest.push(this.tests[i]);
+        }
+        return selectedTest;
     }
 }

@@ -3,10 +3,10 @@ import { Action } from 'redux';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from './../reducers/store/app.state';
 
-import { Users } from './../models/users.model';
+import { User } from './../api/index';
 
 export interface CurrentUserAction extends Action {
-    currentUser: Users
+    currentUser: User
 }
 
 @Injectable()
@@ -15,7 +15,7 @@ export class CurrentUserActions {
 
   constructor(private ngRedux: NgRedux<IAppState>) {}
 
-  login(user : Users) {
+  login(user : User) {
     this.ngRedux.dispatch({ type: CurrentUserActions.SET_CURRENT_USER, currentUser: user });
   }
 }

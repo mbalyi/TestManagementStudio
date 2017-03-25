@@ -27,7 +27,11 @@ import { ROUTES } from './app.routes';
 // App is our top level component
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 
-import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModule, TabMenuModule, CheckboxModule, StepsModule, MenuItem, DropdownModule } from 'primeng/primeng';
+import { DataTableModule, DialogModule, SharedModule, 
+  ButtonModule, TabViewModule, TabMenuModule, 
+  CheckboxModule, StepsModule, MenuItem, 
+  DropdownModule, GrowlModule, DragDropModule, 
+  CalendarModule, Message } from 'primeng/primeng';
 
 import {ApiModule} from "./api/api.module";
 
@@ -46,6 +50,21 @@ import { GroupComponent } from './components/admin/group.component';
 import { RoleComponent } from './components/admin/role.component';
 import { ManagerComponent } from './components/manager/manager.component';
 import { QuestionsComponent } from './components/manager/questions.component';
+import { TestManagerComponent } from './components/manager/test.manager.component';
+import { TestMenuComponent } from './components/tests/test.menu.component';
+import { TestExecutionComponent } from './components/tests/test.execution.component';
+import { MyCategoriesComponent } from './components/myresults/my.categories.component';
+import { MyResultsComponent } from './components/myresults/my.results.component';
+
+
+// Widgets
+import { ButtonWidget } from './widgets/button.widget';
+import { TwoButtonsWidget } from './widgets/two.buttons.widget';
+import { ThreeButtonsWidget } from './widgets/three.buttons.widget';
+import { QuestionWidget } from './widgets/question.widget';
+import { QuestionFormWidget } from './widgets/question.form.widget';
+import { TestDraggableWidget } from './widgets/test.draggable.widget';
+import { QuestionDraggableWidget } from './widgets/question.draggable.widget';
 
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { AuthGuard } from './guards/authentication.guard';
@@ -54,7 +73,11 @@ import { AuthGuard } from './guards/authentication.guard';
 import { AuthenticationService } from './services/authentication/authentication.service';
 import { UserService } from './services/user/user.service';
 import { CurrentPageService } from './services/current.page.service';
-import {Ng2BootstrapModule} from "ng2-bootstrap";
+import { QuestionService } from './services/question.service';
+import { RequestService } from './services/request.service';
+import { CategoryService } from './services/category.service';
+import { TestService } from './services/test.service';
+import { Ng2BootstrapModule } from "ng2-bootstrap";
 
 import { provideAuth } from 'angular2-jwt';
 
@@ -63,12 +86,14 @@ import { AppActions } from './app.actions';
 import { LoginActions } from './actions/login.actions';
 import { NavPageActions } from './actions/navheader.actions';
 import { CurrentUserActions } from './actions/current.user.actions';
+import { NotificationActions } from './actions/notification.actions';
 
 // Redux
 import { IAppState } from './reducers/store/app.state';
 import { loginReducer } from './reducers/login.reducer';
 import { currentUserReducer } from './reducers/current.user.reducer';
 import { navHeaderReducer } from './reducers/navheader.reducer';
+import { notificationReducer } from './reducers/notification.reducer';
 
 import '../styles/styles.scss';
 
@@ -99,9 +124,20 @@ const APP_PROVIDERS = [
         GroupComponent,
         RoleComponent,
         ManagerComponent,
+        TestManagerComponent,
         QuestionsComponent,
+        TestMenuComponent,
+        TestExecutionComponent,
+        MyCategoriesComponent,
+        MyResultsComponent,
         // Widgets
-
+        ButtonWidget,
+        TwoButtonsWidget,
+        ThreeButtonsWidget,
+        QuestionWidget,
+        QuestionFormWidget,
+        TestDraggableWidget,
+        QuestionDraggableWidget,
         // Pipes
         CapitalizePipe
     ],
@@ -121,6 +157,9 @@ const APP_PROVIDERS = [
     CheckboxModule,
     StepsModule,
     DropdownModule,
+    GrowlModule,
+    DragDropModule,
+    CalendarModule,
     Ng2BootstrapModule,
     // Redux
     NgReduxModule,
@@ -138,11 +177,16 @@ const APP_PROVIDERS = [
     AuthenticationService,
     UserService,
     CurrentPageService,
+    QuestionService,
+    CategoryService,
+    RequestService,
+    TestService,
     // Actions
     AppActions,
     LoginActions,
     NavPageActions,
-    CurrentUserActions
+    CurrentUserActions,
+    NotificationActions
   ]
 
 })
@@ -162,6 +206,7 @@ export class AppModule {
         islogin: loginReducer,
         currentuser: currentUserReducer,
         navpage: navHeaderReducer,
+        notification: notificationReducer,
         router: routerReducer
     }));
 

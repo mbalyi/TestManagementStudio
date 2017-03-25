@@ -7,11 +7,13 @@ import 'rxjs/Rx';
 import { Users } from '../../models/users.model';
 
 import { AuthenticationService } from './../../services/authentication/authentication.service';
-import {AuthApi} from "../../api/v1/AuthApi";
+import { AuthApi } from "../../api/v1/AuthApi";
 import { LoginActions } from './../../actions/login.actions';
+import { CurrentUserActions } from './../../actions/current.user.actions';
+import { NotificationActions } from './../../actions/notification.actions';
 
 @Component({
-    selector: 'login',
+    selector: 'tms-login',
     animations: [
         trigger('visibilityChanged', [
             state('true', style({ opacity: 1, transform: 'scale(1.0)' })),
@@ -34,7 +36,9 @@ export class LoginComponent {
     public username:string = "";
     public password:string="";
 
-    constructor(private authApi: AuthApi, private auth: AuthenticationService, private router: Router, private loginAction: LoginActions) {}
+    constructor(private authApi: AuthApi, private auth: AuthenticationService, private router: Router, 
+        private loginAction: LoginActions, private userAction: CurrentUserActions, 
+        private msgAction: NotificationActions) {}
 
     showLoginForm() {
         this.loginEnable = true;
@@ -62,6 +66,7 @@ export class LoginComponent {
                     this.auth.setLogginFlag(true).subscribe(
                         () => {
                             this.loginAction.login();
+                            this.userAction.login({id: 1, email: "admin@tms2.com", password: null, firstName: "Mark", lastName: "Balyi", roles: [], permissions: []});
                         }
                     );
 
@@ -80,6 +85,7 @@ export class LoginComponent {
             },
             err => {
                 console.log(err);
+                this.msgAction.setNotification(false, 'Login failed.', err.json().text);
             },
             () => {
                 //TODO: log it?

@@ -1,24 +1,22 @@
-﻿<p-dataTable [value]="users" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
+﻿<p-dataTable [value]="users" [globalFilter]="gb" [style]="{'height':'100%'}" #dt>
     <p-column field="firstName" header="Firstname" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
     <p-column field="lastName" header="Lastname" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
     <p-column field="email" header="Email" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
 
-    <p-column styleClass="col-button">
+    <p-column styleClass="col-button" [style]="{'width':'15%', 'text-align':'center'}">
         <template pTemplate="header">
-
+            Actions
         </template>
         <template let-user="rowData" pTemplate="body">
-            <button class="btn btn-success" type="button" (click)="viewUser(user)"><i class="fa fa-search"></i> </button>
-            <button class="btn btn-primary" type="button" (click)="editUser(user)"><i class="fa fa-edit"></i> </button>
-            <button class="btn btn-danger" type="button" (click)="deleteUser(user)"><i class="fa fa-trash"></i> </button>
+            <tms-three-buttons left-icon="fa fa-search" middle-icon="fa fa-edit" right-icon="fa fa-trash" (leftCommand)="viewUser(user)" (middleCommand)="editUser(user)" (rightCommand)="deleteUser(user)"></tms-three-buttons>
         </template>
     </p-column>
 
     <p-footer>
         <div class="ui-helper-clearfix" style="width:100%">
-            <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Add"></button>
-            </div>
-        </p-footer>
+            <tms-button (command)="showDialogToAdd()"><i class="fa fa-plus"></i> Add</tms-button>
+        </div>
+    </p-footer>
 </p-dataTable>
 
 <p-dialog [(header)]="modalHeader" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [minWidth]="'600px'" [width]="'50%'">

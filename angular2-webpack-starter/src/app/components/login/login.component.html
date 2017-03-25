@@ -5,14 +5,10 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-6">
-                            <a (click)="showLoginForm()" class="active" id="login-form-link">Login</a>
+                            <button (click)="showLoginForm()" class="active btn btn-link" id="login-form-link"><h1>Login</h1></button>
                         </div>
                         <div class="col-xs-6">
-                            <a (click)="showRegisterForm()" id="register-form-link">Register</a>
-                        </div>
-                        <div class="col-xs-6">
-                            <a (click)="logout()" id="logout-link">Logout</a>
-                            <a (click)="show()">showuser</a>
+                            <button (click)="showRegisterForm()" class="btn btn-link" id="register-form-link"><h1>Register</h1></button>
                         </div>
                     </div>
                     <hr>
@@ -88,3 +84,4 @@
         </div>
     </div>
 </div>
+<p-growl [value]="msgs"></p-growl>

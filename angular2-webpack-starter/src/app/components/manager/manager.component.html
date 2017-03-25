@@ -1,100 +1,101 @@
-﻿<p-dataTable [value]="categories" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
-    <p-column field="name" header="Name" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
-    <p-column field="groups" header="Groups" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
+﻿<div class="row">
+    <p-dataTable [value]="categories" [globalFilter]="gb" [style]="{'height':'100%'}"  #dt>
+        <p-column field="name" header="Name" [filter]="true" filterPlaceholder="Search"></p-column>
+        <p-column field="groups" header="Groups" [filter]="true" filterPlaceholder="Search"></p-column>
 
-    <p-column styleClass="col-button">
-        <template pTemplate="header">
-            Actions
-        </template>
-        <template let-category="rowData" pTemplate="body">
-            <button class="btn btn-primary" type="button" (click)="editCategory(category)"><i class="fa fa-edit"></i> </button>
-            <button class="btn btn-danger" type="button" (click)="deleteCategory(category)"><i class="fa fa-trash"></i> </button>
-        </template>
-    </p-column>
+        <p-column styleClass="col-button" [style]="{'width':'13%', 'text-align':'center'}">
+            <template pTemplate="header">
+                Actions
+            </template>
+            <template let-category="rowData" pTemplate="body">
+                <tms-two-buttons left-icon="fa fa-edit" right-icon="fa fa-trash" (leftCommand)="editCategory(category)" (rightCommand)="deleteCategory(category)"></tms-two-buttons>
+            </template>
+        </p-column>
 
-    <p-footer>
-        <div class="ui-helper-clearfix" style="width:100%">
-            <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Add"></button>
+        <p-footer>
+            <div class="ui-helper-clearfix" style="width:100%">
+                <tms-button (command)="showDialogToAdd()"><i class="fa fa-plus"></i> Add</tms-button>
             </div>
         </p-footer>
-</p-dataTable>
+    </p-dataTable>
 
-<p-dialog [(header)]="modalHeader" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [minWidth]="'600px'" [width]="'50%'">
-    <p-tabMenu [model]="tabs" [activeItem]="activeTab"></p-tabMenu>
-    
-    <div class="inputRow">
-        <div class="inputField1-3">
+    <p-dialog [(header)]="modalHeader" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [minWidth]="'600px'" [width]="'50%'">
+        <p-tabMenu [model]="tabs" [activeItem]="activeTab"></p-tabMenu>
+        
+        <div class="inputRow">
+            <div class="inputField1-3">
+            </div>
+            <div class="inputField1-3">
+                <p-steps [model]="items" [(activeIndex)]="activeIndex" styleClass="steps-basic" [readonly]="false"></p-steps>
+            </div>
+            <div class="inputField1-3">
+                <br>
+            </div>
         </div>
-        <div class="inputField1-3">
-            <p-steps [model]="items" [(activeIndex)]="activeIndex" styleClass="steps-basic" [readonly]="false"></p-steps>
-        </div>
-        <div class="inputField1-3">
-            <br>
-        </div>
-    </div>
 
-    <div *ngIf="!finishEnable" class="inputRow">
-        <div class="inputField1-2">
-            <div><label for="name">Name</label></div>
-            <div><input class="form-control" pInputText id="name" ></div>
+        <div *ngIf="!finishEnable" class="inputRow">
+            <div class="inputField1-2">
+                <div><label for="name">Name</label></div>
+                <div><input class="form-control" pInputText id="name" ></div>
+            </div>
+            <div class="inputField1-2">
+            </div>
         </div>
-        <div class="inputField1-2">
+        <div *ngIf="!finishEnable" class="inputRow">
+            <div class="inputField1-1">
+                <div><label for="description">Description</label></div>
+                <div><textarea class="form-control" pInputTextarea  id="description" ></textarea></div>
+            </div>
         </div>
-    </div>
-    <div *ngIf="!finishEnable" class="inputRow">
-        <div class="inputField1-1">
-            <div><label for="description">Description</label></div>
-            <div><textarea class="form-control" pInputTextarea  id="description" ></textarea></div>
-        </div>
-    </div>
 
-     <div *ngIf="finishEnable" class="inputRow">
-        <div class="inputField1-2">
-            <p-dataTable [value]="users" scrollable="true" [rows]="10" [globalFilter]="gb" #dt>
-                <p-headerColumnGroup>
-                    <p-row>
-                        <p-column header="Name" colspan="2"></p-column>
-                        <p-column header="" [style]="{'width':'15%'}"></p-column>
-                    </p-row>
-                </p-headerColumnGroup>
-                <p-column field="firstName" [sortable]="true"></p-column>
-                <p-column field="lastName" [sortable]="true"></p-column>
-                <p-column [style]="{'width':'15%'}" styleClass="col-button">
-                    <template pTemplate="header">
-                    </template>
-                    <template let-user="rowData" pTemplate="body">
-                        <button class="btn btn-primary" type="button" (click)="move('right',user)"><i class="fa fa-arrow-right"></i> </button>
-                    </template>
-                </p-column>
-            </p-dataTable>
+        <div *ngIf="finishEnable" class="inputRow">
+            <div class="inputField1-2">
+                <p-dataTable [value]="users" scrollable="true" [rows]="10" [globalFilter]="gb" #dt>
+                    <p-headerColumnGroup>
+                        <p-row>
+                            <p-column header="Name" colspan="2"></p-column>
+                            <p-column header="" [style]="{'width':'15%'}"></p-column>
+                        </p-row>
+                    </p-headerColumnGroup>
+                    <p-column field="firstName" [sortable]="true"></p-column>
+                    <p-column field="lastName" [sortable]="true"></p-column>
+                    <p-column [style]="{'width':'15%'}" styleClass="col-button">
+                        <template pTemplate="header">
+                        </template>
+                        <template let-user="rowData" pTemplate="body">
+                            <button class="btn btn-primary" type="button" (click)="move('right',user)"><i class="fa fa-arrow-right"></i> </button>
+                        </template>
+                    </p-column>
+                </p-dataTable>
+            </div>
+            <div class="inputField1-2">
+                <p-dataTable [value]="selectedUsers" scrollable="true" [rows]="10" [globalFilter]="gb" #dt>
+                    <p-headerColumnGroup>
+                        <p-row>
+                            <p-column header="" [style]="{'width':'15%'}"></p-column>
+                            <p-column header="Name" colspan="2"></p-column>
+                        </p-row>
+                    </p-headerColumnGroup>
+                    <p-column [style]="{'width':'15%'}" styleClass="col-button">
+                        <template pTemplate="header">
+                        </template>
+                        <template let-user="rowData" pTemplate="body">
+                            <button class="btn btn-primary" type="button" (click)="move('left',user)"><i class="fa fa-arrow-left"></i> </button>
+                        </template>
+                    </p-column>
+                    <p-column field="firstName" [sortable]="true"></p-column>
+                    <p-column field="lastName" [sortable]="true"></p-column>
+                </p-dataTable>
+            </div> 
         </div>
-        <div class="inputField1-2">
-            <p-dataTable [value]="selectedUsers" scrollable="true" [rows]="10" [globalFilter]="gb" #dt>
-                <p-headerColumnGroup>
-                    <p-row>
-                        <p-column header="" [style]="{'width':'15%'}"></p-column>
-                        <p-column header="Name" colspan="2"></p-column>
-                    </p-row>
-                </p-headerColumnGroup>
-                <p-column [style]="{'width':'15%'}" styleClass="col-button">
-                    <template pTemplate="header">
-                    </template>
-                    <template let-user="rowData" pTemplate="body">
-                        <button class="btn btn-primary" type="button" (click)="move('left',user)"><i class="fa fa-arrow-left"></i> </button>
-                    </template>
-                </p-column>
-                <p-column field="firstName" [sortable]="true"></p-column>
-                <p-column field="lastName" [sortable]="true"></p-column>
-            </p-dataTable>
-        </div> 
-    </div>
 
-    <p-footer>
-        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-            <button *ngIf="!finishEnable" type="button btn btn-success" pButton icon="fa-arrow-right" (click)="finishEnable = true; this.activeIndex = 1;" label="Next"></button>
-            <button *ngIf="finishEnable" type="button btn btn-success" pButton icon="fa-check" (click)="finish()" label="Finish"></button>
-            <button type="button" pButton icon="fa-close" (click)="cancel()" label="Cancel"></button>
-            <button *ngIf="finishEnable" type="button" pButton icon="fa-arrow-left" (click)="finishEnable = false; this.activeIndex = 0;" label="Back"></button>
-        </div>
-    </p-footer>
-</p-dialog>
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button *ngIf="!finishEnable" type="button btn btn-success" pButton icon="fa-arrow-right" (click)="finishEnable = true; this.activeIndex = 1;" label="Next"></button>
+                <button *ngIf="finishEnable" type="button btn btn-success" pButton icon="fa-check" (click)="finish()" label="Finish"></button>
+                <button type="button" pButton icon="fa-close" (click)="cancel()" label="Cancel"></button>
+                <button *ngIf="finishEnable" type="button" pButton icon="fa-arrow-left" (click)="finishEnable = false; this.activeIndex = 0;" label="Back"></button>
+            </div>
+        </p-footer>
+    </p-dialog>
+</div>

@@ -1,23 +1,21 @@
-<p-dataTable [value]="groups" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
-    <p-column field="name" header="Name" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
-    <p-column field="isprivate" header="Private" [sortable]="true"></p-column>
-    <p-column field="creator" header="Creator" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
-    <p-column styleClass="col-button">
+<p-dataTable [value]="groups" [globalFilter]="gb" [style]="{'height':'100%'}" #dt>
+    <p-column field="name" header="Name" [filter]="true" filterPlaceholder="Search"></p-column>
+    <p-column field="isprivate" header="Private"></p-column>
+    <p-column field="creator" header="Creator" [filter]="true" filterPlaceholder="Search"></p-column>
+    <p-column styleClass="col-button" [style]="{'width':'13%', 'text-align':'center'}">
         <template pTemplate="header">
-
+            Actions
         </template>
         <template let-group="rowData" pTemplate="body">
-            <button class="btn btn-success" type="button" (click)="viewGroup(group)"><i class="fa fa-search"></i> </button>
-            <button class="btn btn-primary" type="button" (click)="editGroup(group)"><i class="fa fa-edit"></i> </button>
-            <button class="btn btn-danger" type="button" (click)="deleteGroup(group)"><i class="fa fa-trash"></i> </button>
+            <tms-three-buttons left-icon="fa fa-search" middle-icon="fa fa-edit" right-icon="fa fa-trash" (leftCommand)="viewGroup(group)" (middleCommand)="editGroup(group)" (rightCommand)="deleteGroup(group)"></tms-three-buttons>
         </template>
     </p-column>
 
     <p-footer>
         <div class="ui-helper-clearfix" style="width:100%">
-            <button type="button" pButton icon="fa-plus" style="float:left" (click)="addGroup()" label="Add"></button>
-            </div>
-        </p-footer>
+            <tms-button (command)="addGroup()"><i class="fa fa-plus"></i> Add</tms-button>
+        </div>
+    </p-footer>
 </p-dataTable>
 
 <p-dialog [(header)]="modalHeader" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">

@@ -1,4 +1,9 @@
 tms-admin {
-    width: 100%;
-    height: 100%;
+    @include fill();
+    @extend datatable-fill-total;
+}
+
+tms-group {
+    @include fill();
+    @extend datatable-fill-total;
 }

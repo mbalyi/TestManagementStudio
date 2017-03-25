@@ -22,6 +22,8 @@ export class ManagerComponent implements OnInit {
     private finishEnable: boolean = false;
     private modalHeader: string = "Add new Category";
     private activeIndex: number = 0;
+    private tableHeight: number = 0;
+    private scrollHeight: string = '';
 
     private fakeServer: FakeAdminServer = new FakeAdminServer();
 
@@ -36,6 +38,8 @@ export class ManagerComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.tableHeight = (document.body.offsetHeight*0.9);
+        this.scrollHeight = (this.tableHeight-60).toString()+'px';
         this.users = this.fakeServer.getUsers();
         this.categories = this.fakeServer.getCategories();
         this.items = [{

@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AuthenticationService } from './../../services/authentication/authentication.service';
+import { Message } from 'primeng/primeng';
 
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
@@ -20,6 +21,8 @@ import { IsLogin } from './../../reducers/login.reducer';
 export class AppComponent {
     @select(['islogin']) readonly islogin$: Observable<IsLogin>;
     private islogin: IsLogin;
+    @select(['notification']) readonly notification$: Observable<Message[]>;
+    private notification: Message[];
 
     constructor (private auth: AuthenticationService) {
         this.auth.getLogginFlag().subscribe(
@@ -30,5 +33,6 @@ export class AppComponent {
 
     ngOnInit() {
         this.islogin$.subscribe((s) => this.islogin = s);
+        this.notification$.subscribe((s) => this.notification = s);
     }
 }

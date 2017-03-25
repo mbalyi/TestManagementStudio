@@ -12,7 +12,12 @@ import { GroupComponent } from './components/admin/group.component';
 import { RoleComponent } from './components/admin/role.component';
 import { SubjectsComponent } from "./components/subjects/subjects.component";
 import { ManagerComponent } from './components/manager/manager.component';
+import { TestManagerComponent } from './components/manager/test.manager.component';
 import { QuestionsComponent } from './components/manager/questions.component';
+import { TestMenuComponent } from './components/tests/test.menu.component';
+import { TestExecutionComponent } from './components/tests/test.execution.component';
+import { MyCategoriesComponent } from './components/myresults/my.categories.component';
+import { MyResultsComponent } from './components/myresults/my.results.component';
 
 export const ROUTES: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full', canActivate: [AuthGuard] },
@@ -26,6 +31,11 @@ export const ROUTES: Routes = [
   { path: 'roles', component: RoleComponent, canActivate: [AuthGuard] },
   { path: 'subjects', component: SubjectsComponent, canActivate: [AuthGuard] },
   { path: 'manager', component: ManagerComponent, canActivate: [AuthGuard] },
+  { path: 'test-manager', component: TestManagerComponent, canActivate: [AuthGuard] },
   { path: 'questions', component: QuestionsComponent, canActivate: [AuthGuard] },
+  { path: 'test-menu', component: TestMenuComponent, canActivate: [AuthGuard] },
+  { path: 'test-execution', component: TestExecutionComponent, canActivate: [AuthGuard] },
+  { path: 'my-categories', component: MyCategoriesComponent, canActivate: [AuthGuard] },
+  { path: 'my-results', component: MyResultsComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home' }
 ];

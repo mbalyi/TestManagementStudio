@@ -4,15 +4,26 @@
             <ul class='nav navbar-nav'>
                 <li>Filter: </li>
                 <li>
-                    <p-dropdown [options]="categories" [(ngModel)]="selectedCategory"></p-dropdown>
+                    <span>Category</span>
+                    <p-dropdown [options]="categoryItems" [(ngModel)]="selectedCategoryItem" [ngModelOptions]="{standalone: true}" [style]="{'min-width':'350px'}" (onChange)="changeCategory()"></p-dropdown>
+                </li>
+                <li> 
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="search">Question</label>
+                            <input type="text" class="form-control" pInputText id="search" [(ngModel)]="search" (keyup)="search=$event.target.value;find()" name="search" placeholder="Search Question">
+                        </div>
+                    </form>
                 </li>
                 <li>
-                    <input class="form-control" pInputText id="search" [(ngModel)]="search" placeholder="Search Question">
-                </li>
-                <li>
-                    <button class="btn btn-success" type="button" (click)="addQuestion()"><i class="fa fa-check"></i> Add new Question </button>
+                    <tms-button (command)="addQuestion()"><i class="fa fa-check"></i> Add new Question</tms-button>
                 </li>
             </ul>
         </div>
     </nav>
 </div>
+<div class="questions">
+    <tms-question-readonly *ngFor="let quest of filteredQuestions" [question]="quest" (edit)="editQuestion($event)" (delete)="deleteQuestion($event)"></tms-question-readonly>
+</div>
+
+<tms-question-form [(display)]="displayDialog" [new]="isNew" [category]="selectedCategory" [question]="question" [answers]="question==null?[]:question.answersAll" (addQuestion)="addNewQuestion($event)" (deleteQuestion)="deleteQuestion($event)" (displayEmit)="displayDialog=$event;"></tms-question-form>

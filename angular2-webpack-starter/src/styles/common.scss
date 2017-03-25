@@ -12,16 +12,95 @@
 }
 
 @mixin menu-height() {
-    height: calc( 100% - 61.6px);
+    height: calc( 100% - 3.6em);
+}
+
+datatable-fill-total {
+    
+    p-dataTable {
+        @include fill();
+
+        > div {
+            @include fill-height();
+
+            > div.ui-datatable-scrollable-wrapper {
+                height: 85%;
+
+                > div.ui-datatable-scrollable-view {
+                    @include fill-height();
+
+                    > div.ui-datatable-scrollable-body {
+                        @include fill-height();
+
+                        div,table {
+                            @include fill-height();
+                        }
+                    }
+                }
+            }
+
+            div.ui-datatable-footer {
+                //height: 15.1%;
+                border: none!important;
+
+                > p-footer {
+                    position: absolute;
+                    bottom: 1%;
+                    right: 3%;
+                }
+            }
+        }
+
+        .ui-widget-header .ui-state-default, .ui-widget-content .ui-state-default, .ui-state-default, .ui-datatable-footer {
+            background: $gray-dark-height!important;
+            color: $gray-font-light;
+        }
+
+        .ui-datatable tbody > tr.ui-widget-content {
+            background: $gray-dark-height!important;
+            color: $gray-font-light;
+        }
+
+        .ui-datatable .ui-datatable-thead>tr>th, .ui-datatable .ui-datatable-tfoot>tr>td, .ui-datatable .ui-datatable-data>tr>td {
+            border: none!important;
+        }
+
+        .ui-widget-content {
+            border: none!important;
+            border-bottom: 0.1em solid $gray!important;
+        }
+
+        .ui-datatable-thead > tr {
+            border: none!important;
+            border-bottom: 0.15em solid $brand-blue-light!important;
+        }
+    }
 }
 
 html,
 body {
     @include fill();
-    background: gray;
+    font-family: "Trebuchet MS", Helvetica, sans-serif!important;
 
     app {
         @include fill();
+
+        > .container-fluid.login-background {
+            position: relative!important;
+            left: 0px;
+            background: -moz-radial-gradient(0% 100%, ellipse cover, $gray 10%,rgba(138,114,76,0) 40%),-moz-linear-gradient(top,  rgba(57,173,219,.25) 0%, rgba(42,60,87,.4) 100%), -moz-linear-gradient(-45deg, $gray-darker 0%, $gray-darker 70%, $brand-blue-dark 100%)!important;
+            background: -webkit-radial-gradient(0% 100%, ellipse cover, $gray 10%,rgba(138,114,76,0) 40%), -webkit-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -webkit-linear-gradient(-45deg, $gray-darker 0%, $gray-darker 70%, $brand-blue-dark 100%)!important;
+            background: -o-radial-gradient(0% 100%, ellipse cover, $gray 10%,rgba(138,114,76,0) 40%), -o-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -o-linear-gradient(-45deg, $gray-darker 0%, $gray-darker 70%, $brand-blue-dark 100%)!important;
+            background: -ms-radial-gradient(0% 100%, ellipse cover, $gray 10%,rgba(138,114,76,0) 40%), -ms-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -ms-linear-gradient(-45deg, $gray-darker 0%, $gray-darker 70%, $brand-blue-dark 100%)!important;
+            background: -webkit-radial-gradient(0% 100%, ellipse cover, $gray 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(-45deg, $gray-darker 0%, $gray-darker 70%, $brand-blue-dark 100%)!important;
+        }
+
+        > .container-fluid > .row > div {
+            position: absolute;
+            left: 14%;
+            background: $gray-dark-height;
+            color: $gray-font-light;
+        }
 
         nav-menu {
             @include fill-height();
@@ -48,7 +127,7 @@ body {
         .sidenav {
             @include fill-height();
             padding-top: 20px;
-            background-color: #f1f1f1;
+            background-color: $gray-lighter;
         }
 
         nav.navbar.navbar-inverse  {
@@ -106,6 +185,9 @@ body {
             width: 100%;
             height: 100%;
         }
+
+        .ui-widget-content {
+            border-radius: 0.1em!important;
+        }
     }
 }
-
