@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { DropdownModule, SelectItem, Message } from 'primeng/primeng';
+import { DropdownModule, SelectItem } from 'primeng/primeng';
 
 import { QuestionService } from './../../services/question.service';
 import { CategoryService } from './../../services/category.service';
 import { TestService } from './../../services/test.service';
+
+import { NotificationActions } from './../../actions/notification.actions';
 
 import { FakeAdminServer } from './../admin/fake.admin.server';
 
@@ -47,9 +49,8 @@ export class TestManagerComponent {
 
     private moveFrom: string = '';
 
-    private msgs: Message[] = [];
-
-    constructor(private questionService: QuestionService, private categoryService: CategoryService, private testService: TestService) {
+    constructor(private questionService: QuestionService, private categoryService: CategoryService, 
+        private testService: TestService, private msgAction: NotificationActions) {
         //TO DO: get categories from server
         //categoryService.getAll().subscribe((data) => this.categories = data);
         this.categories = this.fakeBackend.getCategories();
@@ -184,15 +185,15 @@ export class TestManagerComponent {
         //         if (data == true) {
         //             this.selectedTest = { id: null, text: "", questions: null, owner: null };
         //             this.filteredTests.splice(this.filteredTests.indexOf(event),1);
-        //             this.showNotification(true, 'Test deleted.', event.text);
+        //             this.msgAction.setNotification(true, 'Test deleted.', event.text);
         //         } else {
-        //             this.showNotification(false, 'Request failed.', 'Something went wrong.');
+        //             this.msgAction.setNotification(false, 'Request failed.', 'Something went wrong.');
         //         }
         //     }
         // )
         this.selectedTest = { id: null, text: "", questions: null, owner: null };
         this.filteredTests.splice(this.filteredTests.indexOf(event),1);
-        this.showNotification(true, 'Test deleted.', event.text);
+        this.msgAction.setNotification(true, 'Test deleted.', event.text);
     }
 
     cancel() {
@@ -211,9 +212,9 @@ export class TestManagerComponent {
 
     saveTest() {
         if (this.selectedTest.text == '' || this.selectedTest.text == null) {
-            this.showNotification(false, 'Title is missing!', 'Type the title of the new test.');
+            this.msgAction.setNotification(false, 'Title is missing!', 'Type the title of the new test.');
         } else if (this.selectedQuestions == null || this.selectedQuestions.length == 0) {
-            this.showNotification(false, 'Non question was selected!', 'Select questions.');
+            this.msgAction.setNotification(false, 'Non question was selected!', 'Select questions.');
         } else { 
             if (this.selectedTest != null && this.selectedTest.id != null) {
                 // //TO DO update existing test
@@ -227,9 +228,9 @@ export class TestManagerComponent {
                 //                 }
                 //             }
                 //             this.selectedTest = Object.assign({}, data);
-                //             this.showNotification(true, 'Test updated.', this.selectedTest.text);
+                //             this.msgAction.setNotification(true, 'Test updated.', this.selectedTest.text);
                 //         } else {
-                //             this.showNotification(false, 'Request failed.', 'Something went wrong.');
+                //             this.msgAction.setNotification(false, 'Request failed.', 'Something went wrong.');
                 //         }
                 //     }
                 // );
@@ -249,10 +250,10 @@ export class TestManagerComponent {
                 //     (data) => {
                 //         if (data != null || data != '') {
                 //             this.filteredTests.push(data);
-                //             this.showNotification(true, 'Test stored.', this.selectedTest.text);
+                //             this.msgAction.setNotification(true, 'Test stored.', this.selectedTest.text);
                 //             this.selectedTest = Object.assign({}, data);
                 //         } else {
-                //             this.showNotification(false, 'Request failed.', 'Something went wrong.');
+                //             this.msgAction.setNotification(false, 'Request failed.', 'Something went wrong.');
                 //         }
                 //     }
                 // );
@@ -263,7 +264,7 @@ export class TestManagerComponent {
                         category: cat
                 });
             }
-            this.showNotification(true, 'Test stored.', this.selectedTest.text);
+            this.msgAction.setNotification(true, 'Test stored.', this.selectedTest.text);
             this.addBtnActive = true;
             this.readonlyForm = true;
         }
@@ -283,10 +284,5 @@ export class TestManagerComponent {
     openQuestion(event) {
         this.question = event;
         this.displayDialog = true;
-    }
-
-    showNotification(success: boolean = true, msg: string = '', detail: string = '') {
-        this.msgs = [];
-        this.msgs.push({severity: success?'success':'error', summary: msg, detail: detail});
     }
 }

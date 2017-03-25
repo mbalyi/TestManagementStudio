@@ -1,9 +1,9 @@
 import { Component, Input, ElementRef, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import 'rxjs/Rx';
 import { Answer, Question, Category } from './../api/index';
-import { Message } from 'primeng/primeng';
 
-import { QuestionService } from './../services/question.service'
+import { NotificationActions } from './../actions/notification.actions';
+import { QuestionService } from './../services/question.service';
 
 @Component({
     selector: 'tms-question-form',
@@ -46,7 +46,6 @@ import { QuestionService } from './../services/question.service'
                 </div>
             </p-footer>
         </p-dialog>
-        <p-growl [value]="msgs"></p-growl>
     `
 })
 export class QuestionFormWidget {
@@ -78,14 +77,9 @@ export class QuestionFormWidget {
     @Output() deleteQuestion: EventEmitter<Question> = new EventEmitter<Question>();
 
     private selectedAnswer: Answer;
-    private msgs: Message[] = [];
 
-    constructor(private element: ElementRef, private questionService: QuestionService) {
-    }
-
-    showNotification(success: boolean = true, msg: string = '', detail: string = '') {
-        this.msgs = [];
-        this.msgs.push({severity: success?'success':'error', summary: msg, detail: detail});
+    constructor(private element: ElementRef, private questionService: QuestionService, 
+        private msgAction: NotificationActions) {
     }
 
     save() {
@@ -109,12 +103,12 @@ export class QuestionFormWidget {
                     (data) => {
                         let response = data;
                         if (response != null && response.id != null) {
-                            this.showNotification(true,'Request succeed.','Question stored.');
+                            this.msgAction.setNotification(true,'Request succeed.','Question stored.');
                             this.addQuestion.emit(this._question);
                             this.display = false;
                             this.displayEmit.emit(this.display);
                         } else {
-                            this.showNotification(false,'Request failed.','Cant save question.');
+                            this.msgAction.setNotification(false,'Request failed.','Cant save question.');
                         }
                     });
             } else {
@@ -122,21 +116,21 @@ export class QuestionFormWidget {
                     (data) => {
                         let response = data;
                         if (response != null && response.id != null) {
-                            this.showNotification(true,'Request succeed.','Question updated.');
+                            this.msgAction.setNotification(true,'Request succeed.','Question updated.');
                             this.addQuestion.emit(this._question);
                             this.display = false;
                             this.displayEmit.emit(this.display);
                         } else {
-                            this.showNotification(false,'Request failed.','Cant update question.');
+                            this.msgAction.setNotification(false,'Request failed.','Cant update question.');
                         }
                     });
             }*/
-            this.showNotification(true,'Request succeed.','Question stored.');
+            this.msgAction.setNotification(true,'Request succeed.','Question stored.');
             this.addQuestion.emit(this._question);
             this.display = false;
             this.displayEmit.emit(this.display);
         } else {
-            this.showNotification(false,'Request failed.','Cant save question.');
+            this.msgAction.setNotification(false,'Request failed.','Cant save question.');
         }
     }
 

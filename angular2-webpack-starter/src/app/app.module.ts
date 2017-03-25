@@ -27,7 +27,11 @@ import { ROUTES } from './app.routes';
 // App is our top level component
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 
-import { DataTableModule, DialogModule, SharedModule, ButtonModule, TabViewModule, TabMenuModule, CheckboxModule, StepsModule, MenuItem, DropdownModule, GrowlModule, DragDropModule, CalendarModule } from 'primeng/primeng';
+import { DataTableModule, DialogModule, SharedModule, 
+  ButtonModule, TabViewModule, TabMenuModule, 
+  CheckboxModule, StepsModule, MenuItem, 
+  DropdownModule, GrowlModule, DragDropModule, 
+  CalendarModule, Message } from 'primeng/primeng';
 
 import {ApiModule} from "./api/api.module";
 
@@ -82,12 +86,14 @@ import { AppActions } from './app.actions';
 import { LoginActions } from './actions/login.actions';
 import { NavPageActions } from './actions/navheader.actions';
 import { CurrentUserActions } from './actions/current.user.actions';
+import { NotificationActions } from './actions/notification.actions';
 
 // Redux
 import { IAppState } from './reducers/store/app.state';
 import { loginReducer } from './reducers/login.reducer';
 import { currentUserReducer } from './reducers/current.user.reducer';
 import { navHeaderReducer } from './reducers/navheader.reducer';
+import { notificationReducer } from './reducers/notification.reducer';
 
 import '../styles/styles.scss';
 
@@ -179,7 +185,8 @@ const APP_PROVIDERS = [
     AppActions,
     LoginActions,
     NavPageActions,
-    CurrentUserActions
+    CurrentUserActions,
+    NotificationActions
   ]
 
 })
@@ -199,6 +206,7 @@ export class AppModule {
         islogin: loginReducer,
         currentuser: currentUserReducer,
         navpage: navHeaderReducer,
+        notification: notificationReducer,
         router: routerReducer
     }));
 
