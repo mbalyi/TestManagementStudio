@@ -319,6 +319,8 @@ definitions:
             $ref: '#/definitions/Question'
         owner:
           $ref: '#/definitions/User'
+        category:         
+            $ref: '#/definitions/Category'
         testSets:
           type: array
           items:
