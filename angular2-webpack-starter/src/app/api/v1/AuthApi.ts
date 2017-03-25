@@ -27,7 +27,7 @@ import { Configuration }                                     from '../configurat
 
 @Injectable()
 export class AuthApi {
-    protected basePath = 'http://localhost:8000/v1';
+    protected basePath = 'http://testmanagementstudio.azurewebsites.net/v1';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 

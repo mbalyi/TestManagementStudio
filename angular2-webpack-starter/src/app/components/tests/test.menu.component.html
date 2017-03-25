@@ -1,39 +1,58 @@
 <div class="executableTests">
     <p-dataTable [value]="executableTests" [globalFilter]="gb" selectionMode="single" [(selection)]="selectedTest" (onRowSelect)="select($event)" [style]="{'height':'100%'}" #dt>
-        <p-headerColumnGroup [style]="{'width':'100%'}">
+        <p-headerColumnGroup>
             <p-row>
-                <p-column header="Executable Tests" rowspan="3"></p-column>
+                <p-column header="Executable Tests" colspan="4"></p-column>
             </p-row>
-        </p-headerColumnGroup> 
-        <p-column field="test.text"></p-column>
-        <p-column field="dueDate"></p-column>
-        <p-column>
+        </p-headerColumnGroup>
+        <p-column field="text" [style]="{'width':'50%'}"></p-column>
+        <p-column field="test.testSets[0].dueDate" [style]="{'width':'12.5%'}">
             <template let-test="rowData" pTemplate="body">
-                <div *ngIf="dueDate == currentDate">
+                {{test.testSets[0].dueDate | date}}
+            </template>
+        </p-column>
+        <p-column field="test.testSets[0].dueDate" [style]="{'width':'12.5%'}">
+            <template let-test="rowData" pTemplate="body">
+                {{test.testSets[0].dueDate | time}}
+            </template>
+        </p-column>
+        <p-column [style]="{'width':'25%'}">
+            <template let-test="rowData" pTemplate="body">
+                <div *ngIf="test.testSets[0].dueDate <= currentDate">
                     OPEN!
                 </div>
-                <div *ngIf="dueDate != currentDate">
+                <div *ngIf="test.testSets[0].dueDate > currentDate">
                     NOT AVAILABLE!
                 </div>
             </template>
         </p-column>
     </p-dataTable>
 </div>
+{{currentDate}}
 <div class="notOpenedTests">
     <p-dataTable [value]="notOpenedTests" [globalFilter]="gb" selectionMode="single" [(selection)]="selectedTest" (onRowSelect)="select($event)" [style]="{'height':'100%'}" #dt>
-        <p-headerColumnGroup [style]="{'width':'100%'}">
+        <p-headerColumnGroup>
             <p-row>
-                <p-column header="Not Opened Tests" rowspan="3"></p-column>
+                <p-column header="Next Tests" colspan="4"></p-column>
             </p-row>
-        </p-headerColumnGroup> 
-        <p-column field="test.text"></p-column>
-        <p-column field="dueDate"></p-column>
-        <p-column>
+        </p-headerColumnGroup>
+        <p-column field="text" [style]="{'width':'50%'}"></p-column>
+        <p-column field="test.testSets[0].dueDate" [style]="{'width':'12.5%'}">
             <template let-test="rowData" pTemplate="body">
-                <div *ngIf="dueDate == currentDate">
+                {{test.testSets[0].dueDate | date}}
+            </template>
+        </p-column>
+        <p-column field="test.testSets[0].dueDate" [style]="{'width':'12.5%'}">
+            <template let-test="rowData" pTemplate="body">
+                {{test.testSets[0].dueDate | time}}
+            </template>
+        </p-column>
+        <p-column [style]="{'width':'25%'}">
+            <template let-test="rowData" pTemplate="body">
+                <div *ngIf="test.testSets[0].dueDate <= currentDate">
                     OPEN!
                 </div>
-                <div *ngIf="dueDate != currentDate">
+                <div *ngIf="test.testSets[0].dueDate > currentDate">
                     NOT AVAILABLE!
                 </div>
             </template>

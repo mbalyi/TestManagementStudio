@@ -74,6 +74,10 @@ datatable-fill-total {
             border: none!important;
             border-bottom: 0.15em solid $brand-blue-light!important;
         }
+
+        tr.ui-state-highlight {
+            background: $brand-blue-light !important;
+        }
     }
 }
 
