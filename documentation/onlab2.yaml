@@ -92,6 +92,21 @@ definitions:
       id:
         type: integer
         format: int32
+      description:
+        type: string
+      createdAt:
+        type: string
+        format: date-time
+      deleteddAt:
+        type: string
+        format: date-time 
+      deleted:
+        type: boolean
+      updatedTo:
+        type: string
+        format: date-time
+      updatedAt:
+        $ref: '#/definitions/Entity'   
       permissions:
           type: array
           items:
@@ -110,6 +125,9 @@ definitions:
           type: array
           items:
             $ref: '#/definitions/Permission'
+      createdBy:
+        $ref: '#/definitions/User' 
+        
   RolePart:
     type: object
     allOf:
@@ -130,6 +148,9 @@ definitions:
       isRoot:
         description: "If this property set to true, user has access to any part of the services"
         type: boolean
+      Name:
+        type: string
+        
       parts:
         type: array
         items:
@@ -298,6 +319,10 @@ definitions:
             $ref: '#/definitions/Question'
         owner:
           $ref: '#/definitions/User'
+        testSets:
+          type: array
+          items:
+            $ref: '#/definitions/TestSet'
 
   TestSet:
     type: object

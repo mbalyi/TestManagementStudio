@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using TestManagementStudioService.Data;
+﻿using Microsoft.Extensions.DependencyInjection;
 using TestManagementStudioService.Models;
 using TestManagementStudioService.Repositories;
 using TestManagementStudioService.Services;

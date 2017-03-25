@@ -20,6 +20,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using TestManagementStudioService.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using TestManagementStudioService.Services;
+using Microsoft.Extensions.Logging;
 
 namespace TestManagementStudioService.Controllers
 { 
@@ -27,8 +29,28 @@ namespace TestManagementStudioService.Controllers
     /// 
     /// </summary>
     public class UsersApiController : Controller
-    { 
+    {
 
+
+        private readonly UserService _userService;
+        private readonly ILogger _logger;
+        private readonly JsonSerializerSettings _serializerSettings;
+
+        /// <summary>
+        /// Constructor for dependency injections
+        /// </summary>
+        public UsersApiController(ILoggerFactory loggerFactory, UserService userService)
+        {
+           
+            _userService = userService;
+
+            _logger = loggerFactory.CreateLogger<UsersApiController>();
+
+            _serializerSettings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented
+            };
+        }
         /// <summary>
         /// Add a new group to the actual user
         /// </summary>
@@ -307,11 +329,11 @@ namespace TestManagementStudioService.Controllers
         public virtual IActionResult ListUsers()
         { 
             string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<User>>(exampleJson)
-            : default(List<User>);
-            return new ObjectResult(example);
+
+            var response =  _userService.GetAll();
+            var json = JsonConvert.SerializeObject(response, _serializerSettings);
+            return new OkObjectResult(json);
+           
         }
 
 
