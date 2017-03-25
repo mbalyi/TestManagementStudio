@@ -1,0 +1,43 @@
+<div class="executableTests">
+    <p-dataTable [value]="executableTests" [globalFilter]="gb" selectionMode="single" [(selection)]="selectedTest" (onRowSelect)="select($event)" [style]="{'height':'100%'}" #dt>
+        <p-headerColumnGroup [style]="{'width':'100%'}">
+            <p-row>
+                <p-column header="Executable Tests" rowspan="3"></p-column>
+            </p-row>
+        </p-headerColumnGroup> 
+        <p-column field="test.text"></p-column>
+        <p-column field="dueDate"></p-column>
+        <p-column>
+            <template let-test="rowData" pTemplate="body">
+                <div *ngIf="dueDate == currentDate">
+                    OPEN!
+                </div>
+                <div *ngIf="dueDate != currentDate">
+                    NOT AVAILABLE!
+                </div>
+            </template>
+        </p-column>
+    </p-dataTable>
+</div>
+<div class="notOpenedTests">
+    <p-dataTable [value]="notOpenedTests" [globalFilter]="gb" selectionMode="single" [(selection)]="selectedTest" (onRowSelect)="select($event)" [style]="{'height':'100%'}" #dt>
+        <p-headerColumnGroup [style]="{'width':'100%'}">
+            <p-row>
+                <p-column header="Not Opened Tests" rowspan="3"></p-column>
+            </p-row>
+        </p-headerColumnGroup> 
+        <p-column field="test.text"></p-column>
+        <p-column field="dueDate"></p-column>
+        <p-column>
+            <template let-test="rowData" pTemplate="body">
+                <div *ngIf="dueDate == currentDate">
+                    OPEN!
+                </div>
+                <div *ngIf="dueDate != currentDate">
+                    NOT AVAILABLE!
+                </div>
+            </template>
+        </p-column>
+    </p-dataTable>
+</div>
+<tms-button *ngIf="startAvailable" (command)="startTest()">Execute!</tms-button>

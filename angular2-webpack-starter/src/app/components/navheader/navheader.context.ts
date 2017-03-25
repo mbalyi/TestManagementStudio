@@ -21,7 +21,7 @@ export class NavHeaders {
     private admin: NavHeaderContext = new NavHeaderContext('admin', '/admin', 'glyphicon glyphicon-briefcase', 1, NavPages.admin);
     private subjects: NavHeaderContext = new NavHeaderContext('subjects', '/subjects', 'glyphicon glyphicon-book', 4, NavPages.subjects);
     private results: NavHeaderContext = new NavHeaderContext('my results', '/my-results', 'glyphicon glyphicon-user', 4, NavPages.myResults);
-    private test: NavHeaderContext = new NavHeaderContext('tests', '/test-menu', '', 4, NavPages.testMenu);
+    private test: NavHeaderContext = new NavHeaderContext('tests', '/test-menu', 'glyphicon glyphicon-pencil', 4, NavPages.testMenu);
 
     private adminUser: NavHeaderContext = new NavHeaderContext('users', '/admin', 'fa fa-user', 1, NavPages.admin);
     private adminGroup: NavHeaderContext = new NavHeaderContext('groups', '/groups', 'fa fa-group', 1, NavPages.admin);
@@ -31,8 +31,8 @@ export class NavHeaders {
     private managerTest: NavHeaderContext = new NavHeaderContext('test', '/test-manager', 'fa fa-pencil', 1, NavPages.manager);
     private managerQuestion: NavHeaderContext = new NavHeaderContext('question', '/questions', 'fa fa-question', 1, NavPages.manager);
 
-    private myResults: NavHeaderContext = new NavHeaderContext('my results', '/my-results', '', 4, NavPages.myResults);
-    private myCategories: NavHeaderContext = new NavHeaderContext('my categories', '/my-categories', '', 4, NavPages.myResults);
+    private myResults: NavHeaderContext = new NavHeaderContext('my results', '/my-results', 'fa fa-user', 4, NavPages.myResults);
+    private myCategories: NavHeaderContext = new NavHeaderContext('my categories', '/my-categories', 'fa fa-folder-open-o', 4, NavPages.myResults);
 
     public headers: NavHeaderContext[] = [this.home, this.results, this.test, this.manager, this.admin, this.subjects];
     public adminMenu: NavHeaderContext[] = [this.adminUser, this.adminGroup];
