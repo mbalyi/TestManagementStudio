@@ -15,8 +15,8 @@ import { Answer, Question } from './../api/index';
                     <div class="row">
                         <div class="col-lg-11">{{question.text}}</div>
                         <div class="col-lg-1 button-group">
-                            <button class="btn" type="button" (click)="editQuestion()"><i class="fa fa-edit"></i> </button>
-                            <button class="btn" type="button" (click)="deleteQuestion()"><i class="fa fa-trash"></i> </button>
+                            <button *ngIf="isEditable" class="btn" type="button" (click)="editQuestion()"><i class="fa fa-edit"></i> </button>
+                            <button *ngIf="isEditable" class="btn" type="button" (click)="deleteQuestion()"><i class="fa fa-trash"></i> </button>
                         </div>
                     </div>
                     <div *ngIf="isOpen">
@@ -27,7 +27,7 @@ import { Answer, Question } from './../api/index';
                                 </button>
                             </div>-->
                             <div>
-                                <button type="button" class="btn" [class.correct]="answer.correct">
+                                <button type="button" class="btn" [class.correct]="(showsCorrect && answer.correct) || (!showsCorrect && answer==selectedAnswer)" (click)="selectAnswer(answer);selectedAnswer=answer;">
                                     {{i+1}}.
                                 </button>
                             </div>
@@ -43,11 +43,14 @@ import { Answer, Question } from './../api/index';
 })
 export class QuestionWidget {
     @Input() question: Question = {text: '', answersAll: []};
+    @Input() isOpen: boolean = false;
+    @Input() showsCorrect: boolean = true;
+    @Input() isEditable: boolean = true;
 
+    @Output() select = new EventEmitter<Answer>();
     @Output() edit = new EventEmitter<Question>();
     @Output() delete = new EventEmitter<Question>();
 
-    private isOpen: boolean = false;
     private selectedAnswer: Answer;
 
     constructor(element: ElementRef) {
@@ -59,5 +62,9 @@ export class QuestionWidget {
 
     deleteQuestion() {
         this.delete.emit(this.question);
+    }
+
+    selectAnswer(answer: Answer) {
+        this.select.emit(answer);
     }
 }

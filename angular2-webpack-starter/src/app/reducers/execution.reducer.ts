@@ -21,16 +21,26 @@ export function executionReducer( state: TestExecution = INITIAL_STATE, action: 
             state = action.execution;
             return state;
         case ExecutionActions.SET_UPDATE_ANSWERS:
-            let isIn = false;
-            for (let i = 0; i < state.answersGiven.length; i++) {
-                if (state.answersGiven[i].id == action.answer.id) {
-                    isIn = true;
-                    state.answersGiven[i] = action.answer;
+            //let isIn = false;
+            for (let i = 0; i < state.test.questions.length; i++) {
+                for (let j = 0; j < state.test.questions[i].answersAll.length; j++) {
+                    if (state.test.questions[i].answersAll[j].id == action.answer.id) {
+                        for ( let k = 0; k < state.test.questions[i].answersAll.length; k++) {
+                            state.answersGiven.splice(state.answersGiven.indexOf(state.test.questions[i].answersAll),1);
+                        }
+                    }
                 }
             }
-            if (!isIn) {
-                state.answersGiven.push(action.answer);
-            }
+            state.answersGiven.push(action.answer);
+            // for (let i = 0; i < state.answersGiven.length; i++) {
+            //     if (state.answersGiven[i].id == action.answer.id) {
+            //         isIn = true;
+            //         state.answersGiven[i] = action.answer;
+            //     }
+            // }
+            // if (!isIn) {
+            //     state.answersGiven.push(action.answer);
+            // }
             return state;
         case ExecutionActions.SET_CLOSE_EXECUTION:
             state.dateOfFill = action.closeDate;
