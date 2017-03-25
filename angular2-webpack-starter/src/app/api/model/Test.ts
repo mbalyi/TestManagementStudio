@@ -21,4 +21,6 @@ export interface Test extends models.SecuredEntity {
 
     category?: models.Category;
 
+    testSets?: Array<models.TestSet>;
+
 }

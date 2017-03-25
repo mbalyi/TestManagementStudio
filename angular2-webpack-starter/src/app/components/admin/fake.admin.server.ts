@@ -1,6 +1,6 @@
 import { Users } from "./../../models/users.model";
 import { Roles } from "./../../models/roles.model";
-import { User, Group, Role, Category, Question, Answer, Test } from './../../api/index';
+import { User, Group, Role, Category, Question, Answer, Test, TestSet, TestExecution } from './../../api/index';
 
 export class FakeAdminServer {
 
@@ -60,6 +60,13 @@ export class FakeAdminServer {
         { id: 4, text: "Test", questions: null, owner: null, category: null }
     ];
 
+    private testSets: TestSet[] = [
+        {id: 1, dueDate: new Date()},
+        {id: 2, dueDate: new Date()},
+        {id: 3, dueDate: new Date()},
+        {id: 4, dueDate: new Date()},
+    ];
+
     constructor() {
         this.groups[0].members = [this.users[0],this.users[1]];
         this.groups[1].members = [this.users[3],this.users[4]];
@@ -72,12 +79,16 @@ export class FakeAdminServer {
 
         this.tests[0].questions = [this.questions[1],this.questions[3]];
         this.tests[0].category = this.categories[0];
+        this.tests[0].testSets = [this.testSets[0]];
         this.tests[1].questions = [this.questions[1],this.questions[3],this.questions[0]];
         this.tests[1].category = this.categories[0];
+        this.tests[1].testSets = [this.testSets[1]];
         this.tests[2].questions = [this.questions[0],this.questions[2]];
         this.tests[2].category = this.categories[0];
+        this.tests[2].testSets = [this.testSets[2]];
         this.tests[3].questions = [this.questions[2],this.questions[3]];
         this.tests[3].category = this.categories[0];
+        this.tests[3].testSets = [this.testSets[3]];
 
         this.categories[0].questions = [this.questions[1],this.questions[3],this.questions[0]];
         this.categories[0].tests = [this.tests[0],this.tests[2]];
@@ -138,5 +149,27 @@ export class FakeAdminServer {
                 selectedTest.push(this.tests[i]);
         }
         return selectedTest;
+    }
+
+    getTestSetsToday(): TestSet[] {
+        let test = [];
+        for (let i = 0; i < this.testSets.length; i++) {
+            if (this.testSets[i].dueDate <= new Date())
+                test.push(this.testSets[i]);
+        }
+        return test;
+    }
+
+    getTestSetsOther(): TestSet[] {
+        let test = [];
+        for (let i = 0; i < this.testSets.length; i++) {
+            if (this.testSets[i].dueDate > new Date())
+                test.push(this.testSets[i]);
+        }
+        return test;
+    }
+
+    getTestByTestSetId(id: number): TestExecution {
+        return null;
     }
 }
