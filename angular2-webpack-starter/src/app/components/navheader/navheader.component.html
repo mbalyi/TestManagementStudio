@@ -1,7 +1,7 @@
 ﻿<div class="main-nav-header">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
-            <div class="navbar-header">
+            <div *ngIf="!execution" class="navbar-header">
                 <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
                     <span class='sr-only'>Toggle navigation</span>
                     <span class='icon-bar'></span>
@@ -10,14 +10,19 @@
                 </button>
                 <a class='navbar-brand' [routerLink]="['/home']">TestManagementStudio</a>
             </div>
-            <ul class='nav navbar-nav'>
+            <ul *ngIf="execution != null && execution.id == null" class='nav navbar-nav'>
                 <li *ngFor="let link of headers.headers" [routerLinkActive]="['link-active']">
                     <a [routerLink]="[link.url]" (click)="setPage(link.page); selectedModule = link.name;" [class.active]="link.name == selectedModule">
                         <span [class]="link.icon"></span> {{link.name | capitalize}}
                     </a>
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul *ngIf="execution != null && execution.id != null" class='nav navbar-nav'>
+                <li>
+                    <tms-counter [interval]="90"></tms-counter>
+                </li>
+            </ul>
+            <ul *ngIf="!execution" class="nav navbar-nav navbar-right">
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/login']" (click)="logout()">
                         <span class="glyphicon glyphicon-log-in"></span> Logout

@@ -65,11 +65,13 @@ import { QuestionWidget } from './widgets/question.widget';
 import { QuestionFormWidget } from './widgets/question.form.widget';
 import { TestDraggableWidget } from './widgets/test.draggable.widget';
 import { QuestionDraggableWidget } from './widgets/question.draggable.widget';
+import { CounterWidget } from './widgets/counter.widget';
 
 // Pipes
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { DatePipe } from './pipes/date.pipe';
 import { TimePipe } from './pipes/time.pipe';
+import { NumberToTimePipe } from './pipes/number.to.time.pipe';
 
 // Guards
 import { AuthGuard } from './guards/authentication.guard';
@@ -145,10 +147,12 @@ const APP_PROVIDERS = [
         QuestionFormWidget,
         TestDraggableWidget,
         QuestionDraggableWidget,
+        CounterWidget,
         // Pipes
         CapitalizePipe,
         DatePipe,
-        TimePipe
+        TimePipe,
+        NumberToTimePipe
     ],
   imports: [ // import Angular's modules
     BrowserModule,
