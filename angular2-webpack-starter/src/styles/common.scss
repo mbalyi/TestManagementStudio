@@ -95,6 +95,17 @@ datatable-hover {
     }
 }
 
+pie-chart {
+    rect.highcharts-background {
+        display: none!important;
+    }
+
+    .highcharts-container {
+        border: 0.1em solid $brand-blue-light;
+        border-radius: 0.1em;
+    }
+}
+
 html,
 body {
     @include fill();

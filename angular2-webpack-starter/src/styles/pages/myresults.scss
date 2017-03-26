@@ -1,6 +1,7 @@
 tms-my-categories {
     @extend datatable-fill-total;
     @extend datatable-hover;
+    @extend pie-chart;
 
     > .containers {
         @include fill-width();
