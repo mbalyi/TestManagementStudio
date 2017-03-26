@@ -81,6 +81,20 @@ datatable-fill-total {
     }
 }
 
+datatable-hover {
+    tr.ui-widget-content:hover {
+        &.ui-datatable-even {
+            color: $white!important;
+            background: lighten($brand-blue-light, 5%) !important;
+        }
+
+        &.ui-datatable-odd {
+            color: $white!important;
+            background: lighten($brand-blue-light, 5%) !important;
+        }
+    }
+}
+
 html,
 body {
     @include fill();

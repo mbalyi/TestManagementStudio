@@ -32,6 +32,7 @@ import { DataTableModule, DialogModule, SharedModule,
   CheckboxModule, StepsModule, MenuItem, 
   DropdownModule, GrowlModule, DragDropModule, 
   CalendarModule, Message } from 'primeng/primeng';
+import { ChartModule } from 'angular2-highcharts';
 
 import {ApiModule} from "./api/api.module";
 
@@ -160,6 +161,7 @@ const APP_PROVIDERS = [
     BrowserModule,
     FormsModule,
     HttpModule,
+    ChartModule.forRoot(require('highcharts')),
     //APIServices
     ApiModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),

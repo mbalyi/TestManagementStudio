@@ -1,0 +1,53 @@
+<div class="containers">
+    <div class="myCategories">
+        <p-dataTable [value]="myCategories" [globalFilter]="gb" selectionMode="single" [(selection)]="selectedCategory" (onRowSelect)="selectCategory($event)" [style]="{'height':'100%'}" #dt>
+            <p-headerColumnGroup>
+                <p-row>
+                    <p-column header="Categories" [style]="{'width':'100%'}"></p-column>
+                </p-row>
+            </p-headerColumnGroup>
+            <p-column field="name" [style]="{'width':'100%'}"></p-column>
+        </p-dataTable>
+    </div>
+    <div class="tests">
+        <p-dataTable [value]="myTests" [globalFilter]="gb" selectionMode="single" [(selection)]="selectedTest" (onRowSelect)="selectTest($event)" [style]="{'height':'100%'}" #dt>
+            <p-headerColumnGroup>
+                <p-row>
+                    <p-column header="Executed Tests" [style]="{'width':'100%'}" colspan="3"></p-column>
+                </p-row>
+                <p-row>
+                    <p-column header="Title"></p-column>
+                    <p-column header="Start at"></p-column>
+                    <p-column header="Sent at"></p-column>
+                </p-row>
+            </p-headerColumnGroup>
+            <p-column field="test.text" [style]="{'width':'100%'}"></p-column>
+            <p-column field="test.dateOfStart" [style]="{'width':'12.5%', 'text-align': 'center'}">
+                <template let-test="rowData" pTemplate="body">
+                    {{test.dateOfStart | date}} {{test.dateOfStart | time}}
+                </template>
+            </p-column>
+            <p-column field="test.dateOfFill" [style]="{'width':'12.5%', 'text-align': 'center'}">
+                <template let-test="rowData" pTemplate="body">
+                    {{test.dateOfFill | date}} {{test.dateOfFill | time}}
+                </template>
+            </p-column>
+        </p-dataTable>
+    </div>
+</div>
+<div class="containers">
+    <div class="chart-container" #chartcontainer>
+        <chart [options]="options"></chart>
+    </div>
+    <div class="results">
+        <p-dataTable [value]="results" [globalFilter]="gb" [style]="{'height':'100%'}" #dt>
+            <p-headerColumnGroup>
+                <p-row>
+                    <p-column header="Results" colspan="2"></p-column>
+                </p-row>
+            </p-headerColumnGroup>
+            <p-column field="name" [style]="{'width':'70%'}"></p-column>
+            <p-column field="pont" [style]="{'width':'30%'}"></p-column>
+        </p-dataTable>
+    </div>
+</div>

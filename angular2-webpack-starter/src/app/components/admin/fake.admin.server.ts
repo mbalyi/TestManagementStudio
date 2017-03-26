@@ -200,4 +200,8 @@ export class FakeAdminServer {
     getExecution(): TestExecution {
         return this.execution;
     }
+
+    getExecutions(): TestExecution[] {
+        return [this.execution];
+    }
 }
