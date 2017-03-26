@@ -12,4 +12,8 @@ export class MyResultsComponent {
     constructor(private pageAction: NavPageActions) { 
         pageAction.setPage(NavPages.myResults);
     }
+
+    ngOnInit() {
+        this.pageAction.setPage(NavPages.myResults);
+    }
 }

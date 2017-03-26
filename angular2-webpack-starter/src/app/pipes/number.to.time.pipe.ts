@@ -5,7 +5,7 @@ export class NumberToTimePipe implements PipeTransform {
     transform(value: number): any {
         if (!value) return value;
 
-        let hour = Math.round(value / 60);
+        let hour = Math.floor(value / 60);
         let min = value - hour * 60;
 
         let result = '';

@@ -41,6 +41,10 @@ export class TestMenuComponent {
         // );
     }
 
+    ngOnInit() {
+        this.pageAction.setPage(NavPages.testMenu);
+    }
+
     select(event) {
         this.selectedTest = event.data;
 

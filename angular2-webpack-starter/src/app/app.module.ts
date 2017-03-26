@@ -66,6 +66,7 @@ import { QuestionFormWidget } from './widgets/question.form.widget';
 import { TestDraggableWidget } from './widgets/test.draggable.widget';
 import { QuestionDraggableWidget } from './widgets/question.draggable.widget';
 import { CounterWidget } from './widgets/counter.widget';
+import { ExecutionWidget } from './widgets/execution.widget';
 
 // Pipes
 import { CapitalizePipe } from './pipes/capitalize.pipe';
@@ -148,6 +149,7 @@ const APP_PROVIDERS = [
         TestDraggableWidget,
         QuestionDraggableWidget,
         CounterWidget,
+        ExecutionWidget,
         // Pipes
         CapitalizePipe,
         DatePipe,

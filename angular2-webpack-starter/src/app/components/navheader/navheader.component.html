@@ -1,7 +1,7 @@
 ﻿<div class="main-nav-header">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
-            <div *ngIf="!execution" class="navbar-header">
+            <div class="navbar-header">
                 <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
                     <span class='sr-only'>Toggle navigation</span>
                     <span class='icon-bar'></span>
@@ -10,15 +10,15 @@
                 </button>
                 <a class='navbar-brand' [routerLink]="['/home']">TestManagementStudio</a>
             </div>
-            <ul *ngIf="execution != null && execution.id == null" class='nav navbar-nav'>
+            <ul *ngIf="execution != null && (execution.id == null || execution.dateOfFill != null)" class='nav navbar-nav'>
                 <li *ngFor="let link of headers.headers" [routerLinkActive]="['link-active']">
-                    <a [routerLink]="[link.url]" (click)="setPage(link.page); selectedModule = link.name;" [class.active]="link.name == selectedModule">
+                    <a [routerLink]="[link.url]" (click)="setPage(link.page); selectedModule = link.page;" [class.active]="link.page == selectedModule">
                         <span [class]="link.icon"></span> {{link.name | capitalize}}
                     </a>
                 </li>
             </ul>
-            <ul *ngIf="execution != null && execution.id != null" class='nav navbar-nav'>
-                <li>
+            <ul *ngIf="execution != null && execution.id != null && execution.dateOfFill == null" class='nav navbar-nav'>
+                <li class="counter">
                     <tms-counter [interval]="90"></tms-counter>
                 </li>
             </ul>

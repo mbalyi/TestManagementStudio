@@ -26,8 +26,10 @@ export function executionReducer( state: TestExecution = INITIAL_STATE, action: 
                 for (let j = 0; j < state.test.questions[i].answersAll.length; j++) {
                     if (state.test.questions[i].answersAll[j].id == action.answer.id) {
                         for ( let k = 0; k < state.test.questions[i].answersAll.length; k++) {
-                            state.answersGiven.splice(state.answersGiven.indexOf(state.test.questions[i].answersAll),1);
+                            if (state.answersGiven.indexOf(state.test.questions[i].answersAll[k]) > -1)
+                                state.answersGiven.splice(state.answersGiven.indexOf(state.test.questions[i].answersAll[k]),1);
                         }
+                        break;
                     }
                 }
             }

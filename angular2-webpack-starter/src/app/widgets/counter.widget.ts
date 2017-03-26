@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 @Component({
     selector: 'tms-counter',
     template: `
-        <h1>{{interval || numbertotime}} Time Left</h1>
+        <h2>{{interval | numbertotime}} Time Left</h2>
     `
 })
 export class CounterWidget {
@@ -17,8 +17,7 @@ export class CounterWidget {
 
 
     ngOnInit() {
-        this.interval *= 60;
-        let timer = Observable.timer(0,1000);
+        let timer = Observable.timer(0,60000);
         timer.subscribe( t => {
             if (this.interval == 0) {
                 this.end.emit();
