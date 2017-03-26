@@ -77,6 +77,7 @@ import { NumberToTimePipe } from './pipes/number.to.time.pipe';
 
 // Guards
 import { AuthGuard } from './guards/authentication.guard';
+import { ExecutionGuard } from './guards/execution.guard';
 
 // Services
 import { AuthenticationService } from './services/authentication/authentication.service';
@@ -190,6 +191,7 @@ const APP_PROVIDERS = [
     }),
     // Guards
     AuthGuard,
+    ExecutionGuard,
     // Services
     AuthenticationService,
     UserService,
