@@ -9,48 +9,57 @@ using TestManagementStudioService.Exceptions.Data;
 
 namespace TestManagementStudioService.Repositories
 {
-    class RoleRepository : BasicRepository, IRepository<Role>
+    public class RoleRepository : BasicRepository, IRepository<Role>
     {
-        public void Add(Role entity)
+        public int Add(Role entity)
         {
-            using (IDbConnection dbConnection = Connection)
+            try
             {
-                dbConnection.Open();
-                using (IDbTransaction tranz = dbConnection.BeginTransaction())
+                using (IDbConnection dbConnection = Connection)
                 {
-                    try
+                    dbConnection.Open();
+                    using (IDbTransaction tranz = dbConnection.BeginTransaction())
                     {
-                        var sqlEntity = @"
-                                            INSERT INTO Role(Name, IsRoot)
-                                            VALUES(@Name, @IsRoot);
-                                            SELECT CAST(SCOPE_IDENTITY() as int);
-                                        ";
-
-                        var id = dbConnection.QueryFirst<int>(sqlEntity, new { Name = entity.Name, IsRoot = entity.IsRoot }, tranz);
-
-                        var sqlActor = @"
-                                            INSERT INTO RolePart (RoleId, PartName) VALUES(@Id, @PartName);                                            
-                                        ";
-
-                        // Inserrt role parts
-                        foreach (var part in entity.Parts)
+                        try
                         {
-                            dbConnection.Execute(sqlActor, new { id = id, PartName = part.Name }, tranz);
-                        }
+                            var sqlEntity = @"
+                                                INSERT INTO Role(Name, IsRoot)
+                                                VALUES(@Name, @IsRoot);
+                                                SELECT CAST(SCOPE_IDENTITY() as int);
+                                            ";
 
-                        tranz.Commit();
-                    }
-                    catch
-                    {
-                        if (tranz != null)
+                            var id = dbConnection.QueryFirst<int>(sqlEntity, new { Name = entity.Name, IsRoot = entity.IsRoot }, tranz);
+
+                            var sqlActor = @"
+                                                INSERT INTO RolePart (RoleId, PartName) VALUES(@Id, @PartName);                                            
+                                            ";
+
+                            // Inserrt role parts
+                            foreach (var part in entity.Parts)
+                            {
+                                dbConnection.Execute(sqlActor, new { id = id, PartName = part.Name }, tranz);
+                            }
+
+                            tranz.Commit();
+                            return id;
+                        }
+                        catch
                         {
-                            tranz.Rollback();
-                            throw;
+                            if (tranz != null)
+                            {
+                                tranz.Rollback();
+                                throw;
+                            }
                         }
                     }
+
+
                 }
-
-
+                throw new Exception();
+            }
+            catch
+            {
+                throw;
             }
         }
 

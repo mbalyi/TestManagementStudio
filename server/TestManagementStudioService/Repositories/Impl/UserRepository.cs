@@ -10,43 +10,52 @@ namespace TestManagementStudioService.Repositories
 {
     public class UserRepository : BasicRepository, IRepository<User>
     {
-        public void Add(User entity)
+        public int Add(User entity)
         {
-            using (IDbConnection dbConnection = Connection)
+            try
             {
-                dbConnection.Open();
-                using (IDbTransaction tranz = dbConnection.BeginTransaction())
+                using (IDbConnection dbConnection = Connection)
                 {
-                    try
+                    dbConnection.Open();
+                    using (IDbTransaction tranz = dbConnection.BeginTransaction())
                     {
-                        var sqlEntity = @"
-                                            INSERT INTO SecuredEntity DEFAULT VALUES;
-                                            SELECT CAST(SCOPE_IDENTITY() as int);
-                                        ";
-
-                        var id = dbConnection.QueryFirst<int>(sqlEntity, null, tranz);
-
-                        var sqlActor = @"
-                                            INSERT INTO Actor (Id) VALUES(@Id);                                            
-                                        ";
-                        dbConnection.Execute(sqlActor, new { id = id }, tranz);
-
-                        entity.Id = (id);
-
-                        dbConnection.Execute("INSERT INTO [User] ([Id], [Email],[Password],[FirstName],[LastName]) VALUES(@Id, @Email,@Password,@FirstName,@LastName)", entity, tranz);
-                        tranz.Commit();
-                    }
-                    catch
-                    {
-                        if (tranz != null)
+                        try
                         {
-                            tranz.Rollback();
-                            throw;
+                            var sqlEntity = @"
+                                                INSERT INTO SecuredEntity DEFAULT VALUES;
+                                                SELECT CAST(SCOPE_IDENTITY() as int);
+                                            ";
+
+                            var id = dbConnection.QueryFirst<int>(sqlEntity, null, tranz);
+
+                            var sqlActor = @"
+                                                INSERT INTO Actor (Id) VALUES(@Id);                                            
+                                            ";
+                            dbConnection.Execute(sqlActor, new { id = id }, tranz);
+
+                            entity.Id = (id);
+
+                            dbConnection.Execute("INSERT INTO [User] ([Id], [Email],[Password],[FirstName],[LastName]) VALUES(@Id, @Email,@Password,@FirstName,@LastName)", entity, tranz);
+                            tranz.Commit();
+                            return id;
+                        }
+                        catch
+                        {
+                            if (tranz != null)
+                            {
+                                tranz.Rollback();
+                                throw;
+                            }
                         }
                     }
+
+
                 }
-
-
+                throw new Exception();
+            }
+            catch
+            {
+                throw;
             }
         }
 

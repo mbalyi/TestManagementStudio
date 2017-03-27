@@ -5,9 +5,9 @@ using TestManagementStudioService.Models;
 
 namespace TestManagementStudioService.Repositories.Impl
 {
-    class CategoryRepository : BasicRepository, IRepository<Category>
+    public class CategoryRepository : BasicRepository, IRepository<Category>
     {
-        public void Add(Category entity)
+        public int Add(Category entity)
         {
             throw new NotImplementedException();
         }
