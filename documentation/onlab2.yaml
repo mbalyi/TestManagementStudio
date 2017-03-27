@@ -99,6 +99,14 @@ parameters:
     format: int32
     required: true
     
+  answerId:
+    name: answerId
+    in: path
+    description: The identifier of an answer
+    type: number
+    format: int32
+    required: true
+    
   testExecutionId:
     name: testId
     in: path
@@ -1518,12 +1526,30 @@ paths:
               description: "The URI of the created question"
               type: string
               
-            delete:
+    delete:
+      summary: "remove a question"
+      description: ""
+      operationId: deleteQuestion
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+
   /questions/{questionId}/categories:
+    parameters:
+      - $ref: '#/parameters/questionId'
     get:
       security:
         - Bearer: []
       tags:
+      - Questions
       - Categories
       summary:  "Get all categories of a question"
       description: "Get all categories of a question"
@@ -1536,37 +1562,448 @@ paths:
             items:
               $ref: '#/definitions/Category'
     post:
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      - Categories
+      summary:  "Add a category to the question"
+      description: "Add a category to the question"
+      operationId: addQuestionCategory
+      parameters:
+        - name: categoryId
+          in: formData
+          description: "Id of the new category"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the added category"
+              type: string
+              
   /questions/{questionId}/categories/{categoryId}:
+    parameters:
+      - $ref: '#/parameters/questionId'
+      - $ref: '#/parameters/categoryId'
     delete:
+      summary: "remove a question category"
+      description: ""
+      operationId: deleteQuestionCategory
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      - Categories
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
   /questions/{questionId}/answers:
+    parameters:
+      - $ref: '#/parameters/questionId'
     get:
+      summary: "Get answers paired to the question"
+      description: ""
+      operationId: listQuestionAnswers
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      - Answers
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Answer'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
     post:
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      - Answers
+      summary: "Add an question answer"
+      description: "Add an question answer"
+      operationId: addQuestionAnswer
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: answer
+          in: body
+          description: "the answer"
+          required: true
+          schema:
+            $ref: '#/definitions/Answer'
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created answer"
+              type: string
+    
   /questions/{questionId}/answers/{answerId}:
+    parameters:
+      - $ref: '#/parameters/questionId'
+      - $ref: '#/parameters/answerId'
     get:
-    put:
+      summary: "Get a concrete answers paired to the question"
+      description: ""
+      operationId: getQuestionAnswer
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      - Answers
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/Answer'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+   # put:
     delete:
+      summary: "remove an answer"
+      description: ""
+      operationId: deleteQuestionAnswer
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      - Answers
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    
   /tests:
     get:
+      summary: "Get all tests"
+      description: ""
+      operationId: listTests
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Test'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
     post:
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      summary: "Add a new test"
+      description: "Add a new test"
+      operationId: addTest
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: test
+          in: body
+          description: "the test"
+          required: true
+          schema:
+            $ref: '#/definitions/Test'
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created test"
+              type: string
+    
   /tests/{testId}:
+    parameters:
+      - $ref: '#/parameters/testId'
+      
     get:
-    put:
+      summary: "Get a concrete test"
+      description: ""
+      operationId: getTest
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      responses:
+        "200":
+          description: ""
+          schema:
+           $ref: '#/definitions/Test'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+   # put:
     delete:
+      summary: "remove a test"
+      description: ""
+      operationId: deleteTest
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"  
   /tests/{testId}/questions:
+    parameters:
+      - $ref: '#/parameters/testId'
     get:
+      summary: "Get questions of a test"
+      description: ""
+      operationId: listTestQuestions
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - Questions
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Question'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
     post:
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+       - Questions
+      summary: "Assign a question to a test"
+      description: ""
+      operationId: addTestQuestion
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: questionId
+          in: formData
+          description: "the question's Id"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the modified test"
+              type: string
   /tests/{testId}/questions/{questionId}:
+    parameters:
+      - $ref: '#/parameters/testId'
+      - $ref: '#/parameters/questionId'
     delete:
+      summary: "remove a question"
+      description: ""
+      operationId: deleteTestQuestion
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - Questions
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
   /tests/{testId}/categories:
+    parameters:
+      - $ref: '#/parameters/testId'
     get:
+      summary: "Get test categories"
+      description: ""
+      operationId: listTestCategories
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - Categories
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
     post:
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - Categories
+      summary: "Assign a category to a test"
+      description: ""
+      operationId: addTestCategory
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: categoryId
+          in: formData
+          description: "the category's Id"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created test"
+              type: string
   /tests/{testId}/categories/{categoryId}:
+    parameters:
+      - $ref: '#/parameters/testId'
+      - $ref: '#/parameters/categoryId'
     delete:
+      summary: "remove a test category "
+      description: ""
+      operationId: deleteTestCategory
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - Categories
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
   /tests/{testId}/test-sets:
+    parameters:
+      - $ref: '#/parameters/testId'
     get:
+      summary: "Get TestSets related with a test"
+      description: ""
+      operationId: listTestTestSets
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - TestSets
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TestSet'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
     post:
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      summary: "Create a new TestSet based on a test, assigned to asome actors"
+      description: ""
+      operationId: addTestTestSet
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: actorId
+          in: formData
+          description: "id of the actor"
+          required: true
+          type: integer
+          format: int32
+        - name: dueDate
+          in: formData
+          description: "due date"
+          required: false
+          type: string
+          format: date-time
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created testset"
+              type: string
+              
   /tests/{testId}/test-executions:
+    parameters:
+      - $ref: '#/parameters/testId'
     get:
+      summary: "Get TestExecutions related with a test"
+      description: ""
+      operationId: listTestTestExecutions
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - TestExecutions
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TestExecution'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
   
 
     
