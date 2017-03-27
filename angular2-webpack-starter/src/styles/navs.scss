@@ -8,6 +8,28 @@ tms-navmenu {
         border-right: 0.1em solid $black;
         padding: 0.3em;
 
+        ul.navbar-nav {
+            @include fill();
+
+            tms-execution {
+                @include fill-width();
+
+                li:nth-child(4) {
+                    height: 15%;
+                    margin-top: 0.5em;
+                    margin-bottom: 0.5em;
+                }
+
+                tms-button {
+                    @include fill();
+
+                    button {
+                        @include fill();
+                    }
+                }
+            }
+        }
+
         ul.navbar-nav > li {
             width: 100%;
             font-size: 1.2em;
@@ -58,6 +80,16 @@ tms-navheader {
         li > a.active {
             color: $white;
             font-weight: bold;
+        }
+
+        li.counter {
+            position: absolute;
+            left: 45%;
+
+            h2 {
+                margin-top: 0.1em;
+                margin-bottom: 0em;
+            }
         }
     }
 }

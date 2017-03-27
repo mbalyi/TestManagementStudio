@@ -1,6 +1,8 @@
 import { Users } from "./../../models/users.model";
 import { Roles } from "./../../models/roles.model";
-import { User, Group, Role, Category, Question, Answer, Test, TestSet, TestExecution } from './../../api/index';
+import { User, Group, Role, 
+    Category, Question, Answer, 
+    Test, TestSet, TestExecution } from './../../api/index';
 
 export class FakeAdminServer {
 
@@ -67,6 +69,10 @@ export class FakeAdminServer {
         {id: 4, dueDate: new Date()},
     ];
 
+    private testSet: TestSet = null;
+
+    private execution: TestExecution = {id: 1, test: null, answersGiven: [], dateOfStart: new Date(), dateOfFill: null};
+
     constructor() {
         this.groups[0].members = [this.users[0],this.users[1]];
         this.groups[1].members = [this.users[3],this.users[4]];
@@ -92,6 +98,9 @@ export class FakeAdminServer {
 
         this.categories[0].questions = [this.questions[1],this.questions[3],this.questions[0]];
         this.categories[0].tests = [this.tests[0],this.tests[2]];
+
+        this.execution.test = this.tests[1];
+        this.execution.dateOfStart = new Date();
     }
 
     getUsers(): Users[] {
@@ -151,25 +160,44 @@ export class FakeAdminServer {
         return selectedTest;
     }
 
-    getTestSetsToday(): TestSet[] {
+    getTestSetsToday(): Test[] {
         let test = [];
-        for (let i = 0; i < this.testSets.length; i++) {
-            if (this.testSets[i].dueDate <= new Date())
-                test.push(this.testSets[i]);
+        for (let i = 0; i < this.tests.length; i++) {
+            if ( this.tests[i].testSets.length > 0) {
+                for(let j = 0; j < this.tests[i].testSets.length; j++) {
+                    if (this.tests[i].testSets[j].dueDate <= new Date()) {
+                        this.testSet = this.tests[i].testSets[j];
+                        let t = this.tests[i];
+                        t.testSets = [this.testSet];
+                        test.push(t);
+                    }
+                }
+            }
         }
         return test;
     }
 
-    getTestSetsOther(): TestSet[] {
+    getTestSetsOther(): Test[] {
         let test = [];
-        for (let i = 0; i < this.testSets.length; i++) {
-            if (this.testSets[i].dueDate > new Date())
-                test.push(this.testSets[i]);
+        for (let i = 0; i < this.tests.length; i++) {
+            if ( this.tests[i].testSets.length > 0) {
+                for(let j = 0; j < this.tests[i].testSets.length; j++) {
+                    if (this.tests[i].testSets[j].dueDate > new Date())
+                        this.testSet = this.tests[i].testSets[j];
+                        let t = this.tests[i];
+                        t.testSets = [this.testSet];
+                        test.push(t);
+                }
+            }
         }
         return test;
     }
 
     getTestByTestSetId(id: number): TestExecution {
         return null;
+    }
+
+    getExecution(): TestExecution {
+        return this.execution;
     }
 }

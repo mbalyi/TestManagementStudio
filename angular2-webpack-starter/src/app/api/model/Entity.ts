@@ -15,6 +15,18 @@ import * as models from './models';
 export interface Entity {
     id?: number;
 
+    description?: string;
+
+    createdAt?: Date;
+
+    deleteddAt?: Date;
+
+    deleted?: boolean;
+
+    updatedTo?: Date;
+
+    updatedAt?: models.Entity;
+
     permissions?: Array<models.Permission>;
 
 }

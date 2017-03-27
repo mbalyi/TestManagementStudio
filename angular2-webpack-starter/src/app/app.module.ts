@@ -65,8 +65,16 @@ import { QuestionWidget } from './widgets/question.widget';
 import { QuestionFormWidget } from './widgets/question.form.widget';
 import { TestDraggableWidget } from './widgets/test.draggable.widget';
 import { QuestionDraggableWidget } from './widgets/question.draggable.widget';
+import { CounterWidget } from './widgets/counter.widget';
+import { ExecutionWidget } from './widgets/execution.widget';
 
+// Pipes
 import { CapitalizePipe } from './pipes/capitalize.pipe';
+import { DatePipe } from './pipes/date.pipe';
+import { TimePipe } from './pipes/time.pipe';
+import { NumberToTimePipe } from './pipes/number.to.time.pipe';
+
+// Guards
 import { AuthGuard } from './guards/authentication.guard';
 
 // Services
@@ -87,6 +95,7 @@ import { LoginActions } from './actions/login.actions';
 import { NavPageActions } from './actions/navheader.actions';
 import { CurrentUserActions } from './actions/current.user.actions';
 import { NotificationActions } from './actions/notification.actions';
+import { ExecutionActions } from './actions/execution.actions';
 
 // Redux
 import { IAppState } from './reducers/store/app.state';
@@ -94,6 +103,7 @@ import { loginReducer } from './reducers/login.reducer';
 import { currentUserReducer } from './reducers/current.user.reducer';
 import { navHeaderReducer } from './reducers/navheader.reducer';
 import { notificationReducer } from './reducers/notification.reducer';
+import { executionReducer } from './reducers/execution.reducer';
 
 import '../styles/styles.scss';
 
@@ -138,8 +148,13 @@ const APP_PROVIDERS = [
         QuestionFormWidget,
         TestDraggableWidget,
         QuestionDraggableWidget,
+        CounterWidget,
+        ExecutionWidget,
         // Pipes
-        CapitalizePipe
+        CapitalizePipe,
+        DatePipe,
+        TimePipe,
+        NumberToTimePipe
     ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -186,7 +201,8 @@ const APP_PROVIDERS = [
     LoginActions,
     NavPageActions,
     CurrentUserActions,
-    NotificationActions
+    NotificationActions,
+    ExecutionActions
   ]
 
 })
@@ -207,6 +223,7 @@ export class AppModule {
         currentuser: currentUserReducer,
         navpage: navHeaderReducer,
         notification: notificationReducer,
+        execution: executionReducer,
         router: routerReducer
     }));
 
