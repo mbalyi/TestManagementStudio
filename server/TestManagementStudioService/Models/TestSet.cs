@@ -25,37 +25,41 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class TestSet : Entity, IEquatable<TestSet>
+    public partial class TestSet : Entity,  IEquatable<TestSet>
     {
 
+        public TestSet():base()
+        {
+            this.Test = default(Test);
+            this.DueDate = default(DateTime);
+            this.ActorsAssigned = new List<Actor>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="TestSet" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
-        /// <param name="Permissions">Permissions.</param>
+        /// <param name="Description">Description.</param>
+        /// <param name="CreatedAt">CreatedAt.</param>
+        /// <param name="DeleteddAt">DeleteddAt.</param>
+        /// <param name="Deleted">Deleted.</param>
+        /// <param name="UpdatedTo">UpdatedTo.</param>
         /// <param name="Test">Test.</param>
         /// <param name="DueDate">DueDate.</param>
         /// <param name="ActorsAssigned">ActorsAssigned.</param>
-        public TestSet(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>), Test Test = default(Test), DateTime? DueDate = default(DateTime?), List<Actor> ActorsAssigned = default(List<Actor>))
+        public TestSet(int? Id = default(int?), string Description = default(string), DateTime? CreatedAt = default(DateTime?), DateTime? DeleteddAt = default(DateTime?), bool? Deleted = default(bool?), DateTime? UpdatedTo = default(DateTime?), Test Test = default(Test), DateTime? DueDate = default(DateTime?), List<Actor> ActorsAssigned = default(List<Actor>))
         {
             this.Id = Id;
-            this.Permissions = Permissions;
+            this.Description = Description;
+            this.CreatedAt = CreatedAt;
+            this.DeleteddAt = DeleteddAt;
+            this.Deleted = Deleted;
+            this.UpdatedTo = UpdatedTo;
             this.Test = Test;
             this.DueDate = DueDate;
             this.ActorsAssigned = ActorsAssigned;
             
         }
-
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [DataMember(Name="id")]
-        public int? Id { get; set; }
-        /// <summary>
-        /// Gets or Sets Permissions
-        /// </summary>
-        [DataMember(Name="permissions")]
-        public List<Permission> Permissions { get; set; }
+        
         /// <summary>
         /// Gets or Sets Test
         /// </summary>
@@ -81,7 +85,11 @@ namespace TestManagementStudioService.Models
             var sb = new StringBuilder();
             sb.Append("class TestSet {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Permissions: ").Append(Permissions).Append("\n");
+            sb.Append("  Description: ").Append(Description).Append("\n");
+            sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
+            sb.Append("  DeleteddAt: ").Append(DeleteddAt).Append("\n");
+            sb.Append("  Deleted: ").Append(Deleted).Append("\n");
+            sb.Append("  UpdatedTo: ").Append(UpdatedTo).Append("\n");
             sb.Append("  Test: ").Append(Test).Append("\n");
             sb.Append("  DueDate: ").Append(DueDate).Append("\n");
             sb.Append("  ActorsAssigned: ").Append(ActorsAssigned).Append("\n");
@@ -93,7 +101,7 @@ namespace TestManagementStudioService.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public  new string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -129,10 +137,30 @@ namespace TestManagementStudioService.Models
                     this.Id.Equals(other.Id)
                 ) && 
                 (
-                    this.Permissions == other.Permissions ||
-                    this.Permissions != null &&
-                    this.Permissions.SequenceEqual(other.Permissions)
+                    this.Description == other.Description ||
+                    this.Description != null &&
+                    this.Description.Equals(other.Description)
                 ) && 
+                (
+                    this.CreatedAt == other.CreatedAt ||
+                    this.CreatedAt != null &&
+                    this.CreatedAt.Equals(other.CreatedAt)
+                ) && 
+                (
+                    this.DeleteddAt == other.DeleteddAt ||
+                    this.DeleteddAt != null &&
+                    this.DeleteddAt.Equals(other.DeleteddAt)
+                ) && 
+                (
+                    this.Deleted == other.Deleted ||
+                    this.Deleted != null &&
+                    this.Deleted.Equals(other.Deleted)
+                ) && 
+                (
+                    this.UpdatedTo == other.UpdatedTo ||
+                    this.UpdatedTo != null &&
+                    this.UpdatedTo.Equals(other.UpdatedTo)
+                )  && 
                 (
                     this.Test == other.Test ||
                     this.Test != null &&
@@ -163,8 +191,17 @@ namespace TestManagementStudioService.Models
                 // Suitable nullity checks etc, of course :)
                     if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
-                    if (this.Permissions != null)
-                    hash = hash * 59 + this.Permissions.GetHashCode();
+                    if (this.Description != null)
+                    hash = hash * 59 + this.Description.GetHashCode();
+                    if (this.CreatedAt != null)
+                    hash = hash * 59 + this.CreatedAt.GetHashCode();
+                    if (this.DeleteddAt != null)
+                    hash = hash * 59 + this.DeleteddAt.GetHashCode();
+                    if (this.Deleted != null)
+                    hash = hash * 59 + this.Deleted.GetHashCode();
+                    if (this.UpdatedTo != null)
+                    hash = hash * 59 + this.UpdatedTo.GetHashCode();
+                   
                     if (this.Test != null)
                     hash = hash * 59 + this.Test.GetHashCode();
                     if (this.DueDate != null)

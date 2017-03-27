@@ -25,52 +25,46 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class SingleAnswerQuestion : Question, IEquatable<SingleAnswerQuestion>
+    public partial class SingleAnswerQuestion : Question,  IEquatable<SingleAnswerQuestion>
     {
+
+
+        public SingleAnswerQuestion() : base()
+        {
+
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SingleAnswerQuestion" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
+        /// <param name="Description">Description.</param>
+        /// <param name="CreatedAt">CreatedAt.</param>
+        /// <param name="DeleteddAt">DeleteddAt.</param>
+        /// <param name="Deleted">Deleted.</param>
+        /// <param name="UpdatedTo">UpdatedTo.</param>
         /// <param name="Permissions">Permissions.</param>
+        /// <param name="CreatedBy">CreatedBy.</param>
         /// <param name="Text">Text.</param>
         /// <param name="AnswersAll">AnswersAll.</param>
         /// <param name="Categories">Categories.</param>
-        public SingleAnswerQuestion(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>), string Text = default(string), List<Answer> AnswersAll = default(List<Answer>), List<Category> Categories = default(List<Category>))
+        public SingleAnswerQuestion(int? Id = default(int?), string Description = default(string), DateTime? CreatedAt = default(DateTime?), DateTime? DeleteddAt = default(DateTime?), bool? Deleted = default(bool?), DateTime? UpdatedTo = default(DateTime?), List<Permission> Permissions = default(List<Permission>), User CreatedBy = default(User), string Text = default(string), List<Answer> AnswersAll = default(List<Answer>), List<Category> Categories = default(List<Category>))
         {
             this.Id = Id;
+            this.Description = Description;
+            this.CreatedAt = CreatedAt;
+            this.DeleteddAt = DeleteddAt;
+            this.Deleted = Deleted;
+            this.UpdatedTo = UpdatedTo;
             this.Permissions = Permissions;
+            this.CreatedBy = CreatedBy;
             this.Text = Text;
             this.AnswersAll = AnswersAll;
             this.Categories = Categories;
             
         }
 
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [DataMember(Name="id")]
-        public int? Id { get; set; }
-        /// <summary>
-        /// Gets or Sets Permissions
-        /// </summary>
-        [DataMember(Name="permissions")]
-        public List<Permission> Permissions { get; set; }
-        /// <summary>
-        /// Gets or Sets Text
-        /// </summary>
-        [DataMember(Name="text")]
-        public string Text { get; set; }
-        /// <summary>
-        /// Gets or Sets AnswersAll
-        /// </summary>
-        [DataMember(Name="answersAll")]
-        public List<Answer> AnswersAll { get; set; }
-        /// <summary>
-        /// Gets or Sets Categories
-        /// </summary>
-        [DataMember(Name="categories")]
-        public List<Category> Categories { get; set; }
+        
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -81,7 +75,13 @@ namespace TestManagementStudioService.Models
             var sb = new StringBuilder();
             sb.Append("class SingleAnswerQuestion {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Description: ").Append(Description).Append("\n");
+            sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
+            sb.Append("  DeleteddAt: ").Append(DeleteddAt).Append("\n");
+            sb.Append("  Deleted: ").Append(Deleted).Append("\n");
+            sb.Append("  UpdatedTo: ").Append(UpdatedTo).Append("\n");
             sb.Append("  Permissions: ").Append(Permissions).Append("\n");
+            sb.Append("  CreatedBy: ").Append(CreatedBy).Append("\n");
             sb.Append("  Text: ").Append(Text).Append("\n");
             sb.Append("  AnswersAll: ").Append(AnswersAll).Append("\n");
             sb.Append("  Categories: ").Append(Categories).Append("\n");
@@ -93,7 +93,7 @@ namespace TestManagementStudioService.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public  new string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -129,9 +129,39 @@ namespace TestManagementStudioService.Models
                     this.Id.Equals(other.Id)
                 ) && 
                 (
+                    this.Description == other.Description ||
+                    this.Description != null &&
+                    this.Description.Equals(other.Description)
+                ) && 
+                (
+                    this.CreatedAt == other.CreatedAt ||
+                    this.CreatedAt != null &&
+                    this.CreatedAt.Equals(other.CreatedAt)
+                ) && 
+                (
+                    this.DeleteddAt == other.DeleteddAt ||
+                    this.DeleteddAt != null &&
+                    this.DeleteddAt.Equals(other.DeleteddAt)
+                ) && 
+                (
+                    this.Deleted == other.Deleted ||
+                    this.Deleted != null &&
+                    this.Deleted.Equals(other.Deleted)
+                ) && 
+                (
+                    this.UpdatedTo == other.UpdatedTo ||
+                    this.UpdatedTo != null &&
+                    this.UpdatedTo.Equals(other.UpdatedTo)
+                ) && 
+                (
                     this.Permissions == other.Permissions ||
                     this.Permissions != null &&
                     this.Permissions.SequenceEqual(other.Permissions)
+                ) && 
+                (
+                    this.CreatedBy == other.CreatedBy ||
+                    this.CreatedBy != null &&
+                    this.CreatedBy.Equals(other.CreatedBy)
                 ) && 
                 (
                     this.Text == other.Text ||
@@ -163,8 +193,20 @@ namespace TestManagementStudioService.Models
                 // Suitable nullity checks etc, of course :)
                     if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
+                    if (this.Description != null)
+                    hash = hash * 59 + this.Description.GetHashCode();
+                    if (this.CreatedAt != null)
+                    hash = hash * 59 + this.CreatedAt.GetHashCode();
+                    if (this.DeleteddAt != null)
+                    hash = hash * 59 + this.DeleteddAt.GetHashCode();
+                    if (this.Deleted != null)
+                    hash = hash * 59 + this.Deleted.GetHashCode();
+                    if (this.UpdatedTo != null)
+                    hash = hash * 59 + this.UpdatedTo.GetHashCode();
                     if (this.Permissions != null)
                     hash = hash * 59 + this.Permissions.GetHashCode();
+                    if (this.CreatedBy != null)
+                    hash = hash * 59 + this.CreatedBy.GetHashCode();
                     if (this.Text != null)
                     hash = hash * 59 + this.Text.GetHashCode();
                     if (this.AnswersAll != null)

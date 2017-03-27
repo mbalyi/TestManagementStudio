@@ -28,28 +28,46 @@ namespace TestManagementStudioService.Models
     public partial class RolePart : Entity,  IEquatable<RolePart>
     {
 
+        public RolePart() : base()
+        {
+            this.Name = default(String);
+            this.AccessType = default(int?);
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RolePart" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
-        /// <param name="Permissions">Permissions.</param>
-        public RolePart(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>))
+        /// <param name="Description">Description.</param>
+        /// <param name="CreatedAt">CreatedAt.</param>
+        /// <param name="DeleteddAt">DeleteddAt.</param>
+        /// <param name="Deleted">Deleted.</param>
+        /// <param name="UpdatedTo">UpdatedTo.</param>
+        /// <param name="Name">Name.</param>
+        /// <param name="AccessType">AccessType.</param>
+        public RolePart(int? Id = default(int?), string Description = default(string), DateTime? CreatedAt = default(DateTime?), DateTime? DeleteddAt = default(DateTime?), bool? Deleted = default(bool?), DateTime? UpdatedTo = default(DateTime?),  string Name = default(string), int? AccessType = default(int?))
         {
             this.Id = Id;
-            this.Permissions = Permissions;
+            this.Description = Description;
+            this.CreatedAt = CreatedAt;
+            this.DeleteddAt = DeleteddAt;
+            this.Deleted = Deleted;
+            this.UpdatedTo = UpdatedTo;
+            this.Name = Name;
+            this.AccessType = AccessType;
             
         }
-
+        
         /// <summary>
-        /// Gets or Sets Id
+        /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="id")]
-        public int? Id { get; set; }
+        [DataMember(Name="name")]
+        public string Name { get; set; }
         /// <summary>
-        /// Gets or Sets Permissions
+        /// Gets or Sets AccessType
         /// </summary>
-        [DataMember(Name="permissions")]
-        public List<Permission> Permissions { get; set; }
+        [DataMember(Name="accessType")]
+        public int? AccessType { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,7 +78,13 @@ namespace TestManagementStudioService.Models
             var sb = new StringBuilder();
             sb.Append("class RolePart {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Permissions: ").Append(Permissions).Append("\n");
+            sb.Append("  Description: ").Append(Description).Append("\n");
+            sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
+            sb.Append("  DeleteddAt: ").Append(DeleteddAt).Append("\n");
+            sb.Append("  Deleted: ").Append(Deleted).Append("\n");
+            sb.Append("  UpdatedTo: ").Append(UpdatedTo).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  AccessType: ").Append(AccessType).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -69,7 +93,7 @@ namespace TestManagementStudioService.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public  new string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -105,9 +129,40 @@ namespace TestManagementStudioService.Models
                     this.Id.Equals(other.Id)
                 ) && 
                 (
-                    this.Permissions == other.Permissions ||
-                    this.Permissions != null &&
-                    this.Permissions.SequenceEqual(other.Permissions)
+                    this.Description == other.Description ||
+                    this.Description != null &&
+                    this.Description.Equals(other.Description)
+                ) && 
+                (
+                    this.CreatedAt == other.CreatedAt ||
+                    this.CreatedAt != null &&
+                    this.CreatedAt.Equals(other.CreatedAt)
+                ) && 
+                (
+                    this.DeleteddAt == other.DeleteddAt ||
+                    this.DeleteddAt != null &&
+                    this.DeleteddAt.Equals(other.DeleteddAt)
+                ) && 
+                (
+                    this.Deleted == other.Deleted ||
+                    this.Deleted != null &&
+                    this.Deleted.Equals(other.Deleted)
+                ) && 
+                (
+                    this.UpdatedTo == other.UpdatedTo ||
+                    this.UpdatedTo != null &&
+                    this.UpdatedTo.Equals(other.UpdatedTo)
+                ) && 
+                
+                (
+                    this.Name == other.Name ||
+                    this.Name != null &&
+                    this.Name.Equals(other.Name)
+                ) && 
+                (
+                    this.AccessType == other.AccessType ||
+                    this.AccessType != null &&
+                    this.AccessType.Equals(other.AccessType)
                 );
         }
 
@@ -124,8 +179,21 @@ namespace TestManagementStudioService.Models
                 // Suitable nullity checks etc, of course :)
                     if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
-                    if (this.Permissions != null)
-                    hash = hash * 59 + this.Permissions.GetHashCode();
+                    if (this.Description != null)
+                    hash = hash * 59 + this.Description.GetHashCode();
+                    if (this.CreatedAt != null)
+                    hash = hash * 59 + this.CreatedAt.GetHashCode();
+                    if (this.DeleteddAt != null)
+                    hash = hash * 59 + this.DeleteddAt.GetHashCode();
+                    if (this.Deleted != null)
+                    hash = hash * 59 + this.Deleted.GetHashCode();
+                    if (this.UpdatedTo != null)
+                    hash = hash * 59 + this.UpdatedTo.GetHashCode();
+                    
+                    if (this.Name != null)
+                    hash = hash * 59 + this.Name.GetHashCode();
+                    if (this.AccessType != null)
+                    hash = hash * 59 + this.AccessType.GetHashCode();
                 return hash;
             }
         }

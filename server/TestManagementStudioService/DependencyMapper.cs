@@ -15,6 +15,10 @@ namespace TestManagementStudioService.IoC
           //  DbInitializer.Initialize(context);
             services.AddScoped<UserService>();
             services.AddScoped<IRepository<User>, UserRepository>();
+            services.AddScoped<IRepository<Role>, RoleRepository>();
+
+            services.AddScoped<UserRepository>();
+            services.AddScoped<RoleRepository>();
             return services;
         }
     }

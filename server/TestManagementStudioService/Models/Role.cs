@@ -28,28 +28,55 @@ namespace TestManagementStudioService.Models
     public partial class Role : Entity,  IEquatable<Role>
     {
 
+        public Role() : base()
+        {
+            this.IsRoot = default(Boolean);
+            this.Name = default(String);
+            this.Parts = new List<RolePart>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Role" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
-        /// <param name="Permissions">Permissions.</param>
-        public Role(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>))
+        /// <param name="Description">Description.</param>
+        /// <param name="CreatedAt">CreatedAt.</param>
+        /// <param name="DeleteddAt">DeleteddAt.</param>
+        /// <param name="Deleted">Deleted.</param>
+        /// <param name="UpdatedTo">UpdatedTo.</param>
+        /// <param name="IsRoot">If this property set to true, user has access to any part of the services.</param>
+        /// <param name="Name">Name.</param>
+        /// <param name="Parts">Parts.</param>
+        public Role(int? Id = default(int?), string Description = default(string), DateTime? CreatedAt = default(DateTime?), DateTime? DeleteddAt = default(DateTime?), bool? Deleted = default(bool?), DateTime? UpdatedTo = default(DateTime?),  bool? IsRoot = default(bool?), string Name = default(string), List<RolePart> Parts = default(List<RolePart>))
         {
             this.Id = Id;
-            this.Permissions = Permissions;
+            this.Description = Description;
+            this.CreatedAt = CreatedAt;
+            this.DeleteddAt = DeleteddAt;
+            this.Deleted = Deleted;
+            this.UpdatedTo = UpdatedTo;
+            this.IsRoot = IsRoot;
+            this.Name = Name;
+            this.Parts = Parts;
             
         }
-
+        
         /// <summary>
-        /// Gets or Sets Id
+        /// If this property set to true, user has access to any part of the services
         /// </summary>
-        [DataMember(Name="id")]
-        public int? Id { get; set; }
+        /// <value>If this property set to true, user has access to any part of the services</value>
+        [DataMember(Name="isRoot")]
+        public bool? IsRoot { get; set; }
         /// <summary>
-        /// Gets or Sets Permissions
+        /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="permissions")]
-        public List<Permission> Permissions { get; set; }
+        [DataMember(Name="name")]
+        public string Name { get; set; }
+        /// <summary>
+        /// Gets or Sets Parts
+        /// </summary>
+        [DataMember(Name="parts")]
+        public List<RolePart> Parts { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,7 +87,14 @@ namespace TestManagementStudioService.Models
             var sb = new StringBuilder();
             sb.Append("class Role {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Permissions: ").Append(Permissions).Append("\n");
+            sb.Append("  Description: ").Append(Description).Append("\n");
+            sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
+            sb.Append("  DeleteddAt: ").Append(DeleteddAt).Append("\n");
+            sb.Append("  Deleted: ").Append(Deleted).Append("\n");
+            sb.Append("  UpdatedTo: ").Append(UpdatedTo).Append("\n");
+            sb.Append("  IsRoot: ").Append(IsRoot).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Parts: ").Append(Parts).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -69,7 +103,7 @@ namespace TestManagementStudioService.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public  new string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -105,9 +139,44 @@ namespace TestManagementStudioService.Models
                     this.Id.Equals(other.Id)
                 ) && 
                 (
-                    this.Permissions == other.Permissions ||
-                    this.Permissions != null &&
-                    this.Permissions.SequenceEqual(other.Permissions)
+                    this.Description == other.Description ||
+                    this.Description != null &&
+                    this.Description.Equals(other.Description)
+                ) && 
+                (
+                    this.CreatedAt == other.CreatedAt ||
+                    this.CreatedAt != null &&
+                    this.CreatedAt.Equals(other.CreatedAt)
+                ) && 
+                (
+                    this.DeleteddAt == other.DeleteddAt ||
+                    this.DeleteddAt != null &&
+                    this.DeleteddAt.Equals(other.DeleteddAt)
+                ) && 
+                (
+                    this.Deleted == other.Deleted ||
+                    this.Deleted != null &&
+                    this.Deleted.Equals(other.Deleted)
+                ) && 
+                (
+                    this.UpdatedTo == other.UpdatedTo ||
+                    this.UpdatedTo != null &&
+                    this.UpdatedTo.Equals(other.UpdatedTo)
+                )&& 
+                (
+                    this.IsRoot == other.IsRoot ||
+                    this.IsRoot != null &&
+                    this.IsRoot.Equals(other.IsRoot)
+                ) && 
+                (
+                    this.Name == other.Name ||
+                    this.Name != null &&
+                    this.Name.Equals(other.Name)
+                ) && 
+                (
+                    this.Parts == other.Parts ||
+                    this.Parts != null &&
+                    this.Parts.SequenceEqual(other.Parts)
                 );
         }
 
@@ -124,8 +193,23 @@ namespace TestManagementStudioService.Models
                 // Suitable nullity checks etc, of course :)
                     if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
-                    if (this.Permissions != null)
-                    hash = hash * 59 + this.Permissions.GetHashCode();
+                    if (this.Description != null)
+                    hash = hash * 59 + this.Description.GetHashCode();
+                    if (this.CreatedAt != null)
+                    hash = hash * 59 + this.CreatedAt.GetHashCode();
+                    if (this.DeleteddAt != null)
+                    hash = hash * 59 + this.DeleteddAt.GetHashCode();
+                    if (this.Deleted != null)
+                    hash = hash * 59 + this.Deleted.GetHashCode();
+                    if (this.UpdatedTo != null)
+                    hash = hash * 59 + this.UpdatedTo.GetHashCode();
+                    
+                    if (this.IsRoot != null)
+                    hash = hash * 59 + this.IsRoot.GetHashCode();
+                    if (this.Name != null)
+                    hash = hash * 59 + this.Name.GetHashCode();
+                    if (this.Parts != null)
+                    hash = hash * 59 + this.Parts.GetHashCode();
                 return hash;
             }
         }

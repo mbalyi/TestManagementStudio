@@ -21,39 +21,42 @@ using Newtonsoft.Json;
 namespace TestManagementStudioService.Models
 {
 
+    
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class Answer : Entity, IEquatable<Answer>
+    public partial class Answer : Entity,  IEquatable<Answer>
     {
+        public Answer():base()
+        {
+
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Answer" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
-        /// <param name="Permissions">Permissions.</param>
+        /// <param name="Description">Description.</param>
+        /// <param name="CreatedAt">CreatedAt.</param>
+        /// <param name="DeleteddAt">DeleteddAt.</param>
+        /// <param name="Deleted">Deleted.</param>
+        /// <param name="UpdatedTo">UpdatedTo.</param>
         /// <param name="Text">Text.</param>
         /// <param name="Correct">Correct.</param>
-        public Answer(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>), string Text = default(string), bool? Correct = default(bool?))
+        public Answer(int? Id = default(int?), string Description = default(string), DateTime? CreatedAt = default(DateTime?), DateTime? DeleteddAt = default(DateTime?), bool? Deleted = default(bool?), DateTime? UpdatedTo = default(DateTime?), string Text = default(string), bool? Correct = default(bool?))
         {
             this.Id = Id;
-            this.Permissions = Permissions;
+            this.Description = Description;
+            this.CreatedAt = CreatedAt;
+            this.DeleteddAt = DeleteddAt;
+            this.Deleted = Deleted;
+            this.UpdatedTo = UpdatedTo;
             this.Text = Text;
             this.Correct = Correct;
             
         }
-
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [DataMember(Name="id")]
-        public int? Id { get; set; }
-        /// <summary>
-        /// Gets or Sets Permissions
-        /// </summary>
-        [DataMember(Name="permissions")]
-        public List<Permission> Permissions { get; set; }
+        
         /// <summary>
         /// Gets or Sets Text
         /// </summary>
@@ -74,7 +77,11 @@ namespace TestManagementStudioService.Models
             var sb = new StringBuilder();
             sb.Append("class Answer {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Permissions: ").Append(Permissions).Append("\n");
+            sb.Append("  Description: ").Append(Description).Append("\n");
+            sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
+            sb.Append("  DeleteddAt: ").Append(DeleteddAt).Append("\n");
+            sb.Append("  Deleted: ").Append(Deleted).Append("\n");
+            sb.Append("  UpdatedTo: ").Append(UpdatedTo).Append("\n");
             sb.Append("  Text: ").Append(Text).Append("\n");
             sb.Append("  Correct: ").Append(Correct).Append("\n");
             sb.Append("}\n");
@@ -85,7 +92,7 @@ namespace TestManagementStudioService.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public  new string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -121,10 +128,30 @@ namespace TestManagementStudioService.Models
                     this.Id.Equals(other.Id)
                 ) && 
                 (
-                    this.Permissions == other.Permissions ||
-                    this.Permissions != null &&
-                    this.Permissions.SequenceEqual(other.Permissions)
+                    this.Description == other.Description ||
+                    this.Description != null &&
+                    this.Description.Equals(other.Description)
                 ) && 
+                (
+                    this.CreatedAt == other.CreatedAt ||
+                    this.CreatedAt != null &&
+                    this.CreatedAt.Equals(other.CreatedAt)
+                ) && 
+                (
+                    this.DeleteddAt == other.DeleteddAt ||
+                    this.DeleteddAt != null &&
+                    this.DeleteddAt.Equals(other.DeleteddAt)
+                ) && 
+                (
+                    this.Deleted == other.Deleted ||
+                    this.Deleted != null &&
+                    this.Deleted.Equals(other.Deleted)
+                ) && 
+                (
+                    this.UpdatedTo == other.UpdatedTo ||
+                    this.UpdatedTo != null &&
+                    this.UpdatedTo.Equals(other.UpdatedTo)
+                ) &&       
                 (
                     this.Text == other.Text ||
                     this.Text != null &&
@@ -150,8 +177,17 @@ namespace TestManagementStudioService.Models
                 // Suitable nullity checks etc, of course :)
                     if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
-                    if (this.Permissions != null)
-                    hash = hash * 59 + this.Permissions.GetHashCode();
+                    if (this.Description != null)
+                    hash = hash * 59 + this.Description.GetHashCode();
+                    if (this.CreatedAt != null)
+                    hash = hash * 59 + this.CreatedAt.GetHashCode();
+                    if (this.DeleteddAt != null)
+                    hash = hash * 59 + this.DeleteddAt.GetHashCode();
+                    if (this.Deleted != null)
+                    hash = hash * 59 + this.Deleted.GetHashCode();
+                    if (this.UpdatedTo != null)
+                    hash = hash * 59 + this.UpdatedTo.GetHashCode();
+                    
                     if (this.Text != null)
                     hash = hash * 59 + this.Text.GetHashCode();
                     if (this.Correct != null)
