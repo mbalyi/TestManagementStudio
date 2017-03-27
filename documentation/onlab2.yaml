@@ -75,6 +75,38 @@ parameters:
     format: int32
     required: true
     
+  questionId:
+    name: questionId
+    in: path
+    description: The question identifier number
+    type: number
+    format: int32
+    required: true
+    
+  testId:
+    name: testId
+    in: path
+    description: The Test identifier number
+    type: number
+    format: int32
+    required: true
+    
+  testSetId:
+    name: testSetId
+    in: path
+    description: The Test set identifier number
+    type: number
+    format: int32
+    required: true
+    
+  testExecutionId:
+    name: testId
+    in: path
+    description: The TestExecution identifier number
+    type: number
+    format: int32
+    required: true
+    
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -105,8 +137,7 @@ definitions:
       updatedTo:
         type: string
         format: date-time
-      updatedAt:
-        $ref: '#/definitions/Entity'   
+     
       permissions:
           type: array
           items:
@@ -117,44 +148,43 @@ definitions:
     allOf:
     - $ref: '#/definitions/Entity'
     - type: object
-    properties:
-      id:
-        type: integer
-        format: int32
-      permissions:
-          type: array
-          items:
-            $ref: '#/definitions/Permission'
-      createdBy:
-        $ref: '#/definitions/User' 
+      properties:
+        id:
+          type: integer
+          format: int32
+        permissions:
+            type: array
+            items:
+              $ref: '#/definitions/Permission'
+        createdBy:
+          $ref: '#/definitions/User' 
         
   RolePart:
     type: object
     allOf:
     - $ref: '#/definitions/Entity'
     - type: object
-    properties:
-      name:
-        type: string
-      accessType:
-        type: integer
-        format: int32
+      properties:
+        name:
+          type: string
+        accessType:
+          type: integer
+          format: int32
   Role:
     type: object
     allOf:
     - $ref: '#/definitions/Entity'
     - type: object
-    properties:
-      isRoot:
-        description: "If this property set to true, user has access to any part of the services"
-        type: boolean
-      Name:
-        type: string
-        
-      parts:
-        type: array
-        items:
-          $ref: '#/definitions/RolePart'
+      properties:
+        isRoot:
+          description: "If this property set to true, user has access to any part of the services"
+          type: boolean
+        name:
+          type: string
+        parts:
+          type: array
+          items:
+            $ref: '#/definitions/RolePart'
         
   Actor:
     type: object
@@ -178,18 +208,18 @@ definitions:
     allOf:
     - $ref: '#/definitions/Entity'
     - type: object
-    properties:
-      read:
-        type: boolean
-      write:
-        type: boolean
-      subject:
-        $ref: '#/definitions/Actor'
-      object:
-        $ref: '#/definitions/Entity'
-      objectType:
-        description: "Discriminator to the actors. Group | user"
-        type: string
+      properties:
+        read:
+          type: boolean
+        write:
+          type: boolean
+        subject:
+          $ref: '#/definitions/Actor'
+        object:
+          $ref: '#/definitions/Entity'
+        objectType:
+          description: "Discriminator to the actors. Group | user"
+          type: string
         
   User:
     type: object
@@ -1206,5 +1236,339 @@ paths:
           schema:
             $ref: "#/definitions/ErrorMessage"
 
+  /categories:
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      summary:  "Get all categories"
+      description: "Get all categories"
+      operationId: listCategories
+      responses:
+        "200":
+          description: "The list of category objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      summary: "Add a new root category"
+      description: "Add a new root category"
+      operationId: addCategory
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: name
+          in: formData
+          description: "Name of the new category"
+          required: true
+          type: string
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created category"
+              type: string
+        "409":
+          description: Some unique data (i.e. name) conflicted with a data of existing category
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+  /categories/{categoryId}:
+    parameters:
+      - $ref: '#/parameters/categoryId'
+    get:  
+      summary: "Get a category"
+      description: ""
+      operationId: getCategory
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: "#/definitions/Category"
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    delete:
+      summary: "Delete a category"
+      description: ""
+      operationId: deleteCategory
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    put:
+      summary: "update a category"
+      description: ""
+      operationId: updateCategory
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: name
+          in: formData
+          description: "Name of the new category"
+          required: true
+          type: string
+      responses:
+        "204":
+          description: Successful operation
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        "404":
+          description: "Object not found"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+  /categories/{categoryId}/categories:
+    parameters:
+      - $ref: '#/parameters/categoryId'
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      summary:  "Get all subcategories"
+      description: "Get all subcategories"
+      operationId: listSubCategories
+      responses:
+        "200":
+          description: "The list of category objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      summary: "Add a new subcategory"
+      description: "Add a new subcategory"
+      operationId: addSubCategory
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: name
+          in: formData
+          description: "Name of the new category"
+          required: true
+          type: string
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created category"
+              type: string
+        "409":
+          description: Some unique data (i.e. name) conflicted with a data of existing category
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+  /categories/{categoryId}/questions:
+    parameters:
+      - $ref: '#/parameters/categoryId'
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      - Questions
+      summary:  "Get questions of the category"
+      description: "Get questions of the category"
+      operationId: listCategoryQuestions
+      responses:
+        "200":
+          description: "The list of question objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Question'
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      - Questions
+      summary: "Add a new question to a category"
+      description: "Add a new question to a category"
+      operationId: addCategoryQuestion
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: question
+          in: body
+          description: "the new question"
+          required: true
+          schema:
+            $ref: '#/definitions/Question'
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created question"
+              type: string
+
+  /categories/{categoryId}/tests:
+    parameters:
+      - $ref: '#/parameters/categoryId'
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      - Tests
+      summary:  "Get tests of the category"
+      description: "Get tests of the category"
+      operationId: listCategoryTests
+      responses:
+        "200":
+          description: "The list of test objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Test'
+
+  /questions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      summary:  "get questions"
+      description: "get questions"
+      operationId: listQuestions
+      responses:
+        "200":
+          description: "The list of question objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Question'  
+              
+  /questions/{questionId}:
+    parameters:
+      - $ref: '#/parameters/questionId'
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      summary:  "get a question"
+      description: "get a question"
+      operationId: getQuestion
+      responses:
+        "200":
+          description: "The question objects"
+          schema:
+              $ref: '#/definitions/Question' 
+    put:
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      summary: "Update a question"
+      description: "Update a question"
+      operationId: updateQuestion
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: question
+          in: body
+          description: "the question"
+          required: true
+          schema:
+            $ref: '#/definitions/Question'
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created question"
+              type: string
+              
+            delete:
+  /questions/{questionId}/categories:
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      summary:  "Get all categories of a question"
+      description: "Get all categories of a question"
+      operationId: listQuestionCategories
+      responses:
+        "200":
+          description: "The list of category objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+    post:
+  /questions/{questionId}/categories/{categoryId}:
+    delete:
+  /questions/{questionId}/answers:
+    get:
+    post:
+  /questions/{questionId}/answers/{answerId}:
+    get:
+    put:
+    delete:
+  /tests:
+    get:
+    post:
+  /tests/{testId}:
+    get:
+    put:
+    delete:
+  /tests/{testId}/questions:
+    get:
+    post:
+  /tests/{testId}/questions/{questionId}:
+    delete:
+  /tests/{testId}/categories:
+    get:
+    post:
+  /tests/{testId}/categories/{categoryId}:
+    delete:
+  /tests/{testId}/test-sets:
+    get:
+    post:
+  /tests/{testId}/test-executions:
+    get:
+  
+
+    
     
     
