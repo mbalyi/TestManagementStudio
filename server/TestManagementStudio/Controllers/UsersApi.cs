@@ -48,7 +48,8 @@ namespace TestManagementStudioService.Controllers
 
             _serializerSettings = new JsonSerializerSettings
             {
-                Formatting = Formatting.Indented
+                Formatting = Formatting.Indented,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             };
         }
         /// <summary>
@@ -85,15 +86,19 @@ namespace TestManagementStudioService.Controllers
         [HttpPost]
         [Route("/v1/users")]
         [SwaggerOperation("AddUser")]
-        [SwaggerResponse(200, type: typeof(string))]
-        public virtual IActionResult AddUser([FromForm]string email, [FromForm]string password, [FromForm]string firstName, [FromForm]string lastName)
-        { 
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<string>(exampleJson)
-            : default(string);
-            return new ObjectResult(example);
+        [SwaggerResponse(201, type: typeof(string))]
+        public virtual void AddUser([FromForm]string email, [FromForm]string password, [FromForm]string firstName, [FromForm]string lastName)
+        {
+
+            User u = new User()
+            {
+                Email = email,
+                Password = password,
+                FirstName = firstName,
+                LastName = lastName
+            };
+
+            _userService.Insert(u);            
         }
 
 
@@ -185,13 +190,10 @@ namespace TestManagementStudioService.Controllers
         [SwaggerOperation("GetUser")]
         [SwaggerResponse(200, type: typeof(User))]
         public virtual IActionResult GetUser([FromRoute]decimal? userId)
-        { 
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<User>(exampleJson)
-            : default(User);
-            return new ObjectResult(example);
+        {
+            var response = _userService.Get(Decimal.ToInt32(userId.Value));
+            var json = JsonConvert.SerializeObject(response, _serializerSettings);
+            return new OkObjectResult(json);
         }
 
 
@@ -327,13 +329,23 @@ namespace TestManagementStudioService.Controllers
         [SwaggerOperation("ListUsers")]
         [SwaggerResponse(200, type: typeof(List<User>))]
         public virtual IActionResult ListUsers()
-        { 
-            string exampleJson = null;
+        {
+          
+          //  try
+          //  {
+                var response = _userService.GetAll();
+                var json = JsonConvert.SerializeObject(response, _serializerSettings);
+                return new OkObjectResult(json);
+          //  }
+           // catch(Exception ex)
+          //  {
+          //      var response = ex;
+          //      var json = JsonConvert.SerializeObject(response, _serializerSettings);
+          //      return new OkObjectResult(json);
+         //   }
 
-            var response =  _userService.GetAll();
-            var json = JsonConvert.SerializeObject(response, _serializerSettings);
-            return new OkObjectResult(json);
-           
+            
+
         }
 
 
@@ -373,8 +385,11 @@ namespace TestManagementStudioService.Controllers
         [Route("/v1/users/{userId}")]
         [SwaggerOperation("UpdateUser")]
         public virtual void UpdateUser([FromRoute]decimal? userId, [FromForm]string email, [FromForm]string password, [FromForm]string firstName, [FromForm]string lastName)
-        { 
-            throw new NotImplementedException();
+        {
+            //var response = _userService.(Decimal.ToInt32(userId.Value));
+            // json = JsonConvert.SerializeObject(response, _serializerSettings);
+            Response.StatusCode = 204;
+            return;
         }
     }
 }

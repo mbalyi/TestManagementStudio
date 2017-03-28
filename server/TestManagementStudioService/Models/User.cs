@@ -25,14 +25,32 @@ namespace TestManagementStudioService.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class User :  Actor, IEquatable<User>
+    public partial class User : Actor,  IEquatable<User>
     {
 
+
+        public User() : base()
+        {
+            this.Email = default(String);
+            this.Password = default(String);
+            this.FirstName = default(String);
+            this.LastName = default(String);
+            this.Groups = new List<Group>();
+            this.MemberOf = new List<Group>();
+            this.Tests = new List<Test>();
+            this.TestExecutions = new List<TestExecution>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
+        /// <param name="Description">Description.</param>
+        /// <param name="CreatedAt">CreatedAt.</param>
+        /// <param name="DeleteddAt">DeleteddAt.</param>
+        /// <param name="Deleted">Deleted.</param>
+        /// <param name="UpdatedTo">UpdatedTo.</param>
         /// <param name="Permissions">Permissions.</param>
+        /// <param name="CreatedBy">CreatedBy.</param>
         /// <param name="Roles">Roles.</param>
         /// <param name="TestSets">Tests to to be completed, assigned to the actor.</param>
         /// <param name="Email">Email.</param>
@@ -43,10 +61,16 @@ namespace TestManagementStudioService.Models
         /// <param name="MemberOf">MemberOf.</param>
         /// <param name="Tests">Tests created by the user.</param>
         /// <param name="TestExecutions">Tests are completed by the user.</param>
-        public User(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>), List<Role> Roles = default(List<Role>), List<TestSet> TestSets = default(List<TestSet>), string Email = default(string), string Password = default(string), string FirstName = default(string), string LastName = default(string), List<Group> Groups = default(List<Group>), List<Group> MemberOf = default(List<Group>), List<Test> Tests = default(List<Test>), List<TestExecution> TestExecutions = default(List<TestExecution>))
+        public User(int? Id = default(int?), string Description = default(string), DateTime? CreatedAt = default(DateTime?), DateTime? DeleteddAt = default(DateTime?), bool? Deleted = default(bool?), DateTime? UpdatedTo = default(DateTime?), List<Permission> Permissions = default(List<Permission>), User CreatedBy = default(User), List<Role> Roles = default(List<Role>), List<TestSet> TestSets = default(List<TestSet>), string Email = default(string), string Password = default(string), string FirstName = default(string), string LastName = default(string), List<Group> Groups = default(List<Group>), List<Group> MemberOf = default(List<Group>), List<Test> Tests = default(List<Test>), List<TestExecution> TestExecutions = default(List<TestExecution>))
         {
             this.Id = Id;
+            this.Description = Description;
+            this.CreatedAt = CreatedAt;
+            this.DeleteddAt = DeleteddAt;
+            this.Deleted = Deleted;
+            this.UpdatedTo = UpdatedTo;
             this.Permissions = Permissions;
+            this.CreatedBy = CreatedBy;
             this.Roles = Roles;
             this.TestSets = TestSets;
             this.Email = Email;
@@ -59,22 +83,7 @@ namespace TestManagementStudioService.Models
             this.TestExecutions = TestExecutions;
             
         }
-
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [DataMember(Name="id")]
-        public int? Id { get; set; }
-        /// <summary>
-        /// Gets or Sets Permissions
-        /// </summary>
-        [DataMember(Name="permissions")]
-        public List<Permission> Permissions { get; set; }
-        /// <summary>
-        /// Gets or Sets Roles
-        /// </summary>
-        [DataMember(Name="roles")]
-        public List<Role> Roles { get; set; }
+        
         /// <summary>
         /// Tests to to be completed, assigned to the actor
         /// </summary>
@@ -134,7 +143,13 @@ namespace TestManagementStudioService.Models
             var sb = new StringBuilder();
             sb.Append("class User {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Description: ").Append(Description).Append("\n");
+            sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
+            sb.Append("  DeleteddAt: ").Append(DeleteddAt).Append("\n");
+            sb.Append("  Deleted: ").Append(Deleted).Append("\n");
+            sb.Append("  UpdatedTo: ").Append(UpdatedTo).Append("\n");
             sb.Append("  Permissions: ").Append(Permissions).Append("\n");
+            sb.Append("  CreatedBy: ").Append(CreatedBy).Append("\n");
             sb.Append("  Roles: ").Append(Roles).Append("\n");
             sb.Append("  TestSets: ").Append(TestSets).Append("\n");
             sb.Append("  Email: ").Append(Email).Append("\n");
@@ -153,7 +168,7 @@ namespace TestManagementStudioService.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public  new string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -189,9 +204,39 @@ namespace TestManagementStudioService.Models
                     this.Id.Equals(other.Id)
                 ) && 
                 (
+                    this.Description == other.Description ||
+                    this.Description != null &&
+                    this.Description.Equals(other.Description)
+                ) && 
+                (
+                    this.CreatedAt == other.CreatedAt ||
+                    this.CreatedAt != null &&
+                    this.CreatedAt.Equals(other.CreatedAt)
+                ) && 
+                (
+                    this.DeleteddAt == other.DeleteddAt ||
+                    this.DeleteddAt != null &&
+                    this.DeleteddAt.Equals(other.DeleteddAt)
+                ) && 
+                (
+                    this.Deleted == other.Deleted ||
+                    this.Deleted != null &&
+                    this.Deleted.Equals(other.Deleted)
+                ) && 
+                (
+                    this.UpdatedTo == other.UpdatedTo ||
+                    this.UpdatedTo != null &&
+                    this.UpdatedTo.Equals(other.UpdatedTo)
+                ) && 
+                (
                     this.Permissions == other.Permissions ||
                     this.Permissions != null &&
                     this.Permissions.SequenceEqual(other.Permissions)
+                ) && 
+                (
+                    this.CreatedBy == other.CreatedBy ||
+                    this.CreatedBy != null &&
+                    this.CreatedBy.Equals(other.CreatedBy)
                 ) && 
                 (
                     this.Roles == other.Roles ||
@@ -258,8 +303,20 @@ namespace TestManagementStudioService.Models
                 // Suitable nullity checks etc, of course :)
                     if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
+                    if (this.Description != null)
+                    hash = hash * 59 + this.Description.GetHashCode();
+                    if (this.CreatedAt != null)
+                    hash = hash * 59 + this.CreatedAt.GetHashCode();
+                    if (this.DeleteddAt != null)
+                    hash = hash * 59 + this.DeleteddAt.GetHashCode();
+                    if (this.Deleted != null)
+                    hash = hash * 59 + this.Deleted.GetHashCode();
+                    if (this.UpdatedTo != null)
+                    hash = hash * 59 + this.UpdatedTo.GetHashCode();
                     if (this.Permissions != null)
                     hash = hash * 59 + this.Permissions.GetHashCode();
+                    if (this.CreatedBy != null)
+                    hash = hash * 59 + this.CreatedBy.GetHashCode();
                     if (this.Roles != null)
                     hash = hash * 59 + this.Roles.GetHashCode();
                     if (this.TestSets != null)

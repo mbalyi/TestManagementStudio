@@ -13,10 +13,10 @@ namespace TestManagementStudioService.Services
 
     public class UserService
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly UserRepository _userRepository;
 
 
-        public UserService(IRepository<User> userRepository)
+        public UserService(UserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -24,14 +24,10 @@ namespace TestManagementStudioService.Services
         public User FindOnebyUsernameAndPassword(string username, string password)
         {
 
-            if (username == "test" &&
-                password == "test")
+            User u = _userRepository.GetByEmail(username);
+            if (u.Password == password)
             {
-                return new User()
-                {
-                    Email = "test@test.com",
-                    Id = 1
-                };
+                return u;
             }else
             {
                 throw new ModelNotFoundException();
@@ -41,12 +37,12 @@ namespace TestManagementStudioService.Services
 
         public void Delete(User entity)
         {
-            throw new NotImplementedException();
+            _userRepository.Delete(entity);
         }
 
         public User Get(int id)
         {
-            throw new NotImplementedException();
+            return _userRepository.GetById(id);
         }
 
         public IEnumerable<User> GetAll()
@@ -56,12 +52,12 @@ namespace TestManagementStudioService.Services
 
         public void Insert(User entity)
         {
-            throw new NotImplementedException();
+            _userRepository.Add(entity);
         }
 
         public void Update(User entity)
         {
-            throw new NotImplementedException();
+            _userRepository.Attach(entity);
         }
     }
 }

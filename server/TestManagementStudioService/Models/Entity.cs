@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 namespace TestManagementStudioService.Models
 {
 
+
     /// <summary>
     /// 
     /// </summary>
@@ -28,15 +29,33 @@ namespace TestManagementStudioService.Models
     public partial class Entity :  IEquatable<Entity>
     {
 
+
+        public Entity()
+        {
+            Description = default(string);
+            CreatedAt = default(DateTime?);
+            DeleteddAt = default(DateTime?);
+            Deleted = default(bool?);
+            UpdatedTo = default(DateTime?);           
+            
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
-        /// <param name="Permissions">Permissions.</param>
-        public Entity(int? Id = default(int?), List<Permission> Permissions = default(List<Permission>))
+        /// <param name="Description">Description.</param>
+        /// <param name="CreatedAt">CreatedAt.</param>
+        /// <param name="DeleteddAt">DeleteddAt.</param>
+        /// <param name="Deleted">Deleted.</param>
+        /// <param name="UpdatedTo">UpdatedTo.</param>
+        public Entity(int? Id = default(int?), string Description = default(string), DateTime? CreatedAt = default(DateTime?), DateTime? DeleteddAt = default(DateTime?), bool? Deleted = default(bool?), DateTime? UpdatedTo = default(DateTime?))
         {
             this.Id = Id;
-            this.Permissions = Permissions;
+            this.Description = Description;
+            this.CreatedAt = CreatedAt;
+            this.DeleteddAt = DeleteddAt;
+            this.Deleted = Deleted;
+            this.UpdatedTo = UpdatedTo;           
             
         }
 
@@ -46,10 +65,30 @@ namespace TestManagementStudioService.Models
         [DataMember(Name="id")]
         public int? Id { get; set; }
         /// <summary>
-        /// Gets or Sets Permissions
+        /// Gets or Sets Description
         /// </summary>
-        [DataMember(Name="permissions")]
-        public List<Permission> Permissions { get; set; }
+        [DataMember(Name="description")]
+        public string Description { get; set; }
+        /// <summary>
+        /// Gets or Sets CreatedAt
+        /// </summary>
+        [DataMember(Name="createdAt")]
+        public DateTime? CreatedAt { get; set; }
+        /// <summary>
+        /// Gets or Sets DeleteddAt
+        /// </summary>
+        [DataMember(Name="deleteddAt")]
+        public DateTime? DeleteddAt { get; set; }
+        /// <summary>
+        /// Gets or Sets Deleted
+        /// </summary>
+        [DataMember(Name="deleted")]
+        public bool? Deleted { get; set; }
+        /// <summary>
+        /// Gets or Sets UpdatedTo
+        /// </summary>
+        [DataMember(Name="updatedTo")]
+        public DateTime? UpdatedTo { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,7 +99,12 @@ namespace TestManagementStudioService.Models
             var sb = new StringBuilder();
             sb.Append("class Entity {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Permissions: ").Append(Permissions).Append("\n");
+            sb.Append("  Description: ").Append(Description).Append("\n");
+            sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
+            sb.Append("  DeleteddAt: ").Append(DeleteddAt).Append("\n");
+            sb.Append("  Deleted: ").Append(Deleted).Append("\n");
+            sb.Append("  UpdatedTo: ").Append(UpdatedTo).Append("\n");
+           
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -105,9 +149,29 @@ namespace TestManagementStudioService.Models
                     this.Id.Equals(other.Id)
                 ) && 
                 (
-                    this.Permissions == other.Permissions ||
-                    this.Permissions != null &&
-                    this.Permissions.SequenceEqual(other.Permissions)
+                    this.Description == other.Description ||
+                    this.Description != null &&
+                    this.Description.Equals(other.Description)
+                ) && 
+                (
+                    this.CreatedAt == other.CreatedAt ||
+                    this.CreatedAt != null &&
+                    this.CreatedAt.Equals(other.CreatedAt)
+                ) && 
+                (
+                    this.DeleteddAt == other.DeleteddAt ||
+                    this.DeleteddAt != null &&
+                    this.DeleteddAt.Equals(other.DeleteddAt)
+                ) && 
+                (
+                    this.Deleted == other.Deleted ||
+                    this.Deleted != null &&
+                    this.Deleted.Equals(other.Deleted)
+                ) && 
+                (
+                    this.UpdatedTo == other.UpdatedTo ||
+                    this.UpdatedTo != null &&
+                    this.UpdatedTo.Equals(other.UpdatedTo)
                 );
         }
 
@@ -124,8 +188,17 @@ namespace TestManagementStudioService.Models
                 // Suitable nullity checks etc, of course :)
                     if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
-                    if (this.Permissions != null)
-                    hash = hash * 59 + this.Permissions.GetHashCode();
+                    if (this.Description != null)
+                    hash = hash * 59 + this.Description.GetHashCode();
+                    if (this.CreatedAt != null)
+                    hash = hash * 59 + this.CreatedAt.GetHashCode();
+                    if (this.DeleteddAt != null)
+                    hash = hash * 59 + this.DeleteddAt.GetHashCode();
+                    if (this.Deleted != null)
+                    hash = hash * 59 + this.Deleted.GetHashCode();
+                    if (this.UpdatedTo != null)
+                    hash = hash * 59 + this.UpdatedTo.GetHashCode();
+                    
                 return hash;
             }
         }
