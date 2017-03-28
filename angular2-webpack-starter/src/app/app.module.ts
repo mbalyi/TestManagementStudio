@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {HttpModule, Http, RequestOptions} from '@angular/http';
 import {NgModule,ApplicationRef, OnInit} from '@angular/core';
 import {removeNgStyles,createNewHosts,createInputTransfer} from '@angularclass/hmr';
 import {RouterModule,PreloadAllModules} from '@angular/router';
@@ -89,7 +89,7 @@ import { CategoryService } from './services/category.service';
 import { TestService } from './services/test.service';
 import { Ng2BootstrapModule } from "ng2-bootstrap";
 
-import { provideAuth } from 'angular2-jwt';
+import {provideAuth, AuthConfig, AuthHttp} from 'angular2-jwt';
 
 // Actions
 import { AppActions } from './app.actions';
@@ -114,6 +114,15 @@ import '../styles/styles.scss';
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
 ];
+
+
+function authHttpServiceFactory(http: Http, options: RequestOptions) {
+    return new AuthHttp(new AuthConfig({
+        tokenName: 'access_token',
+        tokenGetter: (() => sessionStorage.getItem('id_token')),
+        globalHeaders: [{'Content-Type':'application/json'}],
+    }), http, options);
+}
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -187,7 +196,9 @@ const APP_PROVIDERS = [
     ENV_PROVIDERS,
     APP_PROVIDERS,
     provideAuth({
-        headerName: 'Authorization'
+        provide: AuthHttp,
+        useFactory: authHttpServiceFactory,
+        deps: [Http, RequestOptions]
     }),
     // Guards
     AuthGuard,
