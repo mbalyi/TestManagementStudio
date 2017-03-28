@@ -32,6 +32,7 @@ import { DataTableModule, DialogModule, SharedModule,
   CheckboxModule, StepsModule, MenuItem, 
   DropdownModule, GrowlModule, DragDropModule, 
   CalendarModule, Message } from 'primeng/primeng';
+import { ChartModule } from 'angular2-highcharts';
 
 import {ApiModule} from "./api/api.module";
 
@@ -76,6 +77,7 @@ import { NumberToTimePipe } from './pipes/number.to.time.pipe';
 
 // Guards
 import { AuthGuard } from './guards/authentication.guard';
+import { ExecutionGuard } from './guards/execution.guard';
 
 // Services
 import { AuthenticationService } from './services/authentication/authentication.service';
@@ -160,6 +162,7 @@ const APP_PROVIDERS = [
     BrowserModule,
     FormsModule,
     HttpModule,
+    ChartModule.forRoot(require('highcharts')),
     //APIServices
     ApiModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
@@ -188,6 +191,7 @@ const APP_PROVIDERS = [
     }),
     // Guards
     AuthGuard,
+    ExecutionGuard,
     // Services
     AuthenticationService,
     UserService,

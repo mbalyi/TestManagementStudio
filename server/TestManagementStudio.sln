@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestManagementStudio", "TestManagementStudio\TestManagementStudio.csproj", "{31BCE96D-F24C-4546-A032-08AB8B8D73A7}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TestManagementStudio", "TestManagementStudio\TestManagementStudio.xproj", "{31BCE96D-F24C-4546-A032-08AB8B8D73A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestManagementStudioService", "TestManagementStudioService\TestManagementStudioService.csproj", "{71D2E0B4-0C6C-486E-B5D1-8003E3EEFEDE}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TestManagementStudioService", "TestManagementStudioService\TestManagementStudioService.xproj", "{71D2E0B4-0C6C-486E-B5D1-8003E3EEFEDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,11 @@
 import { Routes } from '@angular/router';
-
 import { DataResolver } from './app.resolver';
+
+// Guards
 import { AuthGuard } from "./guards/authentication.guard";
+import { ExecutionGuard } from "./guards/execution.guard";
+
+// URLs
 import { HomeComponent } from "./components/home/home.component";
 import { LoginComponent } from "./components/login/login.component";
 import { CounterComponent } from "./components/counter/counter.component";

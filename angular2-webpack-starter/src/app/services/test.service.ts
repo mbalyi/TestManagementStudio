@@ -30,8 +30,8 @@ export class TestService extends RequestService {
             });
     }
 
-    getByCategoryId(id: number): Observable<Test[]> {
-        const path = this.basePath + `/test/category/`+id.toString();
+    getByCategoryId(id: number): Observable<TestExecution[]> {
+        const path = this.basePath + `/testexecution/category/`+id.toString();
         let object: Object[] = this.createParamsForSaveUpdate();
 
         return this.http.request(path, object[1]).map((response: Response) => {
@@ -83,7 +83,7 @@ export class TestService extends RequestService {
     }
 
     getExecutionByTestId(id: number): Observable<TestExecution> {
-        const path = this.basePath + `/test/`+id.toString();
+        const path = this.basePath + `/testexecution/`+id.toString();
         let object: Object[] = this.createParamsForSaveUpdate();
 
         return this.http.get(path, object[1]).map((response: Response) => {
@@ -96,7 +96,7 @@ export class TestService extends RequestService {
     }
 
     updateAnswer(id: number, answer: Answer): Observable<Answer> {
-        const path = this.basePath + `/test/`+id.toString();
+        const path = this.basePath + `/test/answer/`+id.toString();
         let object: Object[] = this.createParamsForSaveUpdate(answer);
 
         return this.http.put(path, object[0].toString(), object[1]).map((response: Response) => {
@@ -109,7 +109,7 @@ export class TestService extends RequestService {
     }
 
     close(id: number, date: Date): Observable<TestExecution> {
-        const path = this.basePath + `/test/`+id.toString();
+        const path = this.basePath + `/testexecution/`+id.toString();
         let object: Object[] = this.createParamsForSaveUpdate({'date': date});
 
         return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {

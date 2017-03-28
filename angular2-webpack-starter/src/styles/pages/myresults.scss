@@ -1,0 +1,26 @@
+tms-my-categories {
+    @extend datatable-fill-total;
+    @extend datatable-hover;
+    @extend pie-chart;
+
+    > .containers {
+        @include fill-width();
+        height: 50%;
+
+        > div {
+            height: 49%;
+            width: 49%;
+            display: inline-block;
+
+            &.chart-container {
+                height: 50%!important;
+            }
+
+            &.results {
+                position: absolute;
+                left: 49.5%;
+                width: 47.7%;
+            }
+        }
+    }
+}
