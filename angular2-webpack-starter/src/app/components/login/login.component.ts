@@ -53,50 +53,48 @@ export class LoginComponent {
     }
 
     login() {
-        console.error('Start login process');
         // try authenticate
-        // this.authApi.login(this.username, this.password).subscribe(
-        //     (data) => {
-        //         console.error('Data: ' + data);
-        //         try{
-        //             // parse json token
-        //             let tokenData = JSON.parse(JSON.stringify(data));
+        this.authApi.login(this.username, this.password).subscribe(
+            (data) => {
+                try{
+                    // parse json token
+                    let tokenData = JSON.parse(JSON.stringify(data));
 
-        //             //set logged in flag
-        //             this.auth.setLogginFlag(true).subscribe(
-        //                 () => {
-        //                     this.loginAction.login();
-        //                     this.userAction.login({id: 1, email: "admin@tms2.com", password: null, firstName: "Mark", lastName: "Balyi", roles: [], permissions: []});
-        //                 }
-        //             );
+                    //set logged in flag
+                    this.auth.setLogginFlag(true).subscribe(
+                        () => {
+                            this.loginAction.login();
+                            this.userAction.login({id: 1, email: "admin@tms2.com", password: null, firstName: "Mark", lastName: "Balyi", roles: [], permissions: []});
+                        }
+                    );
 
-        //             //store token
-        //             localStorage.setItem('access_token', tokenData.access_token);
-        //             this.auth.setToken(tokenData).subscribe(
-        //                 res => {
-        //                     this.router.navigate(['/']);
-        //                 }
-        //             );
+                    //store token
+                    localStorage.setItem('access_token', tokenData.access_token);
+                    this.auth.setToken(tokenData).subscribe(
+                        res => {
+                            this.router.navigate(['/']);
+                        }
+                    );
                     
 
-        //         }catch(e){
-        //             console.error('Error: ' + e + ' ' +  data);
-        //         }
-        //     },
-        //     err => {
-        //         console.log(err);
-        //         this.msgAction.setNotification(false, 'Login failed.', err.json().text);
-        //     },
-        //     () => {
-        //         //TODO: log it?
-        //     });
-        this.auth.setLogginFlag(true).subscribe(
+                }catch(e){
+                    console.log('Error: ' + e + ' ' +  data);
+                }
+            },
+            err => {
+                console.log(err);
+                this.msgAction.setNotification(false, 'Login failed.', err.json().text);
+            },
             () => {
-                this.loginAction.login();
-                this.userAction.login({id: 1, email: "admin@tms2.com", password: null, firstName: "Mark", lastName: "Balyi", roles: [], permissions: []});
-            }
-        );
-        this.router.navigate(['/']);
+                //TODO: log it?
+            });
+        // this.auth.setLogginFlag(true).subscribe(
+        //     () => {
+        //         this.loginAction.login();
+        //         this.userAction.login({id: 1, email: "admin@tms2.com", password: null, firstName: "Mark", lastName: "Balyi", roles: [], permissions: []});
+        //     }
+        // );
+        // this.router.navigate(['/']);
     }
 
     logout() {
