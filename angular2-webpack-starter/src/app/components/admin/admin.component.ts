@@ -56,10 +56,10 @@ export class AdminComponent implements OnInit {
     }
 
     getUsers() {
-        /*this.userService.getUsers().subscribe(
+        this.userService.getAll().subscribe(
             users => this.users = users,
             err => { console.log(err); }
-        );*/
+        );
     }
 
     showDialogToAdd() {

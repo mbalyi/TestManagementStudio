@@ -22,6 +22,8 @@ import * as models                                           from '../model/mode
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
+import { AuthHttp, tokenNotExpired } from 'angular2-jwt';
+
 /* tslint:disable:no-unused-variable member-ordering */
 
 
@@ -31,7 +33,7 @@ export class UsersApi {
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
-    constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected authHttp: AuthHttp, protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
         if (basePath) {
             this.basePath = basePath;
         }
@@ -372,7 +374,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -443,7 +445,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -501,7 +503,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -550,7 +552,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -594,7 +596,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -643,7 +645,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -682,7 +684,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -726,7 +728,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -770,7 +772,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -814,7 +816,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -853,7 +855,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -892,7 +894,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -931,7 +933,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -975,7 +977,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -1019,7 +1021,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -1058,7 +1060,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -1129,7 +1131,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
     /**
@@ -1205,7 +1207,7 @@ export class UsersApi {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.authHttp.request(path, requestOptions);
     }
 
 }

@@ -22,7 +22,7 @@
                     <tms-counter [interval]="90"></tms-counter>
                 </li>
             </ul>
-            <ul *ngIf="!execution" class="nav navbar-nav navbar-right">
+            <ul *ngIf="execution != null && (execution.id == null || execution.dateOfFill != null)" class="nav navbar-nav navbar-right">
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/login']" (click)="logout()">
                         <span class="glyphicon glyphicon-log-in"></span> Logout
