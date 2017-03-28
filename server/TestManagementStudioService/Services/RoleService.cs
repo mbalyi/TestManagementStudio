@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TestManagementStudioService.Models;
 using TestManagementStudioService.Repositories;
 
 namespace TestManagementStudioService.Services
@@ -17,7 +18,7 @@ namespace TestManagementStudioService.Services
 
         public int AddRole(Role role)
         {
-            _roleRepository.Add(role);
+           return  _roleRepository.Add(role);
         }
 
 

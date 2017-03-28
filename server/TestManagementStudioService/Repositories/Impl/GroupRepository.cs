@@ -7,7 +7,7 @@ namespace TestManagementStudioService.Repositories
 {
     public class GroupRepository : BasicRepository, IRepository<Group>
     {
-        public void Add(Group entity)
+        public int Add(Group entity)
         {
             throw new NotImplementedException();
         }

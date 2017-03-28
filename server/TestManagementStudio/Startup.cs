@@ -64,7 +64,7 @@ namespace TestManagementStudio
                                  .RequireAuthenticatedUser()
                                  .Build();
 
-               // config.Filters.Add(new AuthorizeFilter(policy));
+                config.Filters.Add(new AuthorizeFilter(policy));
             }).AddJsonOptions(
                     opts => { opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); });
             ;

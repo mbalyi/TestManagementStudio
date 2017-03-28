@@ -7,7 +7,7 @@ namespace TestManagementStudioService.Repositories.Impl
 {
     public class TestRepository : BasicRepository, IRepository<Test>
     {
-        public void Add(Test entity)
+        public int Add(Test entity)
         {
             throw new NotImplementedException();
         }
