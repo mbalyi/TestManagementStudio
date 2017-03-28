@@ -7,13 +7,23 @@ import { Configuration } from './../api/configuration';
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
+import { AuthHttp } from 'angular2-jwt';
 import { AuthApi } from './../api/v1/AuthApi';
 
 @Injectable()
 export class RequestService extends AuthApi {
-    
-    constructor (protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-        super(http, basePath, configuration);
+    protected basePath = 'http://testmanagementstudio.azurewebsites.net/v1';
+    public defaultHeaders: Headers = new Headers();
+    public configuration: Configuration = new Configuration();
+
+    constructor (protected authHttp: AuthHttp, protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+        super(authHttp, http, basePath, configuration);
+        if (basePath) {
+            this.basePath = basePath;
+        }
+        if (configuration) {
+            this.configuration = configuration;
+        }
     }
 
     createParamsForSaveUpdate(data: Object = null): Object[] {
@@ -35,7 +45,7 @@ export class RequestService extends AuthApi {
         if (this.configuration.apiKey) {
             headers.set('Authorization', this.configuration.apiKey);
         }
-
+        debugger
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             headers: headers,
             search: queryParameters

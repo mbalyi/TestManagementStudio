@@ -48,10 +48,6 @@ export class LoginComponent {
         this.loginEnable = false;
     }
 
-    show() {
-        console.log( this.username, this.password)
-    }
-
     login() {
         // try authenticate
         this.authApi.login(this.username, this.password).subscribe(
@@ -68,13 +64,14 @@ export class LoginComponent {
                         }
                     );
 
-                    //store token
-                    localStorage.setItem('access_token', tokenData.access_token);
-                    this.auth.setToken(tokenData).subscribe(
-                        res => {
-                            this.router.navigate(['/']);
-                        }
-                    );
+                    // //store token
+                    localStorage.setItem('id_token', tokenData.access_token);
+                    this.router.navigate(['/']);
+                    // this.auth.setToken(tokenData).subscribe(
+                    //     res => {
+                    //         this.router.navigate(['/']);
+                    //     }
+                    // );
                     
 
                 }catch(e){
@@ -100,6 +97,7 @@ export class LoginComponent {
     logout() {
         this.auth.logout();
         this.loginAction.logout();
+        localStorage.removeItem('id_token');
     }
 
     register() {

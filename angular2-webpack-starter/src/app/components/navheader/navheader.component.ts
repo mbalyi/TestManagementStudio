@@ -45,5 +45,6 @@ export class NavHeaderComponent {
     logout() {
         this.auth.logout();
         this.loginAction.logout();
+        localStorage.removeItem('access_token');
     }
 }
