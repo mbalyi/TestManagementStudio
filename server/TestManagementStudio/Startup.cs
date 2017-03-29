@@ -105,7 +105,7 @@ namespace TestManagementStudio
                 options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
                 options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
                 options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
-                options.ValidFor = TimeSpan.FromMinutes(15);
+                options.ValidFor = TimeSpan.FromHours(24);
             });
 
             // Use policy auth.
@@ -128,10 +128,18 @@ namespace TestManagementStudio
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-           
+
+
+            app.UseCors(
+               builder => builder
+               .AllowAnyOrigin()
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+            );
+            
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
+          
             // SWAGGER            
             app.UseSwagger(c =>
             {
@@ -147,10 +155,10 @@ namespace TestManagementStudio
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuer = true,
+                ValidateIssuer = false,
                 ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
 
-                ValidateAudience = true,
+                ValidateAudience = false,
                 ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
 
                 ValidateIssuerSigningKey = true,
@@ -162,14 +170,14 @@ namespace TestManagementStudio
                 ClockSkew = TimeSpan.Zero
             };
 
+
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
                 TokenValidationParameters = tokenValidationParameters
             });
-
-            app.UseCors(builder => builder.AllowAnyOrigin());
+            
 
             app.UseMvc();
 
