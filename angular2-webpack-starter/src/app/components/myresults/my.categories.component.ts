@@ -5,6 +5,7 @@ import { FakeAdminServer } from './../admin/fake.admin.server';
 
 import { CategoryService } from './../../services/category.service';
 import { TestService } from './../../services/test.service';
+import { ResultService } from './../../services/result.service';
 import { NotificationActions } from './../../actions/notification.actions';
 
 @Component({
@@ -23,7 +24,7 @@ export class MyCategoriesComponent {
     private results: Object[];
 
     constructor(private categoryService: CategoryService, private notificationAction: NotificationActions,
-        private testService: TestService) {}
+        private testService: TestService, private resultService: ResultService) {}
 
     ngOnInit() {
         //TO DO: get my categories, get test results by category id, get test result by id
@@ -66,24 +67,11 @@ export class MyCategoriesComponent {
 
     selectTest(event) {
         this.selectedTest = event;
-        this.getResults();
         //this.renderChart();
     }
 
-    getResults(): number[] {
-        let all = this.selectedTest.test.questions.length;
-        let correct = 0;
-        this.selectedTest.answersGiven.forEach((answer) => {
-            if(answer.correct)
-                correct++;
-        });
-        let wrong = this.selectedTest.answersGiven.length - correct;
-        let skipped = this.selectedTest.test.questions.length - this.selectedTest.answersGiven.length;
-        return [all, correct, wrong, skipped];
-    }
-
     renderChart() {
-        let r = this.getResults();
+        let r = this.resultService.getResults(this.selectedTest);
 
         this.results = [
             {name: 'Number of Questions', pont: r[0]},

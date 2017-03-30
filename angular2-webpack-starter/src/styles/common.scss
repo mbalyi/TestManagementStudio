@@ -75,8 +75,8 @@ datatable-fill-total {
             border-bottom: 0.15em solid $brand-blue-light!important;
         }
 
-        tr.ui-state-highlight {
-            background: $brand-blue-light !important;
+        tr.ui-widget-content.ui-state-highlight {
+            background-color: $brand-blue-light!important;
         }
     }
 }
@@ -110,6 +110,7 @@ html,
 body {
     @include fill();
     font-family: "Trebuchet MS", Helvetica, sans-serif!important;
+    overflow: hidden;
 
     app {
         @include fill();

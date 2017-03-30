@@ -17,24 +17,36 @@ export class UserService extends RequestService {
     constructor (protected authHttp: AuthHttp, protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
         super(authHttp, http, basePath, configuration);
     }
+
+    getCurrentUser(): Observable<User> {
+        const path = this.basePath + `/users/me`;
+        let object: Object[] = this.createParamsForSaveUpdate();
+        return this.http.get(path, object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json();
+            }
+        });
+    }
     
     getAll(): Observable<User[]> {
         const path = this.basePath + `/users`;
         let object: Object[] = this.createParamsForSaveUpdate();
         return this.http.get(path, object[1]).map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json();
+            }
+        });
     }
 
     getUserRoles(user: User): Observable<Role[]> {
         const path = this.basePath + `/users/`+user.id+`/roles`;
         let object: Object[] = this.createParamsForSaveUpdate(user);
 
-        return this.authHttp.get(path).map((response: Response) => {
+        return this.http.get(path).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -47,7 +59,7 @@ export class UserService extends RequestService {
         const path = this.basePath + `/users/`+id+`/roles`;
         let object: Object[] = this.createParamsForSaveUpdate(roles);
 
-        return this.authHttp.post(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -60,7 +72,7 @@ export class UserService extends RequestService {
         const path = this.basePath + `/users`;
         let object: Object[] = this.createParamsForSaveUpdate(user);
 
-        return this.authHttp.post(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -73,7 +85,7 @@ export class UserService extends RequestService {
         const path = this.basePath + `/users/`+user.id;
         let object: Object[] = this.createParamsForSaveUpdate(user);
 
-        return this.authHttp.put(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.put(path, object[0].toString(), object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -86,7 +98,7 @@ export class UserService extends RequestService {
         const path = this.basePath + `/users/`+user.id;
         let object: Object[] = this.createParamsForSaveUpdate(user);
 
-        return this.authHttp.delete(path, object[1]).map((response: Response) => {
+        return this.http.delete(path, object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {

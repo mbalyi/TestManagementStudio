@@ -3,10 +3,12 @@ import { Http, Headers, Response } from "@angular/http";
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
+import { User } from './../../api/index';
 
 import { Users } from '../../models/users.model';
 
 import { AuthenticationService } from './../../services/authentication/authentication.service';
+import { UserService } from './../../services/user/user.service';
 import { AuthApi } from "../../api/v1/AuthApi";
 import { LoginActions } from './../../actions/login.actions';
 import { CurrentUserActions } from './../../actions/current.user.actions';
@@ -28,6 +30,7 @@ import { NotificationActions } from './../../actions/notification.actions';
 export class LoginComponent {
 
     private users: Array<Users> = [];
+    private currentUser: User = null;
 
     private confirmPassword: number = null;
     private loginEnable: Boolean = true;
@@ -38,7 +41,11 @@ export class LoginComponent {
 
     constructor(private authApi: AuthApi, private auth: AuthenticationService, private router: Router, 
         private loginAction: LoginActions, private userAction: CurrentUserActions, 
-        private msgAction: NotificationActions) {}
+        private msgAction: NotificationActions, private userService: UserService) {}
+
+    ngOnInit() {
+        this.isLogged();
+    }
 
     showLoginForm() {
         this.loginEnable = true;
@@ -46,6 +53,26 @@ export class LoginComponent {
 
     showRegisterForm() {
         this.loginEnable = false;
+    }
+
+    isLogged() {
+        if(localStorage.getItem('id_token')) {
+            this.auth.setLogginFlag(true).subscribe(
+                () => {
+                    this.loginAction.login();
+                    this.userService.getCurrentUser().subscribe(
+                        user => {
+                            this.currentUser = user;
+                            if (this.currentUser) {
+                                this.userAction.login(this.currentUser);
+                                this.router.navigate(['/home']);
+                            }
+                        },
+                        err => this.msgAction.setNotification(false, 'Login failed.', err.json().text)
+                    );
+                }
+            );
+        }
     }
 
     login() {
@@ -60,6 +87,17 @@ export class LoginComponent {
                     this.auth.setLogginFlag(true).subscribe(
                         () => {
                             this.loginAction.login();
+                            // this.userService.getCurrentUser().subscribe(
+                            //     user => {
+                            //         this.currentUser = user;
+                            //         if (this.currentUser) {
+                            //             this.userAction.login(this.currentUser);
+                            //             localStorage.setItem('id_token', tokenData.access_token);
+                            //             this.router.navigate(['/']);
+                            //         }
+                            //     },
+                            //     err => this.msgAction.setNotification(false, 'Login failed.', err.json().text)
+                            // );
                             this.userAction.login({id: 1, email: "admin@tms2.com", password: null, firstName: "Mark", lastName: "Balyi", roles: [], permissions: []});
                         }
                     );
@@ -67,11 +105,6 @@ export class LoginComponent {
                     // //store token
                     localStorage.setItem('id_token', tokenData.access_token);
                     this.router.navigate(['/']);
-                    // this.auth.setToken(tokenData).subscribe(
-                    //     res => {
-                    //         this.router.navigate(['/']);
-                    //     }
-                    // );
                     
 
                 }catch(e){

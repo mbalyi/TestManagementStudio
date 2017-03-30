@@ -87,6 +87,7 @@ import { QuestionService } from './services/question.service';
 import { RequestService } from './services/request.service';
 import { CategoryService } from './services/category.service';
 import { TestService } from './services/test.service';
+import { ResultService } from './services/result.service';
 import { Ng2BootstrapModule } from "ng2-bootstrap";
 
 import {provideAuth, AuthConfig, AuthHttp} from 'angular2-jwt';
@@ -207,6 +208,7 @@ function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CategoryService,
     RequestService,
     TestService,
+    ResultService,
     // Actions
     AppActions,
     LoginActions,
