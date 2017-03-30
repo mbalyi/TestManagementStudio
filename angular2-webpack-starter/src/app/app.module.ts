@@ -195,11 +195,7 @@ function authHttpServiceFactory(http: Http, options: RequestOptions) {
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
     APP_PROVIDERS,
-    provideAuth({
-        provide: AuthHttp,
-        useFactory: authHttpServiceFactory,
-        deps: [Http, RequestOptions]
-    }),
+    provideAuth(),
     // Guards
     AuthGuard,
     ExecutionGuard,

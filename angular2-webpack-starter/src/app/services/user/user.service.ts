@@ -21,7 +21,7 @@ export class UserService extends RequestService {
     getAll(): Observable<User[]> {
         const path = this.basePath + `/users`;
         let object: Object[] = this.createParamsForSaveUpdate();
-        return this.authHttp.get(path, object[1]).map((response: Response) => {
+        return this.http.get(path, object[1]).map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
                 } else {

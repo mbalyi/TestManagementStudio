@@ -12,7 +12,7 @@ import { AuthApi } from './../api/v1/AuthApi';
 
 @Injectable()
 export class RequestService extends AuthApi {
-    protected basePath = 'http://testmanagementstudio.azurewebsites.net/v1';
+    protected basePath = 'http://api.onlab.iceht.eu/v1';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
@@ -42,10 +42,10 @@ export class RequestService extends AuthApi {
         ];
 
         // authentication (Bearer) required
-        if (this.configuration.apiKey) {
-            headers.set('Authorization', this.configuration.apiKey);
+        if (localStorage.getItem('id_token')) {
+            headers.set('Authorization', 'Bearer '+localStorage.getItem('id_token'));
         }
-        debugger
+        
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             headers: headers,
             search: queryParameters

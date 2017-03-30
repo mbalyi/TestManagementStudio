@@ -29,7 +29,7 @@ import { AuthHttp, tokenNotExpired } from 'angular2-jwt';
 
 @Injectable()
 export class AuthApi {
-    protected basePath = 'http://testmanagementstudio.azurewebsites.net/v1';
+    protected basePath = 'http://api.onlab.iceht.eu/v1';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
