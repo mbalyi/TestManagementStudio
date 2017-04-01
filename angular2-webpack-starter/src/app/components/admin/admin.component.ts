@@ -11,7 +11,6 @@ import { NavPages } from './../navheader/navheader.context';
 
 import { MenuItem } from 'primeng/primeng';
 
-import { Roles } from "./../../models/roles.model";
 import { User, Group, Role } from './../../api/index';
 
 import { FakeAdminServer } from './fake.admin.server';
@@ -37,13 +36,13 @@ export class AdminComponent implements OnInit {
     private fakeServer: FakeAdminServer = new FakeAdminServer();
 
     private users: User[] = [];
-    private roles: Roles[] = [];
+    private roles: Role[] = [];
     private groups: Group[] = [];
 
     constructor(private userService: UserService, private pageAction: NavPageActions,
         private groupService: GroupService, private roleService: RoleService,
         private notificationAction: NotificationActions) { 
-        pageAction.setPage(NavPages.login);
+        pageAction.setPage(NavPages.admin);
     }
 
     ngOnInit() {
@@ -117,7 +116,7 @@ export class AdminComponent implements OnInit {
                 user => {
                     let id = this.getIndexOfUser(user);
                     if (id) {
-                        this.users[0] = user;
+                        this.users[id] = user;
                         this.notificationAction.setNotification(true, 'User updated.', 'User successfully updated.');
                         this.displayDialog = false;
                     } else {

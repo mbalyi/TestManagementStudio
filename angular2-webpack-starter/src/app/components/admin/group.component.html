@@ -1,7 +1,12 @@
 <p-dataTable [value]="groups" [globalFilter]="gb" [style]="{'height':'100%'}" #dt>
     <p-column field="name" header="Name" [filter]="true" filterPlaceholder="Search"></p-column>
-    <p-column field="isprivate" header="Private"></p-column>
-    <p-column field="creator" header="Creator" [filter]="true" filterPlaceholder="Search"></p-column>
+    <p-column field="isprivate" header="Private">
+        <template let-group="rowData" pTemplate="editor">
+            <p-checkbox *ngIf="group.isprivate" [label]="'Private'" [(ngModel)]="group.isprivate" [value]="group.isprivate"></p-checkbox>
+            <p-checkbox *ngIf="!group.isprivate" [label]="'Private'"></p-checkbox>
+        </template>
+    </p-column>
+    <p-column field="creator.email" header="Creator" [filter]="true" filterPlaceholder="Search"></p-column>
     <p-column styleClass="col-button" [style]="{'width':'13%', 'text-align':'center'}">
         <template pTemplate="header">
             Actions
@@ -55,7 +60,7 @@
         <div *ngFor="let role of roles" class="inputRow">
             <div class="inputField-checkbox">
                 <div>
-                    <p-checkbox [label]="role.name" [(ngModel)]="selectedRoles" [disabled]="readonlyForm"></p-checkbox>
+                    <p-checkbox [label]="role.name" [value]="role" [(ngModel)]="selectedRoles" [disabled]="readonlyForm"></p-checkbox>
                 </div>
             </div>
         </div>
@@ -63,17 +68,24 @@
 
     <!-- User Tab -->
     <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="group && group.members  && activeTab.label =='User'">
-        <p-dataTable [value]="group.members" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
+        <!--<p-dataTable [value]="group.members" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
             <p-column field="firstName" header="Firstname" [sortable]="true"></p-column>
             <p-column field="lastName" header="Lastname" [sortable]="true"></p-column>
             <p-column field="email" header="Email" [sortable]="true"></p-column>
-        </p-dataTable>
+        </p-dataTable>-->
+        <div *ngFor="let user of user" class="inputRow">
+            <div class="inputField-checkbox">
+                <div>
+                    <p-checkbox [label]="user.firstName+' '+user.lastName" [value]="user" [(ngModel)]="selectedUsers" [disabled]="readonlyForm"></p-checkbox>
+                </div>
+            </div>
+        </div>
     </div>
 
     <p-footer>
         <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-            <button *ngIf="!readonlyForm" type="button btn btn-success" pButton icon="fa-check" (click)="save()" label="Save"></button>
-            <button *ngIf="!readonlyForm" type="button btn btn-danger" pButton icon="fa-trash" (click)="delete()" label="Delete"></button>
+            <button *ngIf="!readonlyForm" type="button btn btn-success" pButton icon="fa-check" (click)="saveGroup(group)" label="Save"></button>
+            <button *ngIf="!readonlyForm" type="button btn btn-danger" pButton icon="fa-trash" (click)="deleteGroup(group)" label="Delete"></button>
             <button type="button" pButton icon="fa-close" (click)="cancel()" label="Cancel"></button>
         </div>
     </p-footer>
