@@ -36,7 +36,7 @@
         <div *ngIf="!finishEnable" class="inputRow">
             <div class="inputField1-2">
                 <div><label for="name">Name</label></div>
-                <div><input class="form-control" pInputText id="name" ></div>
+                <div><input class="form-control" pInputText id="name" [(ngModel)]="selectedCategory.name" ></div>
             </div>
             <div class="inputField1-2">
             </div>
@@ -44,7 +44,7 @@
         <div *ngIf="!finishEnable" class="inputRow">
             <div class="inputField1-1">
                 <div><label for="description">Description</label></div>
-                <div><textarea class="form-control" pInputTextarea  id="description" ></textarea></div>
+                <div><textarea class="form-control" pInputTextarea  id="description" [(ngModel)]="selectedCategory.description" ></textarea></div>
             </div>
         </div>
 
