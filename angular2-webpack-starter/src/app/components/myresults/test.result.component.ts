@@ -18,7 +18,7 @@ export class TestResultComponent {
     private results: any[] = [];
     
     constructor(private pageAction: NavPageActions, private resultService: ResultService) { 
-        pageAction.setPage('my-results');
+        pageAction.setPage('test-result');
     }
 
     ngOnInit() {

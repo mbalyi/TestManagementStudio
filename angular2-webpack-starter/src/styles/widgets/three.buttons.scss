@@ -16,5 +16,10 @@ tms-three-buttons {
             border-bottom-left-radius: 0!important;
             border-top-left-radius: 0!important;
         }
+
+        tms-button.selected > button {
+            color: $white;
+            background: $brand-blue-light!important;
+        }
     }
 }

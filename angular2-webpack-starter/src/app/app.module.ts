@@ -69,6 +69,7 @@ import { TestDraggableWidget } from './widgets/test.draggable.widget';
 import { QuestionDraggableWidget } from './widgets/question.draggable.widget';
 import { CounterWidget } from './widgets/counter.widget';
 import { ExecutionWidget } from './widgets/execution.widget';
+import { ResultWidget } from './widgets/result.widget';
 
 // Pipes
 import { CapitalizePipe } from './pipes/capitalize.pipe';
@@ -164,6 +165,7 @@ function authHttpServiceFactory(http: Http, options: RequestOptions) {
         QuestionDraggableWidget,
         CounterWidget,
         ExecutionWidget,
+        ResultWidget,
         // Pipes
         CapitalizePipe,
         DatePipe,

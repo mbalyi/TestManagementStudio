@@ -1,12 +1,16 @@
 <div class="col-lg-1 navbar-inverse">
-    <ul *ngIf="execution != null && (execution.id == null || execution.dateOfFill != null)" class='nav navbar-nav'>
+    <ul *ngIf="nav.page != 'test-result' && execution != null && (execution.id == null || execution.dateOfFill != null)" class='nav navbar-nav'>
         <li *ngFor="let link of nav.menuItems" [routerLinkActive]="['link-active']">
             <a [routerLink]="[link.url]" [class.active]="link.name == selectedMenu" (click)="selectedMenu = link.name;">
                 <span [class]="link.icon"></span> {{link.name | capitalize}}
             </a>
         </li>
     </ul>
-    <ul *ngIf="execution != null && execution.id != null && execution.dateOfFill == null" class='nav navbar-nav'>
+    <ul *ngIf="nav.page != 'test-result' && execution != null && execution.id != null && execution.dateOfFill == null" class='nav navbar-nav'>
         <tms-execution [questionNo]="execution.test.questions.length" [executedQu]="execution.answersGiven.length" (send)="sendExecution()"></tms-execution>
+    </ul>
+    <ul *ngIf="nav.page == 'test-result'" class='nav navbar-nav'>
+        <tms-result-widget [questionNo]="results[0]" [corrects]="results[1]" [faileds]="results[2]" [skippeds]="results[3]"
+            (back)="backToResult($event)" (filter)="filter($event)"></tms-result-widget>
     </ul>
 </div>
