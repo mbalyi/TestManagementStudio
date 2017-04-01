@@ -59,11 +59,11 @@ export class LoginComponent {
         if(localStorage.getItem('id_token')) {
             this.auth.setLogginFlag(true).subscribe(
                 () => {
-                    this.loginAction.login();
                     this.userService.getCurrentUser().subscribe(
                         user => {
                             this.currentUser = user;
                             if (this.currentUser) {
+                                this.loginAction.login();
                                 this.userAction.login(this.currentUser);
                                 this.router.navigate(['/home']);
                             }
