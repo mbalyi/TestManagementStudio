@@ -84,6 +84,8 @@ import { ExecutionGuard } from './guards/execution.guard';
 // Services
 import { AuthenticationService } from './services/authentication/authentication.service';
 import { UserService } from './services/user/user.service';
+import { GroupService } from './services/user/group.service';
+import { RoleService } from './services/user/role.service';
 import { CurrentPageService } from './services/current.page.service';
 import { QuestionService } from './services/question.service';
 import { RequestService } from './services/request.service';
@@ -207,6 +209,8 @@ function authHttpServiceFactory(http: Http, options: RequestOptions) {
     // Services
     AuthenticationService,
     UserService,
+    GroupService,
+    RoleService,
     CurrentPageService,
     QuestionService,
     CategoryService,
