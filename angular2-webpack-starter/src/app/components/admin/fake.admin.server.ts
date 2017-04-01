@@ -204,4 +204,10 @@ export class FakeAdminServer {
     getExecutions(): TestExecution[] {
         return [this.execution];
     }
+
+    getFilledExecution(): TestExecution {
+        let e = this.execution;
+        e.dateOfFill = new Date();
+        return e;
+    }
 }

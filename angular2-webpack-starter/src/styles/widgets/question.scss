@@ -33,11 +33,29 @@ tms-question-readonly {
                 color: $brand-blue-light;
                 border-color: $brand-blue-light;
                 background: transparent;
-            }
 
-            button.correct {
-                background: $brand-blue-light;
-                color: $white;
+                &.correct {
+                    background: $brand-blue-light;
+                    color: $white;
+                }
+
+                &.ok {
+                    border-color: $brand-green;
+                    background: $brand-green;
+                    color: $white;
+                }
+
+                &.skipped {
+                    border-color: $brand-yellow;
+                    background: $brand-yellow;
+                    color: $white;
+                }
+
+                &.failed {
+                    border-color: $brand-red;
+                    background: $brand-red;
+                    color: $white;
+                }
             }
         }
     }

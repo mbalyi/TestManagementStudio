@@ -56,6 +56,7 @@ import { TestMenuComponent } from './components/tests/test.menu.component';
 import { TestExecutionComponent } from './components/tests/test.execution.component';
 import { MyCategoriesComponent } from './components/myresults/my.categories.component';
 import { MyResultsComponent } from './components/myresults/my.results.component';
+import { TestResultComponent } from './components/myresults/test.result.component';
 
 
 // Widgets
@@ -152,6 +153,7 @@ function authHttpServiceFactory(http: Http, options: RequestOptions) {
         TestExecutionComponent,
         MyCategoriesComponent,
         MyResultsComponent,
+        TestResultComponent,
         // Widgets
         ButtonWidget,
         TwoButtonsWidget,

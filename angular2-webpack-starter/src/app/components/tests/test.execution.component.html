@@ -1,4 +1,4 @@
 <div class="questions">
     <tms-question-readonly *ngFor="let quest of execution.test.questions" [question]="quest" (select)="selectAnswer($event)"
-        [showsCorrect]="false" [isOpen]="true" [isEditable]="false"></tms-question-readonly>
+        [mode]="execute"></tms-question-readonly>
 </div>

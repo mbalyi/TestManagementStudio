@@ -73,6 +73,34 @@ export class ResultService {
         }
     }
 
+    makeResultObject(execution: TestExecution): any[] {
+        let questions = execution.test.questions;
+        let gaveAnswers = execution.answersGiven;
+        let result = [];
+
+        for (let q = 0; q < questions.length; q++) {
+            let isSelect = false;
+            for (let a = 0; a < questions[q].answersAll.length; a++) {
+                for ( let s = 0; s < gaveAnswers.length; s++) {
+                    if (gaveAnswers[s].id == questions[q].answersAll[a].id) {
+                        isSelect = true;
+                        result.push({question: questions[q], answer: gaveAnswers[s]});
+                        gaveAnswers.splice(s,1);
+                        break;
+                    }
+                }
+                if (isSelect) {
+                    break;
+                }
+            }
+            if (!isSelect) {
+                result.push({question: questions[q], answer: null});
+            }
+        }
+
+        return result;
+    }
+
     getCorrectQuestions(): Question[] {
         return this.correctQuestions;
     }

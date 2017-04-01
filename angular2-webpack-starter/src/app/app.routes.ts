@@ -22,6 +22,7 @@ import { TestMenuComponent } from './components/tests/test.menu.component';
 import { TestExecutionComponent } from './components/tests/test.execution.component';
 import { MyCategoriesComponent } from './components/myresults/my.categories.component';
 import { MyResultsComponent } from './components/myresults/my.results.component';
+import { TestResultComponent } from './components/myresults/test.result.component';
 
 export const ROUTES: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full', canActivate: [AuthGuard] },
@@ -41,5 +42,6 @@ export const ROUTES: Routes = [
   { path: 'test-execution', component: TestExecutionComponent, canActivate: [AuthGuard] },
   { path: 'my-categories', component: MyCategoriesComponent, canActivate: [AuthGuard] },
   { path: 'my-results', component: MyResultsComponent, canActivate: [AuthGuard] },
+  { path: 'test-result', component: TestResultComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home' }
 ];

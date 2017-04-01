@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { TestExecution, Question, Answer } from './../../api/index';
 
 import { ResultService } from './../../services/result.service';
 import { TestService } from './../../services/test.service';
 
 import { NotificationActions } from './../../actions/notification.actions';
+import { ExecutionActions } from './../../actions/execution.actions';
 import { NavPageActions } from './../../actions/navheader.actions';
 import { NavPages } from './../navheader/navheader.context';
 
@@ -25,7 +27,7 @@ export class MyResultsComponent {
     private fakeAdmin: FakeAdminServer = new FakeAdminServer();
 
     constructor(private pageAction: NavPageActions, private resultService: ResultService, private testService: TestService,
-        private notificationAction: NotificationActions) { 
+        private notificationAction: NotificationActions, private executionAction: ExecutionActions, private router: Router) { 
         pageAction.setPage(NavPages.myResults);
     }
 
@@ -56,7 +58,15 @@ export class MyResultsComponent {
     }
 
     selectTest(event) {
-        this.selectedTest = event;
+        this.selectedTest = event.data;
         this.getResults();
+    }
+
+    seeTest() {
+        // this.executionAction.setExecution(this.selectedTest);
+        // this.router.navigate(['/test-result']);
+        let e = this.fakeAdmin.getFilledExecution();
+        this.executionAction.setExecution(e);
+        this.router.navigate(['/test-result']);
     }
 }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { ExecutionActions } from './../../actions/execution.actions';
 import { NotificationActions } from './../../actions/notification.actions';
 import { TestService } from './../../services/test.service';
+import { QuestionModes } from './../../widgets/question.widget.context';
 
 import { TestExecution, Test, Question, Answer } from './../../api/index';
 
@@ -14,6 +15,7 @@ import { TestExecution, Test, Question, Answer } from './../../api/index';
 export class TestExecutionComponent {
     @select(['execution']) readonly execution$: Observable<TestExecution>;
     private execution: TestExecution;
+    private execute: QuestionModes = QuestionModes.execute;
 
     constructor(private executionAction: ExecutionActions, private notificationService: NotificationActions,
         private testService: TestService) {}

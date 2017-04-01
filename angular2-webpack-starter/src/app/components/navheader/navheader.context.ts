@@ -40,7 +40,7 @@ export class NavHeaders {
     public myResultsMenu: NavHeaderContext[] = [this.myResults, this.myCategories];
 }
 
-export type NavPage = 'home' | 'login' | 'users' | 'admin' | 'subjects' | 'manager' | 'test-menu' | 'test-execution' | 'my-results';
+export type NavPage = 'home' | 'login' | 'users' | 'admin' | 'subjects' | 'manager' | 'test-menu' | 'test-execution' | 'my-results' | 'test-result';
 
 export class NavPages {
   static home: NavPage = 'home';
@@ -52,6 +52,7 @@ export class NavPages {
   static testMenu: NavPage = 'test-menu';
   static testExecution: NavPage = 'test-execution';
   static myResults: NavPage = 'my-results';
+  static testResult: NavPage = 'test-result';
 }
 
 export interface NavContext {
