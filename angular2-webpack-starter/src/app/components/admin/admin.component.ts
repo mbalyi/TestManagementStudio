@@ -42,7 +42,6 @@ export class AdminComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.users = this.fakeServer.getUsers();
         this.roles = this.fakeServer.getRoles();
         this.groups = this.fakeServer.getGroups();
 
