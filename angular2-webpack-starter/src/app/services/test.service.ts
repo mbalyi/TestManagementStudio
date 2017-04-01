@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { AuthHttp } from 'angular2-jwt';
 
 import { RequestService } from './request.service';
-import { Test, TestExecution, Question, Answer } from './../api/index';
+import { Test, TestExecution, Question, Answer, TestSet } from './../api/index';
 
 @Injectable()
 export class TestService extends RequestService {
@@ -19,33 +19,20 @@ export class TestService extends RequestService {
     }
 
     getAll(): Observable<Test[]> {
-        const path = this.basePath + `/test`;
+        const path = this.basePath + `/tests`;
         let object: Object[] = this.createParamsForSaveUpdate();
 
         return this.http.request(path, object[1]).map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    getByCategoryId(id: number): Observable<TestExecution[]> {
-        const path = this.basePath + `/testexecution/category/`+id.toString();
-        let object: Object[] = this.createParamsForSaveUpdate();
-
-        return this.http.request(path, object[1]).map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json();
+            }
+        });
     }
 
     save(test: Test): Observable<Test> {
-        const path = this.basePath + `/test`;
+        const path = this.basePath + `/tests`;
         let object: Object[] = this.createParamsForSaveUpdate(test);
 
         return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
@@ -58,7 +45,7 @@ export class TestService extends RequestService {
     }
 
     update(test: Test): Observable<Test> {
-        const path = this.basePath + `/test`;
+        const path = this.basePath + `/tests/`+test.id;
         let object: Object[] = this.createParamsForSaveUpdate(test);
 
         return this.http.put(path, object[0].toString(), object[1]).map((response: Response) => {
@@ -71,7 +58,7 @@ export class TestService extends RequestService {
     }
 
     delete(test: Test): Observable<{}> {
-        const path = this.basePath + `/test`;
+        const path = this.basePath + `/tests/`+test.id;
         let object: Object[] = this.createParamsForSaveUpdate(test);
 
         return this.http.delete(path, object[1]).map((response: Response) => {
@@ -83,8 +70,73 @@ export class TestService extends RequestService {
         });
     }
 
-    getExecutionByTestId(id: number): Observable<TestExecution> {
-        const path = this.basePath + `/testexecution/`+id.toString();
+    getTestSetsByTest(id: number): Observable<TestSet[]> {
+        const path = this.basePath + `/tests`+id+`/test-sets`;
+        let object: Object[] = this.createParamsForSaveUpdate();
+
+        return this.http.request(path, object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json();
+            }
+        });
+    }
+
+    saveTestSet(id: number, testSet: TestSet): Observable<TestSet> {
+        const path = this.basePath + `/tests/`+id+`/test-sets`;
+        let object: Object[] = this.createParamsForSaveUpdate(testSet);
+
+        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json();
+            }
+        });
+    }
+
+    updateTestSet(id: number, testSet: TestSet): Observable<Test> {
+        const path = this.basePath + `/tests/`+id+`/test-sets/`+testSet.id;
+        let object: Object[] = this.createParamsForSaveUpdate(testSet);
+
+        return this.http.put(path, object[0].toString(), object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json();
+            }
+        });
+    }
+
+    deleteTestSet(id: number, testSet: TestSet): Observable<{}> {
+        const path = this.basePath + `/tests/`+id+`/test-sets/`+testSet.id;
+        let object: Object[] = this.createParamsForSaveUpdate(testSet);
+
+        return this.http.delete(path, object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json();
+            }
+        });
+    }
+
+    getQuestionsByTestId(id: number): Observable<Question[]> {
+        const path = this.basePath + `/tests/`+id.toString()+`/questions`;
+        let object: Object[] = this.createParamsForSaveUpdate();
+
+        return this.http.get(path, object[1]).map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    getExecutionByTestId(id: number): Observable<TestExecution[]> {
+        const path = this.basePath + `/tests/`+id.toString()+`/test-executions`;
         let object: Object[] = this.createParamsForSaveUpdate();
 
         return this.http.get(path, object[1]).map((response: Response) => {
@@ -97,7 +149,7 @@ export class TestService extends RequestService {
     }
 
     getAllExecutions(): Observable<TestExecution[]> {
-        const path = this.basePath + `/executions`;
+        const path = this.basePath + `/testexecutions`;
         let object: Object[] = this.createParamsForSaveUpdate();
 
         return this.http.get(path, object[1]).map((response: Response) => {
@@ -110,7 +162,7 @@ export class TestService extends RequestService {
     }
 
     updateAnswer(id: number, answer: Answer): Observable<Answer> {
-        const path = this.basePath + `/test/answer/`+id.toString();
+        const path = this.basePath + `/tests/answer/`+id.toString();
         let object: Object[] = this.createParamsForSaveUpdate(answer);
 
         return this.http.put(path, object[0].toString(), object[1]).map((response: Response) => {
@@ -149,7 +201,7 @@ export class TestService extends RequestService {
     }
 
     getExecutableTest(): Observable<Test[]> {
-        const path = this.basePath + `/test/executable`;
+        const path = this.basePath + `/tests/executable`;
         let object: Object[] = this.createParamsForSaveUpdate();
 
         return this.http.get(path, object[1]).map((response: Response) => {
@@ -162,7 +214,7 @@ export class TestService extends RequestService {
     }
 
     getNextTest(): Observable<Test[]> {
-        const path = this.basePath + `/test/next`;
+        const path = this.basePath + `/tests/next`;
         let object: Object[] = this.createParamsForSaveUpdate();
 
         return this.http.get(path, object[1]).map((response: Response) => {

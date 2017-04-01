@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { AuthHttp } from 'angular2-jwt';
 
 import { RequestService } from './request.service';
-import { Question } from './../api/index';
+import { Question, Answer, Category } from './../api/index';
 
 @Injectable()
 export class QuestionService extends RequestService {
@@ -22,33 +22,20 @@ export class QuestionService extends RequestService {
         const path = this.basePath + `/question`;
         let object: Object[] = this.createParamsForSaveUpdate();
 
-        return this.authHttp.request(path, object[1]).map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    getByCategoryId(id: number): Observable<Question[]> {
-        const path = this.basePath + `/question/category/`+id.toString();
-        let object: Object[] = this.createParamsForSaveUpdate();
-
-        return this.authHttp.request(path, object[1]).map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+        return this.http.request(path, object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json();
+            }
+        });
     }
 
     save(question: Question): Observable<Question> {
         const path = this.basePath + `/question`;
         let object: Object[] = this.createParamsForSaveUpdate(question);
 
-        return this.authHttp.post(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -58,10 +45,10 @@ export class QuestionService extends RequestService {
     }
 
     update(question: Question): Observable<Question> {
-        const path = this.basePath + `/question`;
+        const path = this.basePath + `/question/`+question.id;
         let object: Object[] = this.createParamsForSaveUpdate(question);
 
-        return this.authHttp.put(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.put(path, object[0].toString(), object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -71,10 +58,62 @@ export class QuestionService extends RequestService {
     }
 
     delete(question: Question): Observable<{}> {
-        const path = this.basePath + `/question`;
+        const path = this.basePath + `/question/`+question.id;
         let object: Object[] = this.createParamsForSaveUpdate(question);
 
-        return this.authHttp.delete(path, object[1]).map((response: Response) => {
+        return this.http.delete(path, object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json();
+            }
+        });
+    }
+
+    getAnswersByQuestion(id: number): Observable<Answer[]> {
+        const path = this.basePath + `/question/`+id+`/answers`;
+        let object: Object[] = this.createParamsForSaveUpdate();
+
+        return this.http.request(path, object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json();
+            }
+        });
+    }
+
+    saveAnswersByQuestion(id: number, answers: Answer[]): Observable<Question> {
+        const path = this.basePath + `/question/`+id+`/answers`;
+        let object: Object[] = this.createParamsForSaveUpdate(answers);
+
+        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json();
+            }
+        });
+    }
+
+    getCategoriesByQuestion(id: number): Observable<Category[]> {
+        const path = this.basePath + `/question/`+id+`/categories`;
+        let object: Object[] = this.createParamsForSaveUpdate();
+
+        return this.http.request(path, object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json();
+            }
+        });
+    }
+
+    saveCategoriesByQuestion(id: number, categories: Category[]): Observable<Category> {
+        const path = this.basePath + `/question/`+id+`/categories`;
+        let object: Object[] = this.createParamsForSaveUpdate(categories);
+
+        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
