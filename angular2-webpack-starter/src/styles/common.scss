@@ -174,7 +174,17 @@ body {
                 float: left;
 
                 div,input {
-                    width: 100%;
+                    width: 99%;
+                    margin-bottom: 1%;
+                }
+            }
+
+            div.inputField1-2 {
+                width: 50%;
+                float: left;
+
+                div,input {
+                    width: 99%;
                     margin-bottom: 1%;
                 }
             }
@@ -185,18 +195,28 @@ body {
                 min-height: 1px;
 
                 div,input {
-                    width: 100%;
+                    width: 99%;
                     margin-bottom: 1%;
                 }
             }
 
-            div.inputField1-2 {
-                width: 50%;
+            div.inputField1-4 {
+                width: 25%;
                 float: left;
+                min-height: 1px;
 
-                div,input {
-                    width: 100%;
+                > div {
+                    width: 99%;
                     margin-bottom: 1%;
+
+                    > input {
+                        width: 99%;
+                        margin-bottom: 1%;
+                    }
+                }
+
+                p-calendar input {
+                    width: 82%;
                 }
             }
 

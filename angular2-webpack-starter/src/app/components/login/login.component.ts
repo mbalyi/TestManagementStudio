@@ -57,20 +57,17 @@ export class LoginComponent {
 
     isLogged() {
         if(localStorage.getItem('id_token')) {
-            this.auth.setLogginFlag(true).subscribe(
-                () => {
-                    this.userService.getCurrentUser().subscribe(
-                        user => {
-                            this.currentUser = user;
-                            if (this.currentUser) {
-                                this.loginAction.login();
-                                this.userAction.login(this.currentUser);
-                                this.router.navigate(['/home']);
-                            }
-                        },
-                        err => this.msgAction.setNotification(false, 'Login failed.', err.json().text)
-                    );
-                }
+            this.userService.getCurrentUser().subscribe(
+                user => {
+                    this.currentUser = user;
+                    if (this.currentUser) {
+                        this.loginAction.login();
+                        this.userAction.login(this.currentUser);
+                        this.auth.setLogginFlag(true).subscribe();
+                        this.router.navigate(['/home']);
+                    }
+                },
+                err => this.msgAction.setNotification(false, 'Login failed.', err.json().text)
             );
         }
     }

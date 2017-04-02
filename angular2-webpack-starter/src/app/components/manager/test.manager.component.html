@@ -36,21 +36,25 @@
             <div class="inputField1-1">
                 <div><label for="description">Description</label></div>
                 <div>
-                    <textarea class="form-control" id="description" *ngIf="readonlyForm" disabled="disabled"></textarea>
-                    <textarea class="form-control" id="description" *ngIf="!readonlyForm"></textarea>
+                    <textarea class="form-control" [(ngModel)]="selectedTest.description" id="description" *ngIf="readonlyForm" disabled="disabled"></textarea>
+                    <textarea class="form-control" [(ngModel)]="selectedTest.description" id="description" *ngIf="!readonlyForm"></textarea>
                 </div>
              </div>
         </div>
         <div class="inputRow">
-            <div class="inputField1-3">
+            <div class="inputField1-4">
                 <div><label for="owner">Owner</label></div>
                 <div><input pInputText id="owner" [(ngModel)]="owner" [disabled]="true"></div>
              </div>
-             <div class="inputField1-3">
+             <div class="inputField1-4">
                 <div><label for="createdat">Created At</label></div>
                 <div><p-calendar [(ngModel)]="date" dateFormat="yy.mm.dd." [disabled]="true" [showIcon]="true"></p-calendar></div>
              </div>
-             <div class="inputField1-3">
+             <div class="inputField1-4">
+                <div><label for="scheduleat">Schedule at</label></div>
+                <div><p-calendar (onSelect)="saveScheduled()" [(ngModel)]="schedule" dateFormat="yy.mm.dd." [showTime]="true" [disabled]="!addBtnActive || !selectedTest.text" [showIcon]="true"></p-calendar></div>
+             </div>
+             <div class="inputField1-4">
                  <div *ngIf="!readonlyForm" class="trash" pDroppable="question" (onDrop)="deleteQuestion($event)"><span class="glyphicon glyphicon-trash"></span></div>
                  <div *ngIf="readonlyForm" class="trash"><span class="glyphicon glyphicon-trash"></span></div>
              </div>

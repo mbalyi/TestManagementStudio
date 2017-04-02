@@ -33,7 +33,7 @@ export class ManagerComponent implements OnInit {
     private selectedUsers: User[] = [];
 
     private categories: Category[] = [];
-    private selectedCategory: Category;
+    private selectedCategory: Category = {id: null, name: '', description: ''};
 
     constructor(private userService: UserService, private pageAction: NavPageActions,
         private notificationAction: NotificationActions, private categoryService: CategoryService) { 

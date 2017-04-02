@@ -38,6 +38,7 @@ export class TestManagerComponent {
     private tests: Test[] = [];
     private filteredTests: Test[] = [];
     private date: Date = null;
+    private schedule: Date = null;
     private owner: string = '';
 
     private selectedCategoryItem: any;
@@ -123,6 +124,7 @@ export class TestManagerComponent {
             });
         this.selectedQuestions = [];
         this.owner = this.user.firstName+' '+this.user.lastName;
+        this.schedule = null;
         this.selectedTest = { id: null, text: "", questions: null, owner: null };
     }
 
@@ -169,6 +171,40 @@ export class TestManagerComponent {
                 this.filteredQuestions.splice(this.filteredQuestions.indexOf(event.questions[i]),1); 
             } 
         }
+        if (this.selectedTest.owner && this.selectedTest.owner.firstName)
+            this.owner = this.selectedTest.owner.firstName+' '+this.selectedTest.owner.lastName;
+        else 
+            this.owner = '';
+        // // TO DO: get test set
+        // getTestSet()
+        this.schedule = null;
+    }
+
+    saveScheduled() {
+        if (this.selectedTest.id) {
+            let testSet = {id: null, dueDate: this.schedule, test: this.selectedTest, actorsAssigned: []};
+            this.testService.saveTestSet(this.selectedTest.id, testSet).subscribe(
+                testset => {
+                    if (testset)
+                        this.msgAction.setNotification(true, 'Request successfull.', 'New schedule date stored.');
+                    else
+                        this.msgAction.setNotification(false, 'Request failed.', 'Can not store the date.');
+                },
+                err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+            );
+        }
+    }
+
+    getTestSet() {
+        this.testService.getTestSetsByTest(this.selectedTest.id).subscribe(
+            testsets => {
+                if (testsets[0] && testsets[0].dueDate)
+                    this.schedule = testsets[0].dueDate;
+                else
+                    this.schedule = null;
+            },
+            err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+        )
     }
 
     editTest() {
@@ -252,6 +288,8 @@ export class TestManagerComponent {
                 //             this.filteredTests.push(data);
                 //             this.msgAction.setNotification(true, 'Test stored.', this.selectedTest.text);
                 //             this.selectedTest = Object.assign({}, data);
+                //             this.saveScheduled();
+                //             this.getTestSet();
                 //         } else {
                 //             this.msgAction.setNotification(false, 'Request failed.', 'Something went wrong.');
                 //         }
