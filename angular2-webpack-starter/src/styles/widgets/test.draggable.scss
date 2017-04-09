@@ -14,13 +14,18 @@ tms-test-draggable {
         color: $white;
 
         span:nth-child(1) {
-            width: 89%;
+            width: 79%;
             float: left;
             margin-top: 2%;
             margin-left: 1%;
         }
 
         span:nth-child(2) {
+            width: 10%;
+            float: right;
+        }
+
+        span:nth-child(3) {
             width: 10%;
             float: right;
         }

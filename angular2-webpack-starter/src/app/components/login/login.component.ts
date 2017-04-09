@@ -1,6 +1,7 @@
 ﻿import { Component, trigger, transition, style, animate, state } from '@angular/core';
 import { Http, Headers, Response } from "@angular/http";
 import { Router, ActivatedRoute } from '@angular/router';
+import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 import { User } from './../../api/index';
@@ -9,10 +10,13 @@ import { Users } from '../../models/users.model';
 
 import { AuthenticationService } from './../../services/authentication/authentication.service';
 import { UserService } from './../../services/user/user.service';
+import { TestService } from './../../services/test.service';
+import { ExecutionActions } from './../../actions/execution.actions';
 import { AuthApi } from "../../api/v1/AuthApi";
 import { LoginActions } from './../../actions/login.actions';
 import { CurrentUserActions } from './../../actions/current.user.actions';
 import { NotificationActions } from './../../actions/notification.actions';
+import { Security } from './../../reducers/security.reducer';
 
 @Component({
     selector: 'tms-login',
@@ -28,6 +32,8 @@ import { NotificationActions } from './../../actions/notification.actions';
     providers: [AuthenticationService]
 })
 export class LoginComponent {
+    @select(['security']) readonly security$: Observable<Security>;
+    private security: Security;
 
     private users: Array<Users> = [];
     private currentUser: User = null;
@@ -41,9 +47,11 @@ export class LoginComponent {
 
     constructor(private authApi: AuthApi, private auth: AuthenticationService, private router: Router, 
         private loginAction: LoginActions, private userAction: CurrentUserActions, 
-        private msgAction: NotificationActions, private userService: UserService) {}
+        private msgAction: NotificationActions, private userService: UserService,
+        private testService: TestService, private executionAction: ExecutionActions) {}
 
     ngOnInit() {
+        this.security$.subscribe( s => this.security = s);
         this.isLogged();
     }
 
@@ -64,7 +72,16 @@ export class LoginComponent {
                         this.loginAction.login();
                         this.userAction.login(this.currentUser);
                         this.auth.setLogginFlag(true).subscribe();
-                        this.router.navigate(['/home']);
+                        if (this.security.shareLink && this.security.status == 'test') {
+                            this.testService.getExecutionByTestId(this.security.id).subscribe(
+                                e => {
+                                    this.executionAction.setExecution(e);
+                                    this.router.navigate(['/test-execution']);
+                                },
+                                err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+                            );
+                        } else
+                            this.router.navigate(['/home']);
                     }
                 },
                 err => this.msgAction.setNotification(false, 'Login failed.', err.json().text)
@@ -90,7 +107,16 @@ export class LoginComponent {
                             //         if (this.currentUser) {
                             //             this.userAction.login(this.currentUser);
                             //             localStorage.setItem('id_token', tokenData.access_token);
-                            //             this.router.navigate(['/']);
+                            //             if (this.security.shareLink && this.security.status == 'test') {
+                            //                 this.testService.getExecutionByTestId(this.security.id).subscribe(
+                            //                     e => {
+                            //                         this.executionAction.setExecution(e);
+                            //                         this.router.navigate(['/test-execution']);
+                            //                     },
+                            //                     err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+                            //                 );
+                            //             } else
+                            //                 this.router.navigate(['/home']);
                             //         }
                             //     },
                             //     err => this.msgAction.setNotification(false, 'Login failed.', err.json().text)

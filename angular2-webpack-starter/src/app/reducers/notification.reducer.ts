@@ -11,7 +11,15 @@ export function notificationReducer( state: Message[] = INITIAL_STATE, action: N
     switch (action.type) {
         case NotificationActions.SET_NOTIFICATION:
             state = [];
-            state.push({severity: action.success?'success':'error', summary: action.msg, detail: action.detail});
+            let status = 'error';
+            if (action.success == null) {
+                status = 'info';
+            } else if (action.success == true) {
+                status = 'success';
+            } else if (action.success == false) {
+                status = 'error';
+            }
+            state.push({severity: status, summary: action.msg, detail: action.detail});
             return state;
         default: return state;
     }

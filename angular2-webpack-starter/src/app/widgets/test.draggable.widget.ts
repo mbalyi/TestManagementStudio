@@ -1,5 +1,7 @@
 import { Component, Input, ElementRef, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { Test } from './../api/index';
+import { ShareService } from './../services/share.service';
+import { NotificationActions } from './../actions/notification.actions';
 
 @Component({
     selector: 'tms-test-draggable',
@@ -11,12 +13,18 @@ import { Test } from './../api/index';
                     <span class="glyphicon glyphicon-trash"></span>
                 </button>
             </span>
+            <span>
+                <button type="button" class="btn btn-link" pTooltip="Create Share Link" tooltipPosition="bottom" (click)="createShareLink($event)">
+                    <span class="glyphicon glyphicon-link"></span>
+                </button>
+            </span>
         </div>
     `
 })
 export class TestDraggableWidget {
     private isOpened: boolean = false;
     private class: string = 'row';
+    private shareUrl: string = null;
 
     @Input() test: Test = { id: null, text: ''};
 
@@ -27,7 +35,8 @@ export class TestDraggableWidget {
         this.class = selected ? 'row selected-test' : 'row';
     }
 
-    constructor(element: ElementRef) {
+    constructor(element: ElementRef, private share: ShareService,
+        private msg: NotificationActions ) {
     }
 
     openTest() {
@@ -37,5 +46,10 @@ export class TestDraggableWidget {
 
     deleteTest() {
         this.delete.emit(this.test);
+    }
+
+    createShareLink(event) {
+        this.shareUrl = this.share.createLink(this.test);
+        this.msg.setNotification(null, 'Share Link Generated.', this.shareUrl);
     }
 }

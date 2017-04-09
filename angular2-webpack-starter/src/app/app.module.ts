@@ -31,7 +31,8 @@ import { DataTableModule, DialogModule, SharedModule,
   ButtonModule, TabViewModule, TabMenuModule, 
   CheckboxModule, StepsModule, MenuItem, 
   DropdownModule, GrowlModule, DragDropModule, 
-  CalendarModule, Message } from 'primeng/primeng';
+  CalendarModule, Message, TooltipModule,
+  OverlayPanelModule } from 'primeng/primeng';
 import { ChartModule } from 'angular2-highcharts';
 
 import {ApiModule} from "./api/api.module";
@@ -92,6 +93,7 @@ import { RequestService } from './services/request.service';
 import { CategoryService } from './services/category.service';
 import { TestService } from './services/test.service';
 import { ResultService } from './services/result.service';
+import { ShareService } from './services/share.service';
 import { Ng2BootstrapModule } from "ng2-bootstrap";
 
 import {provideAuth, AuthConfig, AuthHttp} from 'angular2-jwt';
@@ -103,6 +105,7 @@ import { NavPageActions } from './actions/navheader.actions';
 import { CurrentUserActions } from './actions/current.user.actions';
 import { NotificationActions } from './actions/notification.actions';
 import { ExecutionActions } from './actions/execution.actions';
+import { SecurityActions } from './actions/security.actions';
 
 // Redux
 import { IAppState } from './reducers/store/app.state';
@@ -111,6 +114,7 @@ import { currentUserReducer } from './reducers/current.user.reducer';
 import { navHeaderReducer } from './reducers/navheader.reducer';
 import { notificationReducer } from './reducers/notification.reducer';
 import { executionReducer } from './reducers/execution.reducer';
+import { securityReducer } from './reducers/security.reducer';
 
 import '../styles/styles.scss';
 
@@ -194,6 +198,8 @@ function authHttpServiceFactory(http: Http, options: RequestOptions) {
     GrowlModule,
     DragDropModule,
     CalendarModule,
+    TooltipModule,
+    OverlayPanelModule,
     Ng2BootstrapModule,
     // Redux
     NgReduxModule,
@@ -217,13 +223,15 @@ function authHttpServiceFactory(http: Http, options: RequestOptions) {
     RequestService,
     TestService,
     ResultService,
+    ShareService,
     // Actions
     AppActions,
     LoginActions,
     NavPageActions,
     CurrentUserActions,
     NotificationActions,
-    ExecutionActions
+    ExecutionActions,
+    SecurityActions
   ]
 
 })
@@ -245,6 +253,7 @@ export class AppModule {
         navpage: navHeaderReducer,
         notification: notificationReducer,
         execution: executionReducer,
+        security: securityReducer,
         router: routerReducer
     }));
 

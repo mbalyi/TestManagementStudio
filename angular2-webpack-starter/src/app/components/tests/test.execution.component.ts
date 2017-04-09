@@ -5,6 +5,7 @@ import { ExecutionActions } from './../../actions/execution.actions';
 import { NotificationActions } from './../../actions/notification.actions';
 import { TestService } from './../../services/test.service';
 import { QuestionModes } from './../../widgets/question.widget.context';
+import { SecurityActions } from './../../actions/security.actions';
 
 import { TestExecution, Test, Question, Answer } from './../../api/index';
 
@@ -18,10 +19,12 @@ export class TestExecutionComponent {
     private execute: QuestionModes = QuestionModes.execute;
 
     constructor(private executionAction: ExecutionActions, private notificationService: NotificationActions,
-        private testService: TestService) {}
+        private testService: TestService, private security: SecurityActions) {}
 
     ngOnInit() {
+        this.security.dropSecurity();
         this.execution$.subscribe( e => this.execution = e);
+
     }
 
     selectAnswer(event) {
