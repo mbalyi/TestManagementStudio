@@ -173,5 +173,7 @@ tms-test-manager {
 }
 
 tms-manager {
-    @extend datatable-fill-total;
+    > .row {
+        @extend datatable-fill-total;
+    }
 }

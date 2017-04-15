@@ -71,6 +71,7 @@ import { QuestionDraggableWidget } from './widgets/question.draggable.widget';
 import { CounterWidget } from './widgets/counter.widget';
 import { ExecutionWidget } from './widgets/execution.widget';
 import { ResultWidget } from './widgets/result.widget';
+import { UserAttacherWidget } from './widgets/user.attacher.widget';
 
 // Pipes
 import { CapitalizePipe } from './pipes/capitalize.pipe';
@@ -172,6 +173,7 @@ function authHttpServiceFactory(http: Http, options: RequestOptions) {
         CounterWidget,
         ExecutionWidget,
         ResultWidget,
+        UserAttacherWidget,
         // Pipes
         CapitalizePipe,
         DatePipe,

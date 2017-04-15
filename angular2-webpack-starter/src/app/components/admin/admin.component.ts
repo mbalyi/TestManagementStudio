@@ -46,9 +46,12 @@ export class AdminComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getUsers();
-        this.getGroups();
-        this.getRoles();
+        //this.getUsers();
+        //this.getGroups();
+        //this.getRoles();
+        this.users = this.fakeServer.getUsers();
+        this.groups = this.fakeServer.getGroups();
+        this.roles = this.fakeServer.getRoles();
         this.tabs = [
             {label: 'User', icon: 'fa-user', command: (event) => this.activeTab = event.item},
             {label: 'Group', icon: 'fa-group', command: (event) => this.activeTab = event.item},

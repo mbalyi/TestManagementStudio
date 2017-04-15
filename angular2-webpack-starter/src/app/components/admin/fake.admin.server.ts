@@ -8,9 +8,9 @@ export class FakeAdminServer {
 
     private users: User[] = [
         {"id": 1, "email": "admin@tms2.com", "password": null, "firstName": "admin", "lastName": "admin", "roles": null, "permissions": null},
-        {"id": 2, "email": "admin@tms2.com", "password": null, "firstName": "kacsa", "lastName": "admin", "roles": null, "permissions": null},
-        {"id": 3, "email": "admin@tms2.com", "password": null, "firstName": "manag", "lastName": "admin", "roles": null, "permissions": null},
-        {"id": 4, "email": "admin@tms2.com", "password": null, "firstName": "cicac", "lastName": "admin", "roles": null, "permissions": null},
+        {"id": 2, "email": "admin@tms2.com", "password": null, "firstName": "admin2", "lastName": "admin", "roles": null, "permissions": null},
+        {"id": 3, "email": "admin@tms2.com", "password": null, "firstName": "manager", "lastName": "manager", "roles": null, "permissions": null},
+        {"id": 4, "email": "admin@tms2.com", "password": null, "firstName": "user", "lastName": "user", "roles": null, "permissions": null},
         {"id": 5, "email": "markb", "password": null, "lastName": "Ma", "firstName": "min", "roles": null, "permissions": null},
         {"id": 6, "email": "userx", "password": null, "lastName": "XX", "firstName": "min", "roles": null, "permissions": null},
         {"id": 7, "email": "usery", "password": null, "lastName": "YY", "firstName": "min", "roles": null, "permissions": null},
