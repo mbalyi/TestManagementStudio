@@ -51,23 +51,27 @@ export class TestManagerComponent {
     private moveFrom: string = '';
 
     constructor(private questionService: QuestionService, private categoryService: CategoryService, 
-        private testService: TestService, private msgAction: NotificationActions) {
-        //TO DO: get categories from server
-        //categoryService.getAll().subscribe((data) => this.categories = data);
-        this.categories = this.fakeBackend.getCategories();
-        this.categoryItems.push({label: 'All Categories', value: { id: 0, name: 'All Categories' } });
-        for(let i = 0; i < this.categories.length; i++) {
-            this.categoryItems.push({label: this.categories[i].name, value: { id: this.categories[i].id, name: this.categories[i].name } });
-        }
-        this.changeCategory();
+        private testService: TestService, private msgAction: NotificationActions) {}
+
+    ngOnInit() {
+        this.user$.subscribe((s) => this.user = s );
+
         this.selectedCategory = null;
         this.selectedQuestions = [];
         this.selectedTest = { id: null, text: "", questions: null, owner: null };
         this.date = new Date();
-    }
-
-    ngOnInit() {
-        this.user$.subscribe((s) => this.user = s );
+        //TO DO: get categories from server
+        this.categoryService.getAll().subscribe(
+            (data) => {
+                this.categories = data;
+                this.categoryItems.push({label: 'All Categories', value: { id: 0, name: 'All Categories' } });
+                for(let i = 0; i < this.categories.length; i++) {
+                    this.categoryItems.push({label: this.categories[i].name, value: { id: this.categories[i].id, name: this.categories[i].name } });
+                }
+                this.changeCategory();
+            },
+            err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+        );
     }
 
     changeCategory() {
@@ -100,7 +104,6 @@ export class TestManagerComponent {
     }
 
     showPuller() {
-        this.selectedTest = { id: null, text: "", questions: null, owner: null };
         this.filteredQuestions = [];
         this.filteredTests = [];
         if ( this.questions != null && this.questions.length > 0)

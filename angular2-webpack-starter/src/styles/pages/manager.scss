@@ -89,11 +89,11 @@ tms-test-manager {
                     ul.nav {
                         @include fill-width();
 
-                        li:nth-child(1) {
+                        li:nth-child(1):not(.ui-dropdown-item) {
                             padding-top: 0.3em;
                         }
 
-                        li:nth-child(2) {
+                        li:nth-child(2):not(.ui-dropdown-item) {
                             float: right;
                             padding-top: 0.3em;
                         }
