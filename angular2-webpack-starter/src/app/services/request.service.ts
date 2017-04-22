@@ -12,7 +12,7 @@ import { AuthApi } from './../api/v1/AuthApi';
 
 @Injectable()
 export class RequestService extends AuthApi {
-    protected basePath = 'http://api.onlab.iceht.eu/v1';
+    protected basePath = 'api/';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 

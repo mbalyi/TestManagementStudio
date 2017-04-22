@@ -33,45 +33,44 @@ export class QuestionsComponent {
     
     ngOnInit() {
         //TO DO: get categories from server
-        // this.categoryService.getAll().subscribe(
-        //     (data) => this.categories = data,
-        //     err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
-        // );
+        this.categoryService.getAll().subscribe(
+            categories => {
+                this.categories = categories;
+                this.categoryItems.push({label: 'All Categories', value: { id: 0, name: 'All Categories' } });
+                for(let i = 0; i < this.categories.length; i++) {
+                    this.categoryItems.push({label: this.categories[i].name, value: { id: this.categories[i].id, name: this.categories[i].name } });
+                }
+                this.changeCategory();
+                this.selectedCategory = null;
+            },
+            err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
+        );
 
-        this.categories = this.fakeBackend.getCategories();
-        this.categoryItems.push({label: 'All Categories', value: { id: 0, name: 'All Categories' } });
-        for(let i = 0; i < this.categories.length; i++) {
-            this.categoryItems.push({label: this.categories[i].name, value: { id: this.categories[i].id, name: this.categories[i].name } });
-        }
-        this.changeCategory();
-        this.selectedCategory = null;
+        //this.categories = this.fakeBackend.getCategories();
+        
     }
 
     changeCategory() {
         //TO DO: get questions from server
-        /*if ( this.selectedCategoryItem.id == 0) {
+        if ( this.selectedCategoryItem == null || this.selectedCategoryItem.id == 0) {
             this.questionService.getAll().subscribe(
-                (data) => this.questions = data
+                questions => {
+                    this.questions = questions;
+                    this.showQuestionPuller();
+                }
             );
         } else {
-            this.categoryService.getQuestionsByCategory(this.selectedCategoryItem.id).subscribe(
-                (data) => this.questions = data
+            this.questionService.getQuestionsByCategory(this.selectedCategoryItem.id).subscribe(
+                questions => {
+                    this.questions = questions;
+                    this.showQuestionPuller();
+                }
             );
-        }*/
-        
-        this.questions = this.fakeBackend.getQuestions();
-        this.selectedCategory = null;
-
-        if (this.selectedCategoryItem != null && this.selectedCategoryItem.id != 0) {
-            this.questions = this.fakeBackend.getQuestionsByCatId(this.selectedCategoryItem.id);
-            this.selectedCategory = this.fakeBackend.getCategoryById(this.selectedCategoryItem.id);
         }
-        
-        this.search = '';
-        this.showQuestionPuller();
     }
 
     showQuestionPuller() {
+        this.search = '';
         this.filteredQuestions = this.questions;
     }
 
@@ -87,7 +86,7 @@ export class QuestionsComponent {
     addQuestion() {
         this.displayDialog = true;
         this.isNew = true;
-        this.question = { id: null, text: "", answersAll: null, categories: null };
+        this.question = { id: null, text: "", answersAll: [], categories: [] };
     }
 
     editQuestion(question: Question) {
@@ -106,51 +105,43 @@ export class QuestionsComponent {
     }
 
     addNewQuestion(question: Question) {
-        // //TO DO: save/update questions
-        // if (this.isNew) {
-        //     this.questionService.update(question).subscribe(
-        //         q => {
-        //             let id = this.getIndexOfQuestion(q);
-        //             if (id) {
-        //                 this.notificationAction.setNotification(true, 'Question updated.', 'Question successfully updated.');
-        //                 this.displayDialog = false;
-        //             } else {
-        //                 this.notificationAction.setNotification(false, 'Request failed.', 'Can not update the Question.')
-        //             }
-        //         },
-        //         err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
-        //     );
-        // } else {
-        //     this.questionService.save(question).subscribe(
-        //         q => {
-        //             this.questions.push(q);
-        //             this.notificationAction.setNotification(true, 'Question stored.', 'Question successfully saved.');
-        //             this.displayDialog = false;
-        //         },
-        //         err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
-        //     )
-        // }
-        if (this.isNew)
-            this.questions.push(question);
-        else
-            for (let i = 0; i < this.questions.length; i++) {
-                if (this.questions[i].id == question.id) {
-                    this.questions[i] = question;
-                    break;
-                }
-            }
+        //TO DO: save/update questions
+        if (!this.isNew) {
+            this.questionService.update(question).subscribe(
+                q => {
+                    let id = this.getIndexOfQuestion(q);
+                    if (id) {
+                        this.notificationAction.setNotification(true, 'Question updated.', 'Question successfully updated.');
+                        this.displayDialog = false;
+                    } else {
+                        this.notificationAction.setNotification(false, 'Request failed.', 'Can not update the Question.')
+                    }
+                },
+                err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
+            );
+        } else {
+            let ques = {id: question.id, text: question.text, answersAll: question.answersAll, categories: this.selectedCategoryItem.id};
+            this.questionService.save(ques).subscribe(
+                q => {
+                    this.questions.push(q);
+                    this.notificationAction.setNotification(true, 'Question stored.', 'Question successfully saved.');
+                    this.displayDialog = false;
+                },
+                err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
+            )
+        }
     }
 
     deleteQuestion(question: Question) {
-        // // TO DO: delete question
-        // this.questionService.delete(question).subscribe(
-        //     (data) => {
-        //         this.questions.splice(this.questions.indexOf(question),1);
-        //         this.notificationAction.setNotification(true, 'Question deleted.', 'Question successfully deleted.');
-        //         this.displayDialog = false;
-        //     },
-        //     err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
-        // );
-        this.questions.splice(this.questions.indexOf(question),1);
+        // TO DO: delete question
+        this.questionService.delete(question).subscribe(
+            (data) => {
+                this.questions.splice(this.questions.indexOf(question),1);
+                this.filteredQuestions.splice(this.filteredQuestions.indexOf(question),1);
+                this.notificationAction.setNotification(true, 'Question deleted.', 'Question successfully deleted.');
+                this.displayDialog = false;
+            },
+            err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
+        );
     }
 }

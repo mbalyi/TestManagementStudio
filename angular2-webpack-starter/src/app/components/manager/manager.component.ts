@@ -44,17 +44,17 @@ export class ManagerComponent implements OnInit {
         this.tableHeight = (document.body.offsetHeight*0.9);
         this.scrollHeight = (this.tableHeight-60).toString()+'px';
         
-        // this.userService.getAll().subscribe(
-        //     users => this.users = users,
-        //     err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
-        // );
-        // this.categoryService.getAll().subscribe(
-        //     categories => this.categories = categories,
-        //     err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
-        // );
-
-        this.users = this.fakeServer.getUsers();
-        this.categories = this.fakeServer.getCategories();
+        this.userService.getAll().subscribe(
+            users => this.users = users,
+            err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
+        );
+        this.categoryService.getAll().subscribe(
+            categories => this.categories = categories,
+            err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
+        );
+        
+        // this.users = this.fakeServer.getUsers();
+        // this.categories = this.fakeServer.getCategories();
 
         this.items = [{
                 label: 'Category',

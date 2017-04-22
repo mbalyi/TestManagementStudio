@@ -5,6 +5,10 @@ import {NgModule,ApplicationRef, OnInit} from '@angular/core';
 import {removeNgStyles,createNewHosts,createInputTransfer} from '@angularclass/hmr';
 import {RouterModule,PreloadAllModules} from '@angular/router';
 
+// Imports for loading & configuring the in-memory web api
+import { InMemoryWebApiModule } from 'angular2-in-memory-web-api';
+import { InMemoryDataService }  from './in-memory-data.service';
+
 // Angular-redux ecosystem stuff.
 // @angular-redux/form and @angular-redux/router are optional
 // extensions that sync form and route location state between
@@ -184,6 +188,7 @@ function authHttpServiceFactory(http: Http, options: RequestOptions) {
     BrowserModule,
     FormsModule,
     HttpModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService),
     ChartModule.forRoot(require('highcharts')),
     //APIServices
     ApiModule,

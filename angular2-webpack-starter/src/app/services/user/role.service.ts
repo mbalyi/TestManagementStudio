@@ -19,13 +19,13 @@ export class RoleService extends RequestService {
     }
     
     getAll(): Observable<Role[]> {
-        const path = this.basePath + `/roles`;
+        const path = this.basePath + `roles`;
         let object: Object[] = this.createParamsForSaveUpdate();
         return this.http.get(path, object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
-                return response.json();
+                return response.json().data;
             }
         });
     }

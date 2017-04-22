@@ -21,4 +21,6 @@ export interface TestExecution extends models.Entity {
 
     dateOfFill?: Date;
 
+    user?: models.User;
+
 }

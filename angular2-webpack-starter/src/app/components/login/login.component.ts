@@ -65,27 +65,27 @@ export class LoginComponent {
 
     isLogged() {
         if(localStorage.getItem('id_token')) {
-            this.userService.getCurrentUser().subscribe(
-                user => {
-                    this.currentUser = user;
-                    if (this.currentUser) {
-                        this.loginAction.login();
-                        this.userAction.login(this.currentUser);
-                        this.auth.setLogginFlag(true).subscribe();
-                        if (this.security.shareLink && this.security.status == 'test') {
-                            this.testService.getExecutionByTestId(this.security.id).subscribe(
-                                e => {
-                                    this.executionAction.setExecution(e);
-                                    this.router.navigate(['/test-execution']);
-                                },
-                                err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
-                            );
-                        } else
-                            this.router.navigate(['/home']);
-                    }
-                },
-                err => this.msgAction.setNotification(false, 'Login failed.', err.json().text)
-            );
+            // this.userService.getCurrentUser().subscribe(
+            //     user => {
+            //         this.currentUser = user;
+            //         if (this.currentUser) {
+            //             this.loginAction.login();
+            //             this.userAction.login(this.currentUser);
+            //             this.auth.setLogginFlag(true).subscribe();
+            //             if (this.security.shareLink && this.security.status == 'test') {
+            //                 this.testService.getExecutionByTestId(this.security.id).subscribe(
+            //                     e => {
+            //                         this.executionAction.setExecution(e);
+            //                         this.router.navigate(['/test-execution']);
+            //                     },
+            //                     err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+            //                 );
+            //             } else
+            //                 this.router.navigate(['/home']);
+            //         }
+            //     },
+            //     err => this.msgAction.setNotification(false, 'Login failed.', err.json().text)
+            // );
         }
     }
 

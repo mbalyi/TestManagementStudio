@@ -13,4 +13,5 @@
 import * as models from './models';
 
 export interface Role extends models.Entity {
+    name?: string;
 }

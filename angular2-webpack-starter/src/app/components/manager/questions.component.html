@@ -23,7 +23,9 @@
     </nav>
 </div>
 <div class="questions">
-    <tms-question-readonly *ngFor="let quest of filteredQuestions" [question]="quest" (edit)="editQuestion($event)" (delete)="deleteQuestion($event)"></tms-question-readonly>
+    <div>
+        <tms-question-readonly *ngFor="let quest of filteredQuestions" [question]="quest" (edit)="editQuestion($event)" (delete)="deleteQuestion($event)"></tms-question-readonly>
+    </div>
 </div>
 
 <tms-question-form [(display)]="displayDialog" [new]="isNew" [category]="selectedCategory" [question]="question" [answers]="question==null?[]:question.answersAll" (addQuestion)="addNewQuestion($event)" (deleteQuestion)="deleteQuestion($event)" (displayEmit)="displayDialog=$event;"></tms-question-form>

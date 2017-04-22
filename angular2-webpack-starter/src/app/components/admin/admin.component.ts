@@ -46,12 +46,12 @@ export class AdminComponent implements OnInit {
     }
 
     ngOnInit() {
-        //this.getUsers();
-        //this.getGroups();
-        //this.getRoles();
-        this.users = this.fakeServer.getUsers();
-        this.groups = this.fakeServer.getGroups();
-        this.roles = this.fakeServer.getRoles();
+        this.getUsers();
+        this.getGroups();
+        this.getRoles();
+        // this.users = this.fakeServer.getUsers();
+        // this.groups = this.fakeServer.getGroups();
+        // this.roles = this.fakeServer.getRoles();
         this.tabs = [
             {label: 'User', icon: 'fa-user', command: (event) => this.activeTab = event.item},
             {label: 'Group', icon: 'fa-group', command: (event) => this.activeTab = event.item},
@@ -69,14 +69,14 @@ export class AdminComponent implements OnInit {
 
     getGroups() {
         this.groupService.getAll().subscribe(
-            groups => this.groups,
+            groups => this.groups = groups,
             err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
         );
     }
 
     getRoles() {
         this.roleService.getAll().subscribe(
-            roles => this.roles,
+            roles => this.roles = roles,
             err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
         );
     }
@@ -93,12 +93,34 @@ export class AdminComponent implements OnInit {
 
     editUser(user: User) {
         this.user = Object.assign({}, user);
-        this.selectedRoles = Object.assign({}, user.roles);
-        this.selectedGroups = Object.assign({}, user.groups);
+        this.selectedRoles = this.selectRoles();
+        this.selectedGroups = this.selectGroups();
         this.displayDialog = true;
         this.readonlyForm = false;
         this.activeTab = this.tabs[0];
         this.modalHeader = "User: "+this.user.firstName+" "+this.user.lastName;
+    }
+
+    selectRoles(): Role[] {
+        let r = [];
+        for (let i = 0; i < this.roles.length; i++) {
+            for (let j = 0; j < this.user.roles.length; j++) {
+                if (this.roles[i].id == this.user.roles[j].id)
+                    r.push(this.roles[i]);
+            }
+        }
+        return r;
+    }
+
+    selectGroups(): Group[] {
+        let g = [];
+        for (let i = 0; i < this.groups.length; i++) {
+            for (let j = 0; j < this.user.groups.length; j++) {
+                if (this.groups[i].id == this.user.groups[j].id)
+                    g.push(this.groups[i]);
+            }
+        }
+        return g;
     }
 
     getIndexOfUser(user: User): number {

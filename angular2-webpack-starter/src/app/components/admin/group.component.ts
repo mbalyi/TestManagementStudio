@@ -62,14 +62,14 @@ export class GroupComponent implements OnInit {
 
     getGroups() {
         this.groupService.getAll().subscribe(
-            groups => this.groups,
+            groups => this.groups = groups,
             err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
         );
     }
 
     getRoles() {
         this.roleService.getAll().subscribe(
-            roles => this.roles,
+            roles => this.roles = roles,
             err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
         );
     }

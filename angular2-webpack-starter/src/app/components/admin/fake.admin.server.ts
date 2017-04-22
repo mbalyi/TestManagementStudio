@@ -38,21 +38,21 @@ export class FakeAdminServer {
     ];
 
     private questions: Question[] = [
-        { id: 1, text: "What do you eat for breakfast?", answersAll: null, categories: null },
-        { id: 2, text: "What do you eat for lunch?", answersAll: null, categories: null },
-        { id: 3, text: "Are you a good programmer?", answersAll: null, categories: null },
-        { id: 4, text: "What can I do for you?", answersAll: null, categories: null }
+        { id: 1, text: "What is the difference between C and C++?", answersAll: null, categories: null },
+        { id: 2, text: "How can you wire the microcontrollers?", answersAll: null, categories: null },
+        { id: 3, text: "What does the 'PLA' mean?", answersAll: null, categories: null },
+        { id: 4, text: "Which answer is faulth?", answersAll: null, categories: null }
     ];
 
     private answers: Answer[] = [
-        { id: 1, text: "Nothing.", correct: true },
-        { id: 2, text: "Everything.", correct: false },
-        { id: 3, text: "Ravens", correct: true },
+        { id: 1, text: "Use the microcontroller help book.", correct: true },
+        { id: 2, text: "Ask a colleague.", correct: false },
+        { id: 3, text: "Somehow.", correct: true },
         { id: 4, text: "No.", correct: false },
         { id: 5, text: "I don't think so.", correct: false },
-        { id: 6, text: "You have to tell me.", correct: true },
+        { id: 6, text: ".", correct: true },
         { id: 7, text: "Nothing.", correct: false },
-        { id: 8, text: "Give me your money!", correct: true }
+        { id: 8, text: "I skipp this.", correct: true }
     ];
 
     private tests: Test[] = [

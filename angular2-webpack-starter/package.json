@@ -101,7 +101,8 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
     "redux-observable": "^0.13.0",
-    "angular2-highcharts": "^0.5.5"
+    "angular2-highcharts": "^0.5.5",
+    "angular2-in-memory-web-api": "^0.0.21"
   },
   "devDependencies": {
     "@angular/compiler-cli": "2.4.6",

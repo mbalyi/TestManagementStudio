@@ -19,13 +19,13 @@ export class GroupService extends RequestService {
     }
     
     getAll(): Observable<Group[]> {
-        const path = this.basePath + `/groups`;
+        const path = this.basePath + `groups`;
         let object: Object[] = this.createParamsForSaveUpdate();
         return this.http.get(path, object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
-                return response.json();
+                return response.json().data;
             }
         });
     }
@@ -38,7 +38,7 @@ export class GroupService extends RequestService {
             if (response.status === 204) {
                 return undefined;
             } else {
-                return response.json();
+                return response.json().data;
             }
         });
     }
@@ -51,7 +51,7 @@ export class GroupService extends RequestService {
             if (response.status === 204) {
                 return undefined;
             } else {
-                return response.json();
+                return response.json().data;
             }
         });
     }
@@ -64,7 +64,7 @@ export class GroupService extends RequestService {
             if (response.status === 204) {
                 return undefined;
             } else {
-                return response.json();
+                return response.json().data;
             }
         });
     }
@@ -77,7 +77,7 @@ export class GroupService extends RequestService {
             if (response.status === 204) {
                 return undefined;
             } else {
-                return response.json();
+                return response.json().data;
             }
         });
     }
@@ -90,7 +90,7 @@ export class GroupService extends RequestService {
             if (response.status === 204) {
                 return undefined;
             } else {
-                return response.json();
+                return response.json().data;
             }
         });
     }
@@ -103,7 +103,7 @@ export class GroupService extends RequestService {
             if (response.status === 204) {
                 return undefined;
             } else {
-                return response.json();
+                return response.json().data;
             }
         });
     }
@@ -116,7 +116,7 @@ export class GroupService extends RequestService {
             if (response.status === 204) {
                 return undefined;
             } else {
-                return response.json();
+                return response.json().data;
             }
         });
     }

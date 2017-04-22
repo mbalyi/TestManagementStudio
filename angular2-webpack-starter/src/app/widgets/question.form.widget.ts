@@ -40,9 +40,9 @@ import { QuestionService } from './../services/question.service';
             </div>
             <p-footer>
                 <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-                    <button *ngIf="!readonly" type="button btn btn-success" pButton icon="fa-check" (click)="save()" label="Save"></button>
-                    <button *ngIf="!readonly" type="button btn btn-danger" pButton icon="fa-trash" (click)="delete()" label="Delete"></button>
-                    <button type="button" pButton icon="fa-close" (click)="cancel()" label="Cancel"></button>
+                    <button *ngIf="!readonlyForm" type="button" class="btn btn-danger" (click)="delete()" style="float:left;"><span class="fa fa-trash"></span>Delete</button>
+                    <button type="button" (click)="cancel()" class="btn btn-default"><span class="fa fa-close"></span>Cancel</button>
+                    <button *ngIf="!readonlyForm" type="button" class="btn btn-default" (click)="save()"><span class="fa fa-check"></span>Save</button>
                 </div>
             </p-footer>
         </p-dialog>
@@ -93,6 +93,8 @@ export class QuestionFormWidget {
         }
         if (this.selectedAnswer != null) {
             this._question.answersAll = this._answers;
+            if (this._question.categories == null)
+                this._question.categories = [];
             if (this.category != null)
                 this._question.categories.push(this.category);
             else

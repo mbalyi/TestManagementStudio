@@ -13,6 +13,8 @@
 import * as models from './models';
 
 export interface User extends models.Actor {
+    nickName?: string;
+    
     email?: string;
 
     password?: string;
@@ -27,6 +29,8 @@ export interface User extends models.Actor {
     groups?: Array<models.Group>;
 
     memberOf?: Array<models.Group>;
+
+    role?: models.Role;
 
     /**
      * Tests created by the user
