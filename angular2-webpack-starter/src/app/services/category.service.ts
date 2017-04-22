@@ -61,7 +61,7 @@ export class CategoryService extends RequestService {
         const path = this.basePath + `categories`;
         let object: Object[] = this.createParamsForSaveUpdate(category);
 
-        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.post(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -74,7 +74,7 @@ export class CategoryService extends RequestService {
         const path = this.basePath + `categories/`+category.id;
         let object: Object[] = this.createParamsForSaveUpdate(category);
 
-        return this.http.put(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.put(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -126,7 +126,7 @@ export class CategoryService extends RequestService {
         const path = this.basePath + `categories/`+id+`/questions`;
         let object: Object[] = this.createParamsForSaveUpdate(question);
 
-        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.post(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {

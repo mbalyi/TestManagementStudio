@@ -49,15 +49,26 @@
         </div>
 
         <div *ngIf="finishEnable" class="inputRow">
-            <tms-user-attacher [users]="users" [selectedUsers]="selectedUsers" (result)="getUserAttach($event)"></tms-user-attacher>
+            <tms-user-attacher [users]="sortedUsers" [selectedUsers]="selectedCategory.users" (result)="getUserAttach($event)"></tms-user-attacher>
         </div>
 
         <p-footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-                <button *ngIf="!finishEnable" type="button btn btn-success" pButton icon="fa-arrow-right" (click)="finishEnable = true; this.activeIndex = 1;" label="Next"></button>
-                <button *ngIf="finishEnable" type="button btn btn-success" pButton icon="fa-check" (click)="finish()" label="Finish"></button>
-                <button type="button" pButton icon="fa-close" (click)="cancel()" label="Cancel"></button>
-                <button *ngIf="finishEnable" type="button" pButton icon="fa-arrow-left" (click)="finishEnable = false; this.activeIndex = 0;" label="Back"></button>
+                <button *ngIf="!finishEnable" type="button" class="btn btn-default" (click)="finishEnable = true; this.activeIndex = 1;">
+                    <span class="fa fa-arrow-right"></span>Next
+                </button>
+                <button *ngIf="finishEnable" type="button" class="btn btn-default" (click)="saveCategory()">
+                    <span class="fa fa-check"></span>Finish
+                </button>
+                <button type="button" class="btn btn-default" (click)="cancel()">
+                    <span class="fa fa-close"></span>Cancel
+                </button>
+                <button *ngIf="finishEnable" type="button" class="btn btn-default" (click)="finishEnable = false; this.activeIndex = 0;">
+                    <span class="fa fa-arrow-left"></span>Back
+                </button>
+                <button *ngIf="selectedCategory.id != null" type="button" class="btn btn-danger" (click)="deleteCategory(selectedCategory)" style="float:left;">
+                    <span class="fa fa-trash"></span>Delete
+                </button>
             </div>
         </p-footer>
     </p-dialog>

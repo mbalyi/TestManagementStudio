@@ -23,4 +23,5 @@ export interface Category extends models.SecuredEntity {
 
     tests?: Array<models.Test>;
 
+    users?: Array<models.User>;
 }

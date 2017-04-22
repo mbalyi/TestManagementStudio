@@ -11,7 +11,6 @@ import { NavPages } from './../navheader/navheader.context';
 import { User, Group, Role, Category, Question, Answer, Test } from './../../api/index';
 
 import { StepsModule, MenuItem, InputTextareaModule } from 'primeng/primeng';
-import { FakeAdminServer } from './../admin/fake.admin.server';
 
 @Component({
     selector: 'tms-manager',
@@ -27,10 +26,8 @@ export class ManagerComponent implements OnInit {
     private tableHeight: number = 0;
     private scrollHeight: string = '';
 
-    private fakeServer: FakeAdminServer = new FakeAdminServer();
-
     private users: User[] = [];
-    private selectedUsers: User[] = [];
+    private sortedUsers: User[] = [];
 
     private categories: Category[] = [];
     private selectedCategory: Category = {id: null, name: '', description: ''};
@@ -52,9 +49,6 @@ export class ManagerComponent implements OnInit {
             categories => this.categories = categories,
             err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
         );
-        
-        // this.users = this.fakeServer.getUsers();
-        // this.categories = this.fakeServer.getCategories();
 
         this.items = [{
                 label: 'Category',
@@ -74,9 +68,11 @@ export class ManagerComponent implements OnInit {
     }
 
     showDialogToAdd() {
-        this.selectedCategory = {id: null, name: '', description: ''};
-        this.displayDialog = true;
+        this.selectedCategory = {id: null, name: '', description: '', parent: null, childrens: null, questions: [], tests: [], users: []};
+        this.sortedUsers = Object.assign([], this.users);
         this.activeIndex = 0;
+        this.finishEnable = false;
+        this.displayDialog = true;
     }
 
     cancel() {
@@ -86,12 +82,25 @@ export class ManagerComponent implements OnInit {
     }
 
     getUserAttach($event: any) {
-        this.users=$event.users;
-        this.selectedUsers=$event.selectedUsers;
+        this.sortedUsers=$event.users;
+        this.selectedCategory.users=$event.selectedUsers;
     }
 
     editCategory(category) {
         this.selectedCategory = Object.assign({}, category);
+        this.sortedUsers = Object.assign([], this.users);
+        let u =[];
+        for (let i = 0; i < this.sortedUsers.length; i++) {
+            let flag = false;
+            for (let j = 0; j < this.selectedCategory.users.length; j++) {
+                if (this.sortedUsers[i].id == this.selectedCategory.users[j].id)
+                    flag = true;
+            }
+            if (!flag)
+                u.push(this.sortedUsers[i]);
+        }
+        this.sortedUsers = u;
+        this.finishEnable = false;
         this.displayDialog = true;
     }
 
@@ -104,13 +113,13 @@ export class ManagerComponent implements OnInit {
         return null;
     }
 
-    saveCategory(category: Category) {
-        if (category.id != null) {
-            this.categoryService.update(category).subscribe(
-                cat => {
-                    let id = this.getIndexOfCategory(category);
-                    if (id) {
-                        this.selectedCategory[id] = cat;
+    saveCategory() {
+        if (this.selectedCategory.id != null) {
+            this.categoryService.update(this.selectedCategory).subscribe(
+                category => {
+                    let id = this.getIndexOfCategory(this.selectedCategory);
+                    if (id!=null) {
+                        this.categories[id] = this.selectedCategory;
                         this.notificationAction.setNotification(true, 'Category updated.', 'Category successfully updated.');
                         this.displayDialog = false;
                     } else {
@@ -120,9 +129,9 @@ export class ManagerComponent implements OnInit {
                 err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
             );
         } else {
-            this.categoryService.save(category).subscribe(
-                user => {
-                    this.categories.push(category);
+            this.categoryService.save(this.selectedCategory).subscribe(
+                category => {
+                    this.categories.push(this.selectedCategory);
                     this.notificationAction.setNotification(true, 'Category stored.', 'Category successfully saved.');
                     this.displayDialog = false;
                 },

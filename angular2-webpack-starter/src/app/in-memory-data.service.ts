@@ -53,7 +53,13 @@ export class InMemoryDataService implements InMemoryDbService {
             { id: 8, text: "...explains how the new product fills the market gap.", answersAll: [{id: 22}, {id: 23}, {id: 24}], categories: null },
             { id: 9, text: "...describes the ​conditions that make the ​business more ​successful than its competitors.", answersAll: [{id: 25}, {id: 26}, {id: 27}], categories: null },
             { id: 10, text: "...describes what pricing, distribution and promotional strategies you will use.", answersAll: [{id: 28}, {id: 29}, {id: 30}], categories: null }
-        ], tests: [] },
+        ], tests: [], users: [
+            {id: 4, nickName: "user", email: "user@tms2.com", password: "user", firstName: "user", lastName: "tester", roles: [{id :4}], groups: []},
+            {id: 5, nickName: "mbalyi", email: "test@tms2.com", password: "test", lastName: "Balyi", firstName: "Mark", roles: [{id :1}], groups: [{id: 1},{id: 3}]},
+            {id: 6, nickName: "tester1", email: "test@tms2.com", password: "test", lastName: "tester", firstName: "1", roles: [{id :4}], groups: []},
+            {id: 7, nickName: "tester2", email: "test@tms2.com", password: "test", lastName: "tester", firstName: "2", roles: [{id :4}], groups: []},
+            {id: 8, nickName: "tester3", email: "test@tms2.com", password: "test", lastName: "tester", firstName: "3", roles: [{id :4}], groups: []}
+        ] },
         { id: 2, name: "Market Competition", parent: null, childrens: null, questions: [
             { id: 11, text: "Oligopoly is...", answersAll: [{id: 31}, {id: 32}, {id: 33}], categories: null },
             { id: 12, text: "Monopoly is...", answersAll: [{id: 34}, {id: 35}, {id: 36}], categories: null },
@@ -65,7 +71,11 @@ export class InMemoryDataService implements InMemoryDbService {
             { id: 18, text: "Niche is...", answersAll: [{id: 52}, {id: 53}, {id: 54}], categories: null },
             { id: 19, text: "Market segmentation is...", answersAll: [{id: 55}, {id: 56}, {id: 57}], categories: null },
             { id: 20, text: "To protect a market share a company...", answersAll: [{id: 58}, {id: 59}, {id: 60}], categories: null }
-        ], tests: [] }
+        ], tests: [], users: [
+            {id: 5, nickName: "mbalyi", email: "test@tms2.com", password: "test", lastName: "Balyi", firstName: "Mark", roles: [{id :1}], groups: [{id: 1},{id: 3}]},
+            {id: 6, nickName: "tester1", email: "test@tms2.com", password: "test", lastName: "tester", firstName: "1", roles: [{id :4}], groups: []},
+            {id: 8, nickName: "tester3", email: "test@tms2.com", password: "test", lastName: "tester", firstName: "3", roles: [{id :4}], groups: []}
+        ] }
     ];
 
     let questions = [

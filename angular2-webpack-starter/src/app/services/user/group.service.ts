@@ -47,7 +47,7 @@ export class GroupService extends RequestService {
         const path = this.basePath + `/groups/`+id+`/members`;
         let object: Object[] = this.createParamsForSaveUpdate(users);
 
-        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.post(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -73,7 +73,7 @@ export class GroupService extends RequestService {
         const path = this.basePath + `/groups/`+id+`/roles`;
         let object: Object[] = this.createParamsForSaveUpdate(roles);
 
-        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.post(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -86,7 +86,7 @@ export class GroupService extends RequestService {
         const path = this.basePath + `/groups`;
         let object: Object[] = this.createParamsForSaveUpdate(group);
 
-        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.post(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -99,7 +99,7 @@ export class GroupService extends RequestService {
         const path = this.basePath + `/groups/`+group.id;
         let object: Object[] = this.createParamsForSaveUpdate(group);
 
-        return this.http.put(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.put(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {

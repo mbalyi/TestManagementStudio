@@ -35,7 +35,7 @@ export class TestService extends RequestService {
         const path = this.basePath + `/tests`;
         let object: Object[] = this.createParamsForSaveUpdate(test);
 
-        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.post(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -48,7 +48,7 @@ export class TestService extends RequestService {
         const path = this.basePath + `/tests/`+test.id;
         let object: Object[] = this.createParamsForSaveUpdate(test);
 
-        return this.http.put(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.put(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -87,7 +87,7 @@ export class TestService extends RequestService {
         const path = this.basePath + `/tests/`+id+`/test-sets`;
         let object: Object[] = this.createParamsForSaveUpdate(testSet);
 
-        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.post(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -100,7 +100,7 @@ export class TestService extends RequestService {
         const path = this.basePath + `/tests/`+id+`/test-sets/`+testSet.id;
         let object: Object[] = this.createParamsForSaveUpdate(testSet);
 
-        return this.http.put(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.put(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -165,7 +165,7 @@ export class TestService extends RequestService {
         const path = this.basePath + `/tests/answer/`+id.toString();
         let object: Object[] = this.createParamsForSaveUpdate(answer);
 
-        return this.http.put(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.put(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
@@ -178,7 +178,7 @@ export class TestService extends RequestService {
         const path = this.basePath + `/testexecution/`+id.toString();
         let object: Object[] = this.createParamsForSaveUpdate({'date': date});
 
-        return this.http.post(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.post(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {

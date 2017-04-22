@@ -85,7 +85,7 @@ export class UserService extends RequestService {
         const path = this.basePath + `users/`+user.id;
         let object: Object[] = this.createParamsForSaveUpdate(user);
 
-        return this.http.put(path, object[0].toString(), object[1]).map((response: Response) => {
+        return this.http.put(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
