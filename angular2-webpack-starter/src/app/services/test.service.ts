@@ -44,6 +44,19 @@ export class TestService extends RequestService {
         });
     }
 
+    getTest(id: number): Observable<Test> {
+        const path = this.basePath + `tests/`+id;
+        let object: Object[] = this.createParamsForSaveUpdate();
+
+        return this.http.get(path, object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json().data;
+            }
+        });
+    }
+
     save(test: Test): Observable<Test> {
         const path = this.basePath + `tests`;
         let object: Object[] = this.createParamsForSaveUpdate(test);

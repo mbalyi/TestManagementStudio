@@ -62,10 +62,18 @@ export class TestMenuComponent {
 
     startTest() {
         //TO DO: get test execution, set execution reducer
-        this.testService.getExecutionByTestId(this.selectedTest.id).subscribe(
-            data => {
-                this.executionAction.setExecution(data);
-                this.router.navigate(['/test-execution']);
+        this.testService.getExecution(this.selectedTest.id).subscribe(
+            execution => {
+                this.testService.getTest(execution.id).subscribe(
+                    test => {
+                        execution.test = test;
+                        if (execution.dateOfStart == null)
+                            execution.dateOfStart = new Date();
+                        this.executionAction.setExecution(execution);
+                        this.router.navigate(['/test-execution']);
+                    },
+                    err => this.notificationActions.setNotification(false, 'Request failed.', err.toString())
+                );
             },
             err => this.notificationActions.setNotification(false, 'Request failed.', err.toString())
         );

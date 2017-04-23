@@ -30,8 +30,21 @@ tms-test-menu {
 }
 
 tms-test-execution {
-    
-    .answers > div {
-        display: inline;
+
+    > div.questions {
+        position: absolute;
+        width: 98%;
+        right: 0;    
+        overflow-y: scroll;
+        height: 98.5%;
+
+        > div {
+            margin-right: 0.5em;
+        }
+
+        .answers > div {
+
+            display: inline;
+        }
     }
 }
