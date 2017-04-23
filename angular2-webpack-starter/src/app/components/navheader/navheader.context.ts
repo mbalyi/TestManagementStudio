@@ -1,4 +1,8 @@
-﻿export class NavHeaderContext {
+﻿import { select } from '@angular-redux/store';
+import { Observable } from 'rxjs/Observable';
+import { User } from './../../api/index';
+
+export class NavHeaderContext {
     public name: String;
     public url: String;
     public icon: String;
@@ -15,6 +19,9 @@
 }
 
 export class NavHeaders {
+    @select(['currentuser']) readonly user$: Observable<User>;
+    private user: User;
+
     private home: NavHeaderContext = new NavHeaderContext('home', '/home','glyphicon glyphicon-home', 4, NavPages.home);
     private users: NavHeaderContext = new NavHeaderContext('users', '/users-data', 'glyphicon glyphicon-th-list', 1, NavPages.users);
     private manager: NavHeaderContext = new NavHeaderContext('manager', '/manager', 'glyphicon glyphicon-folder-open', 1, NavPages.manager);
@@ -34,10 +41,26 @@ export class NavHeaders {
     private myResults: NavHeaderContext = new NavHeaderContext('my results', '/my-results', 'fa fa-user', 4, NavPages.myResults);
     private myCategories: NavHeaderContext = new NavHeaderContext('my categories', '/my-categories', 'fa fa-folder-open-o', 4, NavPages.myResults);
 
-    public headers: NavHeaderContext[] = [this.home, this.results, this.test, this.manager, this.admin, this.subjects];
+    public headers: NavHeaderContext[] = [this.home, this.results, this.test, this.manager, this.admin];
     public adminMenu: NavHeaderContext[] = [this.adminUser, this.adminGroup];
     public managerMenu: NavHeaderContext[] = [this.managerCategory, this.managerTest, this.managerQuestion];
     public myResultsMenu: NavHeaderContext[] = [this.myResults, this.myCategories];
+
+    constructor() {
+        this.user$.subscribe( u => this.user = u);
+        
+        if (this.user.roles[0].id == 1) {
+            this.headers = [this.home,this.manager, this.admin];
+        } else if (this.user.roles[0].id == 2) {
+            this.headers = [this.home, this.manager];
+        } else if (this.user.roles[0].id == 3) {
+            this.headers = [this.home, this.manager];
+        } else if (this.user.roles[0].id == 4) {
+            this.headers = [this.home, this.results, this.test];
+        } else if (this.user.roles[0].id == 5) {
+            this.headers = [this.home, this.results, this.test, this.manager, this.admin];
+        }
+    }
 }
 
 export type NavPage = 'home' | 'login' | 'users' | 'admin' | 'subjects' | 'manager' | 'test-menu' | 'test-execution' | 'my-results' | 'test-result';

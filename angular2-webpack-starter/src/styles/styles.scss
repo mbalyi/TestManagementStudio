@@ -12,8 +12,10 @@ $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 @import './widgets/question.scss';
 @import './widgets/test.draggable.scss';
 @import './widgets/question.draggable.scss';
+@import './widgets/home.buttonsset.scss';
 
 // Pages
+@import './pages/home.scss';
 @import './pages/login.scss';
 @import './pages/admin.scss';
 @import './pages/manager.scss';

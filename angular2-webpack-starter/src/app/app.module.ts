@@ -76,6 +76,8 @@ import { CounterWidget } from './widgets/counter.widget';
 import { ExecutionWidget } from './widgets/execution.widget';
 import { ResultWidget } from './widgets/result.widget';
 import { UserAttacherWidget } from './widgets/user.attacher.widget';
+import { HomeButtonWidget } from './widgets/home.button.widget';
+import { HomeButtonSetWidget } from './widgets/home.buttonsset.widget';
 
 // Pipes
 import { CapitalizePipe } from './pipes/capitalize.pipe';
@@ -178,6 +180,8 @@ function authHttpServiceFactory(http: Http, options: RequestOptions) {
         ExecutionWidget,
         ResultWidget,
         UserAttacherWidget,
+        HomeButtonWidget,
+        HomeButtonSetWidget,
         // Pipes
         CapitalizePipe,
         DatePipe,

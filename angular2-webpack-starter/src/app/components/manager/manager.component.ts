@@ -38,6 +38,7 @@ export class ManagerComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.pageAction.setPage(NavPages.manager);
         this.tableHeight = (document.body.offsetHeight*0.9);
         this.scrollHeight = (this.tableHeight-60).toString()+'px';
         

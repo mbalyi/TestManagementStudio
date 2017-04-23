@@ -1,0 +1,32 @@
+home {
+
+    > div {
+        @include fill-height();
+        overflow-y: scroll;
+        position: absolute;
+
+        .col-md-12 {
+            @include fill-height();
+
+            .panel-default {
+                height: 55%;
+            }
+
+            .col-md-4 {
+                height: 31%;
+                
+                .panel-primary {
+                    @include fill-height();
+
+                    .panel-heading {
+                        background-color: $brand-blue;
+                    }
+                }
+            }
+
+            .panel-body {
+                color: $gray-dark;
+            }
+        }
+    }
+}

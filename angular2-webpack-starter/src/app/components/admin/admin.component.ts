@@ -46,6 +46,7 @@ export class AdminComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.pageAction.setPage(NavPages.admin);
         this.getUsers();
         this.getGroups();
         this.getRoles();

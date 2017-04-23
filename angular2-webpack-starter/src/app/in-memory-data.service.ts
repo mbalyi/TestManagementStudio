@@ -6,7 +6,7 @@ export class InMemoryDataService implements InMemoryDbService {
         {id: 2, nickName: "manager", email: "manager@tms2.com", password: "manager", firstName: "manager", lastName: "tester", roles: [{id :2}], groups: [{id: 2}]},
         {id: 3, nickName: "reporter", email: "reporter@tms2.com", password: "reporter", firstName: "reporter", lastName: "tester", roles: [{id :3}], groups: []},
         {id: 4, nickName: "user", email: "user@tms2.com", password: "user", firstName: "user", lastName: "tester", roles: [{id :4}], groups: []},
-        {id: 5, nickName: "mbalyi", email: "test@tms2.com", password: "test", lastName: "Balyi", firstName: "Mark", roles: [{id :1}], groups: [{id: 1},{id: 3}]},
+        {id: 5, nickName: "mbalyi", email: "test@tms2.com", password: "test", lastName: "Balyi", firstName: "Mark", roles: [{id :5}], groups: [{id: 1},{id: 3}]},
         {id: 6, nickName: "tester1", email: "test@tms2.com", password: "test", lastName: "tester", firstName: "1", roles: [{id :4}], groups: []},
         {id: 7, nickName: "tester2", email: "test@tms2.com", password: "test", lastName: "tester", firstName: "2", roles: [{id :4}], groups: []},
         {id: 8, nickName: "tester3", email: "test@tms2.com", password: "test", lastName: "tester", firstName: "3", roles: [{id :4}], groups: []}
@@ -16,7 +16,8 @@ export class InMemoryDataService implements InMemoryDbService {
         {id: 1, name: "administrator"},
         {id: 2, name: "manager"},
         {id: 3, name: "reporter"},
-        {id: 4, name: "user"}
+        {id: 4, name: "user"},
+        {id: 5, name: "developer"}
     ];
 
     let groups = [
@@ -55,7 +56,7 @@ export class InMemoryDataService implements InMemoryDbService {
             { id: 10, text: "...describes what pricing, distribution and promotional strategies you will use.", answersAll: [{id: 28}, {id: 29}, {id: 30}], categories: null }
         ], tests: [], users: [
             {id: 4, nickName: "user", email: "user@tms2.com", password: "user", firstName: "user", lastName: "tester", roles: [{id :4}], groups: []},
-            {id: 5, nickName: "mbalyi", email: "test@tms2.com", password: "test", lastName: "Balyi", firstName: "Mark", roles: [{id :1}], groups: [{id: 1},{id: 3}]},
+            {id: 5, nickName: "mbalyi", email: "test@tms2.com", password: "test", lastName: "Balyi", firstName: "Mark", roles: [{id :5}], groups: [{id: 1},{id: 3}]},
             {id: 6, nickName: "tester1", email: "test@tms2.com", password: "test", lastName: "tester", firstName: "1", roles: [{id :4}], groups: []},
             {id: 7, nickName: "tester2", email: "test@tms2.com", password: "test", lastName: "tester", firstName: "2", roles: [{id :4}], groups: []},
             {id: 8, nickName: "tester3", email: "test@tms2.com", password: "test", lastName: "tester", firstName: "3", roles: [{id :4}], groups: []}
@@ -316,7 +317,7 @@ export class InMemoryDataService implements InMemoryDbService {
                     { id: 29, text: "Product or service", correct: false },
                     { id: 30, text: "Management Team", correct: false }
                 ], categories: 1 }
-        ], owner: {id: 5, nickName: "mbalyi", email: "test@tms2.com", password: "test", lastName: "Balyi", firstName: "Mark", roles: [{id :1}], groups: [{id: 1},{id: 3}]}, 
+        ], owner: {id: 5, nickName: "mbalyi", email: "test@tms2.com", password: "test", lastName: "Balyi", firstName: "Mark", roles: [{id :5}], groups: [{id: 1},{id: 3}]}, 
         category: 1, testSets: [{id: 1, dueDate: new Date()}], createdAt:  new Date("January 01, 2017 11:00:00"), description: "First exam." },
         { id: 2, text: "Business Plan Second Exam", questions: [
                 { id: 1, text: "...includes managers’ CVs.", answersAll: [
@@ -349,7 +350,7 @@ export class InMemoryDataService implements InMemoryDbService {
                 { id: 29, text: "Product or service", correct: false },
                 { id: 30, text: "Management Team", correct: false }
             ], categories: 1 }
-        ], owner: {id: 5, nickName: "mbalyi", email: "test@tms2.com", password: "test", lastName: "Balyi", firstName: "Mark", roles: [{id :1}], groups: [{id: 1},{id: 3}]}, 
+        ], owner: {id: 5, nickName: "mbalyi", email: "test@tms2.com", password: "test", lastName: "Balyi", firstName: "Mark", roles: [{id :5}], groups: [{id: 1},{id: 3}]}, 
         category: 1, testSets: [{id: 2, dueDate: new Date("May 01, 2017 11:13:00")}], createdAt:  new Date("January 01, 2017 11:00:00"), description: "Second exam." },
         { id: 3, text: "Market Competition Test", questions: [
             { id: 11, text: "Oligopoly is...", answersAll: [
