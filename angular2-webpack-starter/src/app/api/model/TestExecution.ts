@@ -17,10 +17,13 @@ export interface TestExecution extends models.Entity {
 
     answersGiven?: Array<models.Answer>;
 
+    dueDate?: Date;
+
     dateOfStart?: Date;
 
     dateOfFill?: Date;
 
     user?: models.User;
 
+    name?: string;
 }

@@ -5,24 +5,21 @@
                 <p-column header="Executable Tests" colspan="4"></p-column>
             </p-row>
         </p-headerColumnGroup>
-        <p-column field="text" [style]="{'width':'50%'}"></p-column>
-        <p-column field="test.testSets[0].dueDate" [style]="{'width':'12.5%'}">
+        <p-column field="name" [style]="{'width':'50%'}"></p-column>
+        <p-column field="dueDate" [style]="{'width':'12.5%'}">
             <template let-test="rowData" pTemplate="body">
-                {{test.testSets[0].dueDate | date}}
+                {{test.dueDate | date}}
             </template>
         </p-column>
         <p-column field="test.testSets[0].dueDate" [style]="{'width':'12.5%'}">
             <template let-test="rowData" pTemplate="body">
-                {{test.testSets[0].dueDate | time}}
+                {{test.dueDate | time}}
             </template>
         </p-column>
         <p-column [style]="{'width':'25%'}">
             <template let-test="rowData" pTemplate="body">
-                <div *ngIf="test.testSets[0].dueDate <= currentDate">
+                <div>
                     OPEN!
-                </div>
-                <div *ngIf="test.testSets[0].dueDate > currentDate">
-                    NOT AVAILABLE!
                 </div>
             </template>
         </p-column>
@@ -36,23 +33,20 @@
                 <p-column header="Next Tests" colspan="4"></p-column>
             </p-row>
         </p-headerColumnGroup>
-        <p-column field="text" [style]="{'width':'50%'}"></p-column>
-        <p-column field="test.testSets[0].dueDate" [style]="{'width':'12.5%'}">
+        <p-column field="name" [style]="{'width':'50%'}"></p-column>
+        <p-column field="dueDate" [style]="{'width':'12.5%'}">
             <template let-test="rowData" pTemplate="body">
-                {{test.testSets[0].dueDate | date}}
+                {{test.dueDate | date}}
             </template>
         </p-column>
-        <p-column field="test.testSets[0].dueDate" [style]="{'width':'12.5%'}">
+        <p-column field="dueDate" [style]="{'width':'12.5%'}">
             <template let-test="rowData" pTemplate="body">
-                {{test.testSets[0].dueDate | time}}
+                {{test.dueDate | time}}
             </template>
         </p-column>
         <p-column [style]="{'width':'25%'}">
             <template let-test="rowData" pTemplate="body">
-                <div *ngIf="test.testSets[0].dueDate <= currentDate">
-                    OPEN!
-                </div>
-                <div *ngIf="test.testSets[0].dueDate > currentDate">
+                <div>
                     NOT AVAILABLE!
                 </div>
             </template>

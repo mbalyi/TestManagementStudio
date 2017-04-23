@@ -174,7 +174,7 @@ export class LoginComponent {
                             //     },
                             //     err => this.msgAction.setNotification(false, 'Login failed.', err.json().text)
                             // );
-                            this.userAction.login({id: 1, email: "admin@tms2.com", password: null, firstName: "Mark", lastName: "Balyi", roles: [], permissions: []});
+                            this.userAction.login({id: 5, email: "admin@tms2.com", password: null, firstName: "Mark", lastName: "Balyi", roles: [], permissions: []});
                         }
                     );
                     this.router.navigate(['/']);

@@ -46,8 +46,6 @@ export class TestManagerComponent {
     private selectedQuestions: Question[] = [];
     private draggedQuestion: Question;
 
-    private fakeBackend: FakeAdminServer = new FakeAdminServer();
-
     private moveFrom: string = '';
 
     constructor(private questionService: QuestionService, private categoryService: CategoryService, 
@@ -75,32 +73,42 @@ export class TestManagerComponent {
     }
 
     changeCategory() {
-        // //TO DO: get questions, tests from server
-        // if ( this.selectedCategoryItem.id == 0) {
-        //     this.questionService.getAll().subscribe(
-        //         (data) => this.questions = data
-        //     );
-        //     this.testService.getAll().subscribe(
-        //         (data) => this.tests = data
-        //     );
-        // } else {
-        //     this.questionService.getByCategoryId(this.selectedCategoryItem.id).subscribe(
-        //         (data) => this.questions = data
-        //     );
-        //     this.testService.getByCategoryId(this.selectedCategoryItem.id).subscribe(
-        //         (data) => this.tests = data
-        //     );
-        // }
-        
-        this.questions = this.fakeBackend.getQuestions();
-        this.tests = this.fakeBackend.getTest();
-        this.selectedCategory = null;
-        if (this.selectedCategoryItem != null && this.selectedCategoryItem.id != 0) {
-            this.questions = this.fakeBackend.getQuestionsByCatId(this.selectedCategoryItem.id);
-            this.tests = this.fakeBackend.getTestByCatId(this.selectedCategoryItem.id);
-            this.selectedCategory = this.fakeBackend.getCategoryById(this.selectedCategoryItem.id);
+        //TO DO: get questions, tests from server
+        if ( this.selectedCategoryItem == null || this.selectedCategoryItem.id == 0) {
+            this.questionService.getAll().subscribe(
+                (data) => {
+                    this.questions = data;
+                    this.showPuller();
+                },
+                err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+            );
+            this.testService.getAll().subscribe(
+                (data) => {
+                    this.tests = data;
+                    this.showPuller();
+                },
+                err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+            );
+        } else {
+            this.selectedCategory = this.categoryService.getByCategoryId(this.selectedCategoryItem.id).subscribe(
+                (data) => this.selectedCategory = data,
+                err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+            );
+            this.questionService.getQuestionsByCategory(this.selectedCategoryItem.id).subscribe(
+                (data) => {
+                    this.questions = data;
+                    this.showPuller();
+                },
+                err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+            );
+            this.testService.getTestsByCategory(this.selectedCategoryItem.id).subscribe(
+                (data) => {
+                    this.tests = data;
+                    this.showPuller();
+                },
+                err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+            );
         }
-        this.showPuller();
     }
 
     showPuller() {
@@ -114,8 +122,7 @@ export class TestManagerComponent {
             this.tests.forEach((x) => {
                     this.filteredTests.push(Object.assign({}, x));
                 });
-        this.selectedTest = { id: null, text: "", questions: null, owner: null };
-        this.readonlyForm = true;
+        this.resetForm();
     }
 
     addTest() {
@@ -128,7 +135,7 @@ export class TestManagerComponent {
         this.selectedQuestions = [];
         this.owner = this.user.firstName+' '+this.user.lastName;
         this.schedule = null;
-        this.selectedTest = { id: null, text: "", questions: null, owner: null };
+        this.selectedTest = { id: null, text: "", questions: [], owner: null, createdAt: new Date(), description: "", testSets: [] };
     }
 
     dragStart(event,question: Question) {
@@ -158,38 +165,65 @@ export class TestManagerComponent {
         this.draggedQuestion = null;
     }
 
+    getQuestionIndex(questions: Question[], id: number): number {
+        let index = null;
+        for (let i = 0; i < questions.length; i++) {
+            if (questions[i].id == id) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
     openTest(event) {
         this.readonlyForm = true;
         this.selectedTest = Object.assign({}, event);
+        this.selectedTest.createdAt = new Date(this.selectedTest.createdAt);
+        if(this.selectedTest.testSets.length > 0) 
+            this.schedule = new Date(this.selectedTest.testSets[0].dueDate);
+        else
+            this.schedule = null;
+
         if (event.questions != null) {
             this.selectedQuestions = [];
-            event.questions.forEach((x) => {
+            this.selectedTest.questions.forEach((x) => {
                 this.selectedQuestions.push(Object.assign({}, x));
             });
             this.filteredQuestions = [];
             this.questions.forEach((x) => {
                 this.filteredQuestions.push(Object.assign({}, x));
             });
-            for (let i = 0; i < event.questions.length; i++) { 
-                this.filteredQuestions.splice(this.filteredQuestions.indexOf(event.questions[i]),1); 
+            for (let i = 0; i < this.selectedTest.questions.length; i++) { 
+                this.filteredQuestions.splice(this.getQuestionIndex(this.filteredQuestions,this.selectedTest.questions[i].id),1); 
             } 
         }
         if (this.selectedTest.owner && this.selectedTest.owner.firstName)
             this.owner = this.selectedTest.owner.firstName+' '+this.selectedTest.owner.lastName;
         else 
             this.owner = '';
-        // // TO DO: get test set
-        // getTestSet()
-        this.schedule = null;
     }
 
     saveScheduled() {
-        if (this.selectedTest.id) {
-            let testSet = {id: null, dueDate: this.schedule, test: this.selectedTest, actorsAssigned: []};
+        if (this.selectedTest.id && this.schedule != null) {
+            let testSet = {id: null, dueDate: this.schedule};
             this.testService.saveTestSet(this.selectedTest.id, testSet).subscribe(
                 testset => {
-                    if (testset)
-                        this.msgAction.setNotification(true, 'Request successfull.', 'New schedule date stored.');
+                    if (testset) {
+                        this.selectedTest.testSets = [testset];
+                        this.testService.update(this.selectedTest).subscribe(
+                            data => {
+                                for (let i = 0; i < this.filteredTests.length; i++) {
+                                    if (this.filteredTests[i].id == this.selectedTest.id) {
+                                        this.filteredTests[i] = Object.assign({}, this.selectedTest);
+                                        break;
+                                    }
+                                }
+                                this.msgAction.setNotification(true, 'Request successfull.', 'New schedule date stored.');
+                            },
+                            err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+                        );
+                    }
                     else
                         this.msgAction.setNotification(false, 'Request failed.', 'Can not store the date.');
                 },
@@ -215,24 +249,16 @@ export class TestManagerComponent {
     }
 
     deleteTest(event) {
-        if (this.selectedTest = event) {
-            this.resetForm();
-        }
-        // //TO DO delete test
-        // this.testService.delete(event).subscribe(
-        //     (data) => {
-        //         if (data == true) {
-        //             this.selectedTest = { id: null, text: "", questions: null, owner: null };
-        //             this.filteredTests.splice(this.filteredTests.indexOf(event),1);
-        //             this.msgAction.setNotification(true, 'Test deleted.', event.text);
-        //         } else {
-        //             this.msgAction.setNotification(false, 'Request failed.', 'Something went wrong.');
-        //         }
-        //     }
-        // )
-        this.selectedTest = { id: null, text: "", questions: null, owner: null };
-        this.filteredTests.splice(this.filteredTests.indexOf(event),1);
-        this.msgAction.setNotification(true, 'Test deleted.', event.text);
+        //TO DO delete test
+        this.testService.delete(event).subscribe(
+            (data) => {
+                this.resetForm();
+                this.filteredTests.splice(this.filteredTests.indexOf(event),1);
+                this.msgAction.setNotification(true, 'Test deleted.', event.text);
+                
+            },
+            err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+        )
     }
 
     cancel() {
@@ -256,56 +282,38 @@ export class TestManagerComponent {
             this.msgAction.setNotification(false, 'Non question was selected!', 'Select questions.');
         } else { 
             if (this.selectedTest != null && this.selectedTest.id != null) {
-                // //TO DO update existing test
-                // this.testService.update(this.selectedTest).subscribe(
-                //     (data) => {
-                //         if (data != null || data != '') {
-                //             for (let i = 0; i < this.filteredTests.length; i++) {
-                //                 if (this.filteredTests[i].id == this.selectedTest.id) {
-                //                     this.filteredTests[i] = Object.assign({}, this.selectedTest);
-                //                     break;
-                //                 }
-                //             }
-                //             this.selectedTest = Object.assign({}, data);
-                //             this.msgAction.setNotification(true, 'Test updated.', this.selectedTest.text);
-                //         } else {
-                //             this.msgAction.setNotification(false, 'Request failed.', 'Something went wrong.');
-                //         }
-                //     }
-                // );
-                this.selectedTest.questions = this.selectedQuestions;
-                for (let i = 0; i < this.filteredTests.length; i++) {
-                    if (this.filteredTests[i].id == this.selectedTest.id) {
-                        this.filteredTests[i] = Object.assign({}, this.selectedTest);
-                        break;
-                    }
-                }
+                //TO DO update existing test
+                this.selectedTest.questions = Object.assign([], this.selectedQuestions);
+                this.selectedTest.createdAt = new Date(this.selectedTest.createdAt);
+                this.testService.update(this.selectedTest).subscribe(
+                    data => {
+                        for (let i = 0; i < this.filteredTests.length; i++) {
+                            if (this.filteredTests[i].id == this.selectedTest.id) {
+                                this.filteredTests[i] = Object.assign({}, this.selectedTest);
+                                break;
+                            }
+                        }
+                        this.msgAction.setNotification(true, 'Test updated.', this.selectedTest.text);
+                        this.saveScheduled();
+                    },
+                    err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+                );
             } else {
-                // //TO DO save new test
-                // let own = this.selectedTest == null || this.selectedTest.owner == null ? this.user : this.selectedTest.owner;
-                // let cat = this.selectedCategory == null || this.selectedCategory.id == 0 ? null : this.selectedCategory;
-                // let test = { id: 20, text: this.selectedTest.text, questions: this.selectedQuestions, owner: own, category: cat };
-                // this.testService.save(test).subscribe(
-                //     (data) => {
-                //         if (data != null || data != '') {
-                //             this.filteredTests.push(data);
-                //             this.msgAction.setNotification(true, 'Test stored.', this.selectedTest.text);
-                //             this.selectedTest = Object.assign({}, data);
-                //             this.saveScheduled();
-                //             this.getTestSet();
-                //         } else {
-                //             this.msgAction.setNotification(false, 'Request failed.', 'Something went wrong.');
-                //         }
-                //     }
-                // );
+                //TO DO save new test
                 let own = this.selectedTest == null || this.selectedTest.owner == null ? this.user : this.selectedTest.owner;
-                let cat = this.selectedCategory == null || this.selectedCategory.id == 0 ? null : this.selectedCategory;
-                this.filteredTests.push({id: 20, text: this.selectedTest.text, 
-                        questions: this.selectedQuestions, owner: own,
-                        category: cat
-                });
+                let cat = this.selectedCategory == null || this.selectedCategory.id == 0 ? null : this.selectedCategory.id;
+                
+                let test = { id: null, text: this.selectedTest.text, questions: this.selectedQuestions, 
+                    owner: own, category: cat, createdAt: new Date(this.selectedTest.createdAt), description: this.selectedTest.description, testSet: [] };
+                this.testService.save(test).subscribe(
+                    data => {
+                            this.filteredTests.push(data);
+                            this.msgAction.setNotification(true, 'Test stored.', this.selectedTest.text);
+                            this.selectedTest = Object.assign({}, data);
+                    },
+                    err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+                );
             }
-            this.msgAction.setNotification(true, 'Test stored.', this.selectedTest.text);
             this.addBtnActive = true;
             this.readonlyForm = true;
         }
@@ -316,10 +324,12 @@ export class TestManagerComponent {
         this.readonlyForm = true;
         this.filteredQuestions = [];
         this.questions.forEach((x) => {
-                this.filteredQuestions.push(Object.assign({}, x));
-            });
+            this.filteredQuestions.push(Object.assign({}, x));
+        });
+        this.selectedTest = { id: null, text: "", questions: [], owner: null, createdAt: new Date(), description: "", testSets: [] };
+        this.owner = '';
+        this.schedule = null;
         this.selectedQuestions = [];
-        this.selectedTest = { id: null, text: "", questions: null, owner: null };
     }
 
     openQuestion(event) {

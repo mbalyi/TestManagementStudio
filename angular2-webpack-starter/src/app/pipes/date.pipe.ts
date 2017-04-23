@@ -5,8 +5,8 @@ export class DatePipe implements PipeTransform {
     transform(value: Date): any {
         if (!value) return value;
 
-        let month = value.getMonth() < 10 ? '0' + value.getMonth().toString() : value.getMonth().toString();
-        let day = value.getDay() < 10 ? '0' + value.getDay().toString() : value.getDay().toString();
+        let month = value.getMonth() < 10 ? '0' + (value.getMonth()+1).toString() : (value.getMonth()+1).toString();
+        let day = value.getDate() < 10 ? '0' + value.getDate().toString() : value.getDate().toString();
 
         return value.getFullYear().toString()+'-'+month+'-'+day;
     }
