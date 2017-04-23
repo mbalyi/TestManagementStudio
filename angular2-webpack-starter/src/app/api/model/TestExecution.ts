@@ -26,4 +26,6 @@ export interface TestExecution extends models.Entity {
     user?: models.User;
 
     name?: string;
+
+    category?: models.Category;
 }

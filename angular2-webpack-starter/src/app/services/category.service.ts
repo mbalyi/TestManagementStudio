@@ -44,15 +44,25 @@ export class CategoryService extends RequestService {
         });
     }
 
-    getMyCategories(): Observable<Category[]> {
-        const path = this.basePath + `categories/my/`;
+    getMyCategories(id: number): Observable<Category[]> {
+        const path = this.basePath + `categories`;
         let object: Object[] = this.createParamsForSaveUpdate();
 
-        return this.http.request(path, object[1]).map((response: Response) => {
+        return this.http.get(path, object[1]).map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
                 } else {
-                    return response.json().data;
+                    let categories = response.json().data;
+                    let my = [];
+                    for (let i = 0; i < categories.length; i++) {
+                        for (let j = 0; j < categories[i].users.length; j++) {
+                            if (categories[i].users[j].id == id) {
+                                my.push(categories[i]);
+                                break;
+                            }
+                        }
+                    }
+                    return my;
                 }
             });
     }

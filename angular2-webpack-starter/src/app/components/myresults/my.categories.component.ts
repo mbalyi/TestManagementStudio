@@ -1,5 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { TestExecution, Category } from './../../api/index';
+import { select } from '@angular-redux/store';
+import { Observable } from 'rxjs/Observable';
+import { TestExecution, Category, User } from './../../api/index';
 
 import { FakeAdminServer } from './../admin/fake.admin.server';
 
@@ -15,6 +17,9 @@ import { NotificationActions } from './../../actions/notification.actions';
 export class MyCategoriesComponent {
     @ViewChild('chartcontainer') elementView: ElementRef;
 
+    @select(['currentuser']) readonly user$: Observable<User>;
+    private user: User;
+
     private fakeAdmin: FakeAdminServer = new FakeAdminServer();
     private myCategories: Category[] = [];
     private myTests: TestExecution[] = [];
@@ -27,58 +32,61 @@ export class MyCategoriesComponent {
         private testService: TestService, private resultService: ResultService) {}
 
     ngOnInit() {
+        this.user$.subscribe((s) => this.user = s );
         //TO DO: get my categories, get test results by category id, get test result by id
         this.getCategory();
-        this.renderChart();
     }
 
     getCategory() {
-        // //TO DO: get categories
-        // this.categoryService.getMyCategories().subscribe(
-        //     data => {
-        //         this.myCategories = data;
-        //         this.selectedCategory = this.myCategories[0];
-        //         this.getTestsByCategoryId(this.myCategories[0].id);
-        //     },
-        //     err => this.notificationAction.setNotification(false, 'Request failed.', err.json().toString())
-        // );
-        this.myCategories = this.fakeAdmin.getCategories();
-        this.selectedCategory = this.myCategories[0];
-        this.getTestsByCategoryId(this.selectedCategory.id);
+        //TO DO: get categories
+        this.categoryService.getMyCategories(this.user.id).subscribe(
+            data => {
+                this.myCategories = data;
+                this.selectedCategory = this.myCategories[0];
+                this.getTestsByCategoryId(this.myCategories[0].id);
+            },
+            err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
+        );
     }
 
     getTestsByCategoryId(id: number) {
-        // //TO DO: get test executions by category id
-        // this.testService.getByCategoryId(id).subscribe(
-        //     data => {
-        //         this.myTests = data;
-        //         this.selectedTest = this.myTests[0];
-        //     },
-        //     err => this.notificationAction.setNotification(false, 'Request failed.', err.json().toString())
-        // );
-        this.myTests = this.fakeAdmin.getExecutions();
-        this.selectedTest = this.myTests[0];
+        //TO DO: get test executions by category id
+        this.testService.getExecutionsByCategory(this.user.id, id).subscribe(
+            data => {
+                this.myTests = data;
+                if (this.myTests.length > 0) {
+                    this.selectedTest = this.myTests[0];
+                    this.selectedTest.dueDate = new Date(this.selectedTest.dueDate);
+                    this.selectedTest.dateOfFill = new Date(this.selectedTest.dateOfFill);
+                    this.renderChart();
+                }
+            },
+            err => this.notificationAction.setNotification(false, 'Request failed.', err.toString())
+        );
     }
 
     selectCategory(event) {
-        this.selectedCategory = event;
+        this.selectedCategory = event.data;
         this.getTestsByCategoryId(this.selectedCategory.id);
     }
 
     selectTest(event) {
-        this.selectedTest = event;
-        //this.renderChart();
+        this.selectedTest = event.data;
+        this.selectedTest.dueDate = new Date(this.selectedTest.dueDate);
+        this.selectedTest.dateOfFill = new Date(this.selectedTest.dateOfFill);
+        this.renderChart();
     }
 
     renderChart() {
         let r = this.resultService.getResults(this.selectedTest);
-
+        
         this.results = [
             {name: 'Number of Questions', pont: r[0]},
             {name: 'Correct answers', pont: r[1]},
             {name: 'Wrong answers', pont: r[2]},
             {name: 'Skipped answers', pont: r[3]}
         ];
+        
         this.options = {
            chart: {
                 type: 'pie',
@@ -113,10 +121,10 @@ export class MyCategoriesComponent {
                     selected: true
                 }, {
                     name: 'Wrong',
-                    y: r[2] / r[1] * 100
+                    y: r[2] / r[0] * 100
                 }, {
                     name: 'Missing',
-                    y: r[3] / r[1] * 100
+                    y: r[3] / r[0] * 100
                 }];
        }
     }

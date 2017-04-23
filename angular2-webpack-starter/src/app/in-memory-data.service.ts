@@ -413,21 +413,21 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
 
     let executions = [
-        {id: 1, test: 1, user: 4, name: "Business Plan", answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
-        {id: 2, test: 1, user: 5, name: "Business Plan", answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
-        {id: 3, test: 1, user: 6, name: "Business Plan", answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
-        {id: 4, test: 1, user: 7, name: "Business Plan", answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
-        {id: 5, test: 1, user: 8, name: "Business Plan", answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
+        {id: 1, test: 1, user: 4, name: "Business Plan", category: 1, answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
+        {id: 2, test: 1, user: 5, name: "Business Plan", category: 1, answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
+        {id: 3, test: 1, user: 6, name: "Business Plan", category: 1, answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
+        {id: 4, test: 1, user: 7, name: "Business Plan", category: 1, answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
+        {id: 5, test: 1, user: 8, name: "Business Plan", category: 1, answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
 
-        {id: 6, test: 2, user: 4, name: "Business Plan Second Exam", answersGiven: [], dueDate: new Date("May 01, 2017 11:13:00"), dateOfStart: null, dateOfFill: null},
-        {id: 7, test: 2, user: 5, name: "Business Plan Second Exam", answersGiven: [], dueDate: new Date("May 01, 2017 11:13:00"), dateOfStart: null, dateOfFill: null},
-        {id: 8, test: 2, user: 6, name: "Business Plan Second Exam", answersGiven: [], dueDate: new Date("May 01, 2017 11:13:00"), dateOfStart: null, dateOfFill: null},
-        {id: 9, test: 2, user: 7, name: "Business Plan Second Exam", answersGiven: [], dueDate: new Date("May 01, 2017 11:13:00"), dateOfStart: null, dateOfFill: null},
-        {id: 10, test: 2, user: 8, name: "Business Plan Second Exam", answersGiven: [], dueDate: new Date("May 01, 2017 11:13:00"), dateOfStart: null, dateOfFill: null},
+        {id: 6, test: 2, user: 4, name: "Business Plan Second Exam", category: 1, answersGiven: [], dueDate: new Date("May 01, 2017 11:13:00"), dateOfStart: null, dateOfFill: null},
+        {id: 7, test: 2, user: 5, name: "Business Plan Second Exam", category: 1, answersGiven: [], dueDate: new Date("May 01, 2017 11:13:00"), dateOfStart: null, dateOfFill: null},
+        {id: 8, test: 2, user: 6, name: "Business Plan Second Exam", category: 1, answersGiven: [], dueDate: new Date("May 01, 2017 11:13:00"), dateOfStart: null, dateOfFill: null},
+        {id: 9, test: 2, user: 7, name: "Business Plan Second Exam", category: 1, answersGiven: [], dueDate: new Date("May 01, 2017 11:13:00"), dateOfStart: null, dateOfFill: null},
+        {id: 10, test: 2, user: 8, name: "Business Plan Second Exam", category: 1, answersGiven: [], dueDate: new Date("May 01, 2017 11:13:00"), dateOfStart: null, dateOfFill: null},
 
-        {id: 11, test: 3, user: 5, name: "Market Competition Test", answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
-        {id: 12, test: 3, user: 6, name: "Market Competition Test", answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
-        {id: 13, test: 3, user: 8, name: "Market Competition Test", answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null}
+        {id: 11, test: 3, user: 5, name: "Market Competition Test", category: 2, answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
+        {id: 12, test: 3, user: 6, name: "Market Competition Test", category: 2, answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null},
+        {id: 13, test: 3, user: 8, name: "Market Competition Test", category: 2, answersGiven: [], dueDate: new Date(), dateOfStart: null, dateOfFill: null}
     ];
 
     return { 

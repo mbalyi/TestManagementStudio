@@ -24,7 +24,7 @@
             <p-column field="test.text" [style]="{'width':'100%'}"></p-column>
             <p-column field="test.dateOfStart" [style]="{'width':'12.5%', 'text-align': 'center'}">
                 <template let-test="rowData" pTemplate="body">
-                    {{test.dateOfStart | date}} {{test.dateOfStart | time}}
+                    {{test.dueDate | date}} {{test.dueDate | time}}
                 </template>
             </p-column>
             <p-column field="test.dateOfFill" [style]="{'width':'12.5%', 'text-align': 'center'}">
@@ -40,7 +40,7 @@
         <chart [options]="options"></chart>
     </div>
     <div class="results">
-        <p-dataTable [value]="results" [globalFilter]="gb" [style]="{'height':'100%'}" #dt>
+        <p-dataTable [value]="results" [globalFilter]="gb" [style]="{'height':'100%'}">
             <p-headerColumnGroup>
                 <p-row>
                     <p-column header="Results" colspan="2"></p-column>
