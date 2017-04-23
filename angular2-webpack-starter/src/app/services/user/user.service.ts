@@ -18,8 +18,20 @@ export class UserService extends RequestService {
         super(authHttp, http, basePath, configuration);
     }
 
-    getCurrentUser(): Observable<User> {
-        const path = this.basePath + `/users/me`;
+    getCurrentUser(id: any): Observable<User> {
+        const path = this.basePath + `users/`+id;
+        let object: Object[] = this.createParamsForSaveUpdate();
+        return this.http.get(path, object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json().data;
+            }
+        });
+    }
+
+    getLogin(name: string, password: string): Observable<User> {
+        const path = this.basePath + `users/?nickName=`+name+`&password=`+password;
         let object: Object[] = this.createParamsForSaveUpdate();
         return this.http.get(path, object[1]).map((response: Response) => {
             if (response.status === 204) {

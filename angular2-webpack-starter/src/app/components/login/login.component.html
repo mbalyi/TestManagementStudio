@@ -46,28 +46,22 @@
                             </div>
                             <div id="register-form" *ngIf="!loginEnable" [@visibilityChanged]="!loginEnable">
                                 <div class="form-group">
-                                    <input type="text" name="username" [(ngModel)]="this.email" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+                                    <input type="text" name="username" [(ngModel)]="newUser.nickName" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="firstname"  id="firstname" tabindex="1" class="form-control" placeholder="Firstname" value="">
+                                    <input type="text" name="firstname" [(ngModel)]="newUser.firstName"  id="firstname" tabindex="1" class="form-control" placeholder="Firstname" value="">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="lastname"  id="lastname" tabindex="1" class="form-control" placeholder="Lastname" value="">
+                                    <input type="text" name="lastname" [(ngModel)]="newUser.lastName"  id="lastname" tabindex="1" class="form-control" placeholder="Lastname" value="">
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+                                    <input type="email" name="email" [(ngModel)]="newUser.email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" id="password"  tabindex="2" class="form-control" placeholder="Password">
+                                    <input type="password" name="password" [(ngModel)]="newUser.password" id="password"  tabindex="2" class="form-control" placeholder="Password">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" name="confirm-password" id="confirm-password" [(ngModel)]="confirmPassword" tabindex="2" class="form-control" placeholder="Confirm Password">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="phone"  id="phone" tabindex="1" class="form-control" placeholder="Phone" value="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="address"  id="address" tabindex="1" class="form-control" placeholder="Address" value="">
                                 </div>
                                 <div class="form-group">
                                     <div class="row">

@@ -161,8 +161,8 @@ export class TestService extends RequestService {
             });
     }
 
-    getExecutionByTestId(id: number): Observable<TestExecution[]> {
-        const path = this.basePath + `tests/`+id.toString()+`/test-executions`;
+    getExecutionByTestId(id: number, userid: number): Observable<TestExecution[]> {
+        const path = this.basePath + `executions/?test=`+id.toString()+`&user=`+userid;
         let object: Object[] = this.createParamsForSaveUpdate();
 
         return this.http.get(path, object[1]).map((response: Response) => {
