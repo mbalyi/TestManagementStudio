@@ -28,23 +28,17 @@ export class TestExecutionComponent {
     }
 
     selectAnswer(event) {
-        // //TO DO: send the request to the backend and store to reducer
-        // let id = null;
-        // for (let i = 0; i < this.execution.test.questions.length; i++) {
-        //     for (let j = 0; j < this.execution.test.questions[i].answersAll.length; j++) {
-        //         if (this.execution.test.questions[i].answersAll[j].id == event.id) {
-        //            id = this.execution.test.questions[i].id;
-        //            break;
-        //         }
-        //     }
-        // }
-        // this.testService.updateAnswer(id, event).subscribe(
-        //     (data) => {
-        //         this.executionAction.updateAnswer(event);
-        //         this.notificationService.setNotification(true, 'Answer stored.', '');
-        //     },
-        //     err => this.notificationService.setNotification(true, 'Answer wasnt stored.', err.json().toString())
-        // );
+        //TO DO: send the request to the backend and store to reducer
+        let id = null;
+        for (let i = 0; i < this.execution.test.questions.length; i++) {
+            for (let j = 0; j < this.execution.test.questions[i].answersAll.length; j++) {
+                if (this.execution.test.questions[i].answersAll[j].id == event.id) {
+                   id = this.execution.test.questions[i].id;
+                   break;
+                }
+            }
+        }
         this.executionAction.updateAnswer(event);
+        this.testService.updateExecution(this.execution).subscribe();
     }
 }

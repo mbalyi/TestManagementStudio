@@ -200,6 +200,19 @@ export class TestService extends RequestService {
         });
     }
 
+    updateExecution(execution: TestExecution): Observable<TestExecution> {
+        const path = this.basePath + `executions/`+execution.id;
+        let object: Object[] = this.createParamsForSaveUpdate(execution);
+
+        return this.http.put(path, object[0], object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json().data;
+            }
+        });
+    }
+
     updateAnswer(id: number, answer: Answer): Observable<Answer> {
         const path = this.basePath + `tests/answer/`+id.toString();
         let object: Object[] = this.createParamsForSaveUpdate(answer);
@@ -213,11 +226,11 @@ export class TestService extends RequestService {
         });
     }
 
-    close(id: number, date: Date): Observable<TestExecution> {
-        const path = this.basePath + `/testexecution/`+id.toString();
-        let object: Object[] = this.createParamsForSaveUpdate({'date': date});
+    close(execution: TestExecution): Observable<TestExecution> {
+        const path = this.basePath + `executions/`+execution.id;
+        let object: Object[] = this.createParamsForSaveUpdate(execution);
 
-        return this.http.post(path, object[0], object[1]).map((response: Response) => {
+        return this.http.put(path, object[0], object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {

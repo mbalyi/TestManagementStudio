@@ -58,15 +58,14 @@ export class NavMenuComponent {
 
     sendExecution() {
         let date = new Date();
-        // this.service.close(this.execution.id, date).subscribe(
-        //     (data) => {
-        //         this.actions.closeExecution(date);
-        //         this.notification.setNotification(true, 'Test stored.', 'Your test results have been saved.');
-        //     },
-        //     err => this.notification.setNotification(false, 'Request failed.', err.json().toString())
-        // );
-        this.actions.closeExecution(date);
-        this.notification.setNotification(true, 'Test stored.', 'Your test results have been saved.');
-        this.router.navigate(['my-results']);
+        this.execution.dateOfFill = date;
+        this.service.close(this.execution).subscribe(
+            (data) => {
+                this.actions.closeExecution(date);
+                this.notification.setNotification(true, 'Test stored.', 'Your test results have been saved.');
+                this.router.navigate(['my-results']);
+            },
+            err => this.notification.setNotification(false, 'Request failed.', err.json().toString())
+        );
     }
 }
