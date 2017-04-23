@@ -34,6 +34,17 @@ export class ResultService {
         this.skippedQuestions = [];
     }
 
+    getIndex(questions: any[], question: any): number {
+        let index = null;
+        for (let i = 0; i < questions.length; i++) {
+            if (questions[i].id == question.id) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
     sortResults(selected: TestExecution, questions: Question[]) {
         if (selected && selected.answersGiven && questions && questions.length > 0) {
             let answers = selected.answersGiven;
@@ -53,7 +64,7 @@ export class ResultService {
                         }
                     }
                     if (got) {
-                        if (this.correctAnswer.indexOf(answers[i]) > 0) {
+                        if (answers[i].correct) {
                             this.correctQuestions.push(question);
                         } else {
                             this.failedQuestions.push(question);
@@ -65,10 +76,10 @@ export class ResultService {
             this.skippedAnswer = answers;
             this.skippedQuestions = questions;
             this.correctQuestions.forEach((question) => {
-                this.skippedQuestions.splice(this.skippedQuestions.indexOf(question),1);
+                this.skippedQuestions.splice(this.getIndex(this.skippedQuestions, question),1);
             });
             this.failedQuestions.forEach((question) => {
-                this.skippedQuestions.splice(this.skippedQuestions.indexOf(question),1);
+                this.skippedQuestions.splice(this.getIndex(this.skippedQuestions, question),1);
             });
         }
     }
@@ -77,7 +88,7 @@ export class ResultService {
         let questions = execution.test.questions;
         let gaveAnswers = execution.answersGiven;
         let result = [];
-
+        
         for (let q = 0; q < questions.length; q++) {
             let isSelect = false;
             for (let a = 0; a < questions[q].answersAll.length; a++) {

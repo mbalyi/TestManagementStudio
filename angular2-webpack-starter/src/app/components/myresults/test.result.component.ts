@@ -22,9 +22,7 @@ export class TestResultComponent {
     }
 
     ngOnInit() {
-        this.execution$.subscribe( e => {
-            this.execution = e;
-            this.results = this.resultService.makeResultObject(this.execution);
-        });
+        this.execution$.subscribe( e => { this.execution = e; });
+        this.results = this.resultService.makeResultObject(this.execution);
     }
 }

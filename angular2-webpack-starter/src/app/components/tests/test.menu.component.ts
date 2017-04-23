@@ -64,7 +64,7 @@ export class TestMenuComponent {
         //TO DO: get test execution, set execution reducer
         this.testService.getExecution(this.selectedTest.id).subscribe(
             execution => {
-                this.testService.getTest(execution.id).subscribe(
+                this.testService.getTest(execution.test).subscribe(
                     test => {
                         execution.test = test;
                         if (execution.dateOfStart == null)

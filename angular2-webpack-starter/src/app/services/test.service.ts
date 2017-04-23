@@ -44,7 +44,7 @@ export class TestService extends RequestService {
         });
     }
 
-    getTest(id: number): Observable<Test> {
+    getTest(id: any): Observable<Test> {
         const path = this.basePath + `tests/`+id;
         let object: Object[] = this.createParamsForSaveUpdate();
 
@@ -188,14 +188,20 @@ export class TestService extends RequestService {
     }
 
     getAllExecutions(): Observable<TestExecution[]> {
-        const path = this.basePath + `/testexecutions`;
+        const path = this.basePath + `executions`;
         let object: Object[] = this.createParamsForSaveUpdate();
 
         return this.http.get(path, object[1]).map((response: Response) => {
             if (response.status === 204) {
                 return undefined;
             } else {
-                return response.json().data;
+                let exes = response.json().data;
+                let result = [];
+                for (let i = 0; i < exes.length; i++) {
+                    if (exes[i].dateOfFill != null)
+                        result.push(exes[i]);
+                }
+                return result;
             }
         });
     }
@@ -239,15 +245,18 @@ export class TestService extends RequestService {
         });
     }
 
-    getQuestionsOfTest(id: number): Observable<Question[]> {
-        const path = this.basePath + `tests/`+id.toString()+`/questions`;
+    getQuestionsOfTest(test: any): Observable<Question[]> {
+        const path = this.basePath + `tests/`+test.id==null?test:test.id;
         let object: Object[] = this.createParamsForSaveUpdate();
-
+        
         return this.http.get(path, object[1]).map((response: Response) => {
+            debugger
             if (response.status === 204) {
                 return undefined;
             } else {
-                return response.json().data;
+                let test = response.json().data;
+                debugger
+                return test.questions;
             }
         });
     }
@@ -268,7 +277,7 @@ export class TestService extends RequestService {
                 for (let i = 0; i < exes.length; i++) {
                     let cd = new Date(exes[i].dueDate);
                     exes[i].dueDate = new Date(exes[i].dueDate);
-                    if (cd > start && cd < end)
+                    if (cd > start && cd < end && exes[i].dateOfFill == null)
                         result.push(exes[i]);
                 }
                 return result;

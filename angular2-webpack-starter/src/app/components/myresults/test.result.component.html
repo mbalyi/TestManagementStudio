@@ -1,4 +1,6 @@
 <div class="questions">
-    <tms-question-readonly *ngFor="let result of results" [question]="result.question" [gaveAnswer]="result.answer"
-        (select)="selectAnswer($event)" [mode]="'result'"></tms-question-readonly>
+    <div>
+        <tms-question-readonly *ngFor="let result of results" [question]="result.question" [gaveAnswer]="result.answer"
+            (select)="selectAnswer($event)" [mode]="'result'"></tms-question-readonly>
+    </div>
 </div>

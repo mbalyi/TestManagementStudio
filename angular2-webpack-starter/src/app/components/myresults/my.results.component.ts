@@ -24,8 +24,6 @@ export class MyResultsComponent {
     private failedQuestions: Question[] = [];
     private skippedQuestions: Question[] = [];
 
-    private fakeAdmin: FakeAdminServer = new FakeAdminServer();
-
     constructor(private pageAction: NavPageActions, private resultService: ResultService, private testService: TestService,
         private notificationAction: NotificationActions, private executionAction: ExecutionActions, private router: Router) { 
         pageAction.setPage(NavPages.myResults);
@@ -34,39 +32,51 @@ export class MyResultsComponent {
     ngOnInit() {
         this.pageAction.setPage(NavPages.myResults);
         //TO DO: Get executions
-        // this.testService.getAllExecutions().subscribe(
-        //     exes => this.executions,
-        //     err => this.notificationAction.setNotification(false, 'Request Failed', err.json().toString())
-        // );
-        this.executions = this.fakeAdmin.getExecutions();
-        this.selectedTest = this.executions[0];
-        this.getResults();
+        this.testService.getAllExecutions().subscribe(
+            exes => {
+                this.executions = exes;
+                if (exes.length > 0) {
+                    this.selectedTest = this.executions[0];
+                    this.getResults();
+                }
+            },
+            err => this.notificationAction.setNotification(false, 'Request Failed', err.json().toString())
+        );
     }
 
     getResults() {
         this.resultService.reset();
         //TO DO: Get questions of selected test execution
-        this.testService.getQuestionsOfTest(this.selectedTest.test.id).subscribe(
-            questions => this.questions = questions,
-            err => this.notificationAction.setNotification(false, 'Request Failed', err.json().toString())
-        );
-        this.resultService.sortResults(this.selectedTest, this.questions);
+        this.testService.getTest(this.selectedTest.test.id).subscribe(
+            test => {
+                this.questions = test.questions;
+                this.resultService.sortResults(this.selectedTest, this.questions);
 
-        this.correctQuestions = this.resultService.getCorrectQuestions();
-        this.failedQuestions = this.resultService.getFailedQuestions();
-        this.skippedQuestions = this.resultService.getSkippedQuestions();
+                this.correctQuestions = this.resultService.getCorrectQuestions();
+                this.failedQuestions = this.resultService.getFailedQuestions();
+                this.skippedQuestions = this.resultService.getSkippedQuestions();
+            },
+            err => this.notificationAction.setNotification(false, 'Request Failed', err.toString())
+        );
     }
 
     selectTest(event) {
-        this.selectedTest = event.data;
-        this.getResults();
+        this.testService.getExecution(event.data.id).subscribe(
+            execution => {
+                this.selectedTest = execution;
+                this.executionAction.setExecution(this.selectedTest);
+                this.getResults();
+            }
+        );
+        
     }
 
     seeTest() {
-        // this.executionAction.setExecution(this.selectedTest);
-        // this.router.navigate(['/test-result']);
-        let e = this.fakeAdmin.getFilledExecution();
-        this.executionAction.setExecution(e);
-        this.router.navigate(['/test-result']);
+        this.testService.getExecution(this.selectedTest.id).subscribe(
+            execution => {
+                this.executionAction.setExecution(execution);
+                this.router.navigate(['/test-result']);
+            }
+        );
     }
 }
