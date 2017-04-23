@@ -19,7 +19,7 @@
             </ul>
             <ul *ngIf="execution != null && execution.id != null && execution.dateOfFill == null" class='nav navbar-nav'>
                 <li class="counter">
-                    <tms-counter [interval]="90"></tms-counter>
+                    <tms-counter [start]="execution.dueDate"></tms-counter>
                 </li>
             </ul>
             <ul *ngIf="execution != null && (execution.id == null || execution.dateOfFill != null)" class="nav navbar-nav navbar-right">

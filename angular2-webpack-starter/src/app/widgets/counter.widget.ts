@@ -8,16 +8,19 @@ import { Observable } from 'rxjs/Observable';
     `
 })
 export class CounterWidget {
-    @Input() interval: number = 0;
-    /** Event called when a valid click event happened */
+    @Input() start: Date = new Date();
+    
     @Output() end: EventEmitter<any> = new EventEmitter<any>();
+    private interval: number = 0;
 
     constructor(element: ElementRef, changeDetectorRef: ChangeDetectorRef) {
     }
 
 
     ngOnInit() {
-        let timer = Observable.timer(0,60000);
+        let cd = new Date();
+        this.interval = 90*60 - Math.floor((cd.getTime() - (new Date(this.start)).getTime())/1000);
+        let timer = Observable.timer(0,1000);
         timer.subscribe( t => {
             if (this.interval == 0) {
                 this.end.emit();
