@@ -205,6 +205,7 @@ export class TestManagerComponent {
     }
 
     saveScheduled() {
+        let defsched = this.selectedTest.testSets;
         if (this.selectedTest.id && this.schedule != null) {
             let testSet = {id: null, dueDate: this.schedule};
             this.testService.saveTestSet(this.selectedTest.id, testSet).subscribe(
@@ -219,6 +220,42 @@ export class TestManagerComponent {
                                         break;
                                     }
                                 }
+                                this.testService.getTestsByCategory(this.selectedCategoryItem.id).subscribe(
+                                    (data) => {
+                                        let tests = data;
+                                        let affectedTests = [];
+                                        if (defsched.length > 0) {
+                                            for (let i = 0; i < tests.length; i++) {
+                                                if (tests[i].testSets.length > 0 && tests[i].testSets[0].id == defsched[0].id) {
+                                                    affectedTests.push(tests[i]);
+                                                }
+                                            }
+                                            for (let i = 0; i < affectedTests.length; i++) {
+                                                this.testService.deleteSchedule(affectedTests[i]).subscribe(
+                                                    data => {},
+                                                    err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+                                                );
+                                            }
+                                        }
+                                        this.categoryService.getByCategoryId(this.selectedCategory.id).subscribe(
+                                            category => {
+                                                let cat = category;
+                                                for (let i = 0; i < cat.users.length; i++) {
+                                                    let e = {id: null, test: this.selectedTest.id, user: cat.users[i].id,
+                                                        name: this.selectedTest.text, category: this.selectedCategory.id,
+                                                        answersGiven: [], dueDate: new Date(this.schedule),
+                                                        dateOfStart: null, dateOfFill: null};
+                                                    this.testService.createExecution(e).subscribe(
+                                                        data => {},
+                                                        err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+                                                    );
+                                                }
+                                            },
+                                            err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+                                        )
+                                    },
+                                    err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
+                                );
                                 this.msgAction.setNotification(true, 'Request successfull.', 'New schedule date stored.');
                             },
                             err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
@@ -300,16 +337,16 @@ export class TestManagerComponent {
                 );
             } else {
                 //TO DO save new test
-                let own = this.selectedTest == null || this.selectedTest.owner == null ? this.user : this.selectedTest.owner;
+                let own = this.user;
                 let cat = this.selectedCategory == null || this.selectedCategory.id == 0 ? null : this.selectedCategory.id;
                 
                 let test = { id: null, text: this.selectedTest.text, questions: this.selectedQuestions, 
-                    owner: own, category: cat, createdAt: new Date(this.selectedTest.createdAt), description: this.selectedTest.description, testSet: [] };
+                    owner: own, category: cat, createdAt: new Date(this.selectedTest.createdAt), description: this.selectedTest.description, testSets: [] };
                 this.testService.save(test).subscribe(
                     data => {
                             this.filteredTests.push(data);
                             this.msgAction.setNotification(true, 'Test stored.', this.selectedTest.text);
-                            this.selectedTest = Object.assign({}, data);
+                            this.openTest(data);
                     },
                     err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
                 );

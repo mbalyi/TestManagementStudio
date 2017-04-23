@@ -187,6 +187,32 @@ export class TestService extends RequestService {
             });
     }
 
+    createExecution(execution: any): Observable<TestExecution> {
+        const path = this.basePath + `executions`;
+        let object: Object[] = this.createParamsForSaveUpdate(execution);
+
+        return this.http.post(path, object[0], object[1]).map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json().data;
+                }
+            });
+    }
+
+    deleteSchedule(id: number): Observable<any> {
+        const path = this.basePath + `executions/?test=`+id+`&dateOfFill=null`;
+        let object: Object[] = this.createParamsForSaveUpdate();
+
+        return this.http.delete(path, object[1]).map((response: Response) => {
+            if (response.status === 204) {
+                return undefined;
+            } else {
+                return response.json().data;
+            }
+        });
+    }
+
     getExecutionsByCategory(userid: number, id: number): Observable<TestExecution[]> {
         const path = this.basePath + `executions/?category=`+id+`&user=`+userid;
         let object: Object[] = this.createParamsForSaveUpdate();

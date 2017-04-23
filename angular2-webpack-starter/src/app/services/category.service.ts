@@ -31,7 +31,7 @@ export class CategoryService extends RequestService {
         });
     }
 
-    getByCategoryId(id: number): Observable<Category[]> {
+    getByCategoryId(id: number): Observable<Category> {
         const path = this.basePath + `categories/`+id.toString();
         let object: Object[] = this.createParamsForSaveUpdate();
 
