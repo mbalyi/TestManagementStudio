@@ -40,9 +40,9 @@ import { QuestionService } from './../services/question.service';
             </div>
             <p-footer>
                 <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-                    <button *ngIf="!readonlyForm" type="button" class="btn btn-danger" (click)="delete()" style="float:left;"><span class="fa fa-trash"></span>Delete</button>
+                    <button *ngIf="!readonly" type="button" class="btn btn-danger" (click)="delete()" style="float:left;"><span class="fa fa-trash"></span>Delete</button>
                     <button type="button" (click)="cancel()" class="btn btn-default"><span class="fa fa-close"></span>Cancel</button>
-                    <button *ngIf="!readonlyForm" type="button" class="btn btn-default" (click)="save()"><span class="fa fa-check"></span>Save</button>
+                    <button *ngIf="!readonly" type="button" class="btn btn-default" (click)="save()"><span class="fa fa-check"></span>Save</button>
                 </div>
             </p-footer>
         </p-dialog>
