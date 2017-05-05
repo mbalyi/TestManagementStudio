@@ -6,8 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 import { User } from './../../api/index';
 
-import { Users } from '../../models/users.model';
-
 import { AuthenticationService } from './../../services/authentication/authentication.service';
 import { UserService } from './../../services/user/user.service';
 import { TestService } from './../../services/test.service';
@@ -35,7 +33,7 @@ export class LoginComponent {
     @select(['security']) readonly security$: Observable<Security>;
     private security: Security;
 
-    private users: Array<Users> = [];
+    private users: Array<User> = [];
     private currentUser: User = null;
 
     private confirmPassword: string = null;
@@ -54,7 +52,6 @@ export class LoginComponent {
 
     ngOnInit() {
         this.security$.subscribe( s => this.security = s);
-        this.isLogged();
     }
 
     showLoginForm() {
@@ -64,32 +61,6 @@ export class LoginComponent {
     showRegisterForm() {
         this.loginEnable = false;
         this.newUser = {id: null, nickName: '', firstName: '', lastName: '', password: '', email: '', roles: [{id :1}], groups: []};
-    }
-
-    isLogged() {
-        if(localStorage.getItem('id_token')) {
-            this.userService.getCurrentUser(localStorage.getItem('id_token')).subscribe(
-                user => {
-                    this.currentUser = user;
-                    if (this.currentUser) {
-                        this.loginAction.login();
-                        this.userAction.login(this.currentUser);
-                        this.auth.setLogginFlag(true).subscribe();
-                        if (this.security.shareLink && this.security.status == 'test') {
-                            this.testService.getExecutionByTestId(this.security.id,this.currentUser.id).subscribe(
-                                e => {
-                                    this.executionAction.setExecution(e);
-                                    this.router.navigate(['/test-execution']);
-                                },
-                                err => this.msgAction.setNotification(false, 'Request failed.', err.toString())
-                            );
-                        } else
-                            this.router.navigate(['/home']);
-                    }
-                },
-                err => this.msgAction.setNotification(false, 'Login failed.', err.json().text)
-            );
-        }
     }
 
     // login() {
