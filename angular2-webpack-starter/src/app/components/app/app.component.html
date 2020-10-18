@@ -1,0 +1,10 @@
+<div  class='container-fluid' [class.login-background]="!islogin.isLogin">
+    <div class='row'>
+        <tms-navheader *ngIf="islogin.isLogin"></tms-navheader>
+        <tms-navmenu *ngIf="islogin.isLogin"></tms-navmenu>
+        <div [ngClass]="{'col-lg-8 body-content mainbody': islogin.isLogin}">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+<p-growl [value]="notification"></p-growl>

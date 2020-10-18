@@ -1,0 +1,40 @@
+tms-home-buttonset {
+    @include fill-width();
+
+    > div {
+        @include fill-width();
+        height: 28%;
+        margin: 0.5em 0 0.5em 0;
+
+        &.two {
+            tms-home-button:nth-child(1) {
+                margin-left: 16.5%;
+            }
+        }
+
+        tms-home-button {
+            @include fill-height();
+
+            > button.blue {
+                background-color: $brand-blue;
+            }
+
+            > button.green {
+                background-color: $brand-green;
+            }
+
+            > button.red {
+                background-color: $brand-red;
+            }
+
+            > button.orange {
+                background-color: darken($brand-yellow, 5%);
+            }
+
+            > button {
+                width: 33%;
+                @include fill-height();
+            }
+        }
+    }
+}

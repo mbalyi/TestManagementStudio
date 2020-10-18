@@ -1,0 +1,84 @@
+﻿<p-dataTable [value]="users" [globalFilter]="gb" [style]="{'height':'100%'}" #dt>
+    <p-column field="firstName" header="Firstname" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
+    <p-column field="lastName" header="Lastname" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
+    <p-column field="email" header="Email" [filter]="true" filterPlaceholder="Search" [sortable]="true"></p-column>
+
+    <p-column styleClass="col-button" [style]="{'width':'15%', 'text-align':'center'}">
+        <template pTemplate="header">
+            Actions
+        </template>
+        <template let-user="rowData" pTemplate="body">
+            <tms-three-buttons left-icon="fa fa-search" middle-icon="fa fa-edit" right-icon="fa fa-trash" (leftCommand)="viewUser(user)" (middleCommand)="editUser(user)" (rightCommand)="deleteUser(user)"></tms-three-buttons>
+        </template>
+    </p-column>
+
+    <p-footer>
+        <div class="ui-helper-clearfix" style="width:100%">
+            <tms-button (command)="showDialogToAdd()"><i class="fa fa-plus"></i> Add</tms-button>
+        </div>
+    </p-footer>
+</p-dataTable>
+
+<p-dialog [(header)]="modalHeader" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [minWidth]="'600px'" [width]="'50%'">
+    <p-tabMenu [model]="tabs" [activeItem]="activeTab"></p-tabMenu>
+
+    <!-- User Tab -->
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="user && activeTab.label =='User'">
+        <div class="inputRow">
+            <div class="inputField1-2">
+                <div><label for="firstName">Firstname</label></div>
+                <div><input class="form-control" pInputText id="firstName" [(ngModel)]="user.firstName" [disabled]="readonlyForm"></div>
+            </div>
+            <div class="inputField1-2">
+                <div><label for="lastName">Lastname</label></div>
+                <div><input class="form-control" id="lastName" [(ngModel)]="user.lastName" [disabled]="readonlyForm"></div>
+            </div>
+        </div>
+        <div class="inputRow">
+            <div class="inputField1-2">
+                <div><label for="nickName">Nickname</label></div>
+                <div><input class="form-control" pInputText id="nickName" [(ngModel)]="user.nickName" [disabled]="readonlyForm"></div>
+            </div>
+            <div class="inputField1-2">
+                <div><label for="email">Email</label></div>
+                <div><input class="form-control" pInputText id="email" [(ngModel)]="user.email" [disabled]="readonlyForm"></div>
+             </div>
+        </div>
+        <div class="inputRow">
+            <div class="inputField1-2">
+                <div><label for="password">Password</label></div>
+                <div><input class="form-control" pInputText id="password" [(ngModel)]="user.password" [disabled]="readonlyForm"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Role Tab -->
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="roles && activeTab.label =='Role'">
+        <div *ngFor="let role of roles" class="inputRow">
+            <div class="inputField-checkbox">
+                <div>
+                    <p-checkbox [label]="role.name" [value]="role" [(ngModel)]="selectedRoles" [disabled]="readonlyForm"></p-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group Tab -->
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="groups && activeTab.label =='Group'">
+        <div *ngFor="let group of groups" class="inputRow">
+            <div class="inputField-checkbox">
+                <div>
+                    <p-checkbox [label]="group.name" [value]="group" [(ngModel)]="selectedGroups" [disabled]="readonlyForm"></p-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button *ngIf="!readonlyForm" type="button" class="btn btn-danger" (click)="deleteUser(user)" style="float:left;"><span class="fa fa-trash"></span>Delete</button>
+            <button type="button" (click)="cancel()" class="btn btn-default"><span class="fa fa-close"></span>Cancel</button>
+            <button *ngIf="!readonlyForm" type="button" class="btn btn-default" (click)="saveUser(user)"><span class="fa fa-check"></span>Save</button>
+        </div>
+    </p-footer>
+</p-dialog>

@@ -1,0 +1,95 @@
+tms-navmenu {
+
+    div.col-lg-1.navbar-inverse {
+        position: absolute;
+        left: 0px;
+        background: $gray-darker;
+        color: $gray-font-light;
+        border-right: 0.1em solid $black;
+        padding: 0.3em;
+
+        ul.navbar-nav {
+            @include fill();
+
+            tms-execution {
+                @include fill-width();
+
+                li:nth-child(4) {
+                    height: 15%;
+                    margin-top: 0.5em;
+                    margin-bottom: 0.5em;
+                }
+
+                tms-button {
+                    @include fill();
+
+                    button {
+                        @include fill();
+                    }
+                }
+            }
+        }
+
+        ul.navbar-nav > li {
+            width: 100%;
+            font-size: 1.2em;
+
+            a {
+                color: $gray-font-light!important;
+                border-radius: 0.2em;
+                padding-top: 0.5em;
+                padding-bottom: 0.5em;
+            }
+
+            a:focus, a:hover {
+                text-decoration: none!important;
+                color: $white!important;
+            }
+
+            a.active:focus, a.active:hover {
+                background-color: $brand-blue-light;
+            }
+
+            a.active {
+                background-color: $brand-blue-light;
+            }
+        }
+    }
+}
+
+tms-navheader {
+
+    a.navbar-brand {
+        margin-left: -1.8em!important;
+        color: $white!important;
+    }
+
+    nav.navbar.navbar-inverse {
+        height: 1em;
+        background: $gray-darker;
+        color: $gray-font-light;
+
+        a {
+            padding-top: 0.5em;
+        }
+
+        li > a {
+            padding-top: 0.75em;
+        }
+
+        li > a.active {
+            color: $white;
+            font-weight: bold;
+        }
+
+        li.counter {
+            position: absolute;
+            left: 45%;
+
+            h2 {
+                margin-top: 0.1em;
+                margin-bottom: 0em;
+            }
+        }
+    }
+}

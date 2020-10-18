@@ -1,0 +1,56 @@
+<div class="executableTests">
+    <p-dataTable [value]="executableTests" [globalFilter]="gb" selectionMode="single" [(selection)]="selectedTest" (onRowSelect)="select($event)" [style]="{'height':'100%'}" #dt>
+        <p-headerColumnGroup>
+            <p-row>
+                <p-column header="Executable Tests" colspan="4"></p-column>
+            </p-row>
+        </p-headerColumnGroup>
+        <p-column field="name" [style]="{'width':'50%'}"></p-column>
+        <p-column field="dueDate" [style]="{'width':'12.5%'}">
+            <template let-test="rowData" pTemplate="body">
+                {{test.dueDate | date}}
+            </template>
+        </p-column>
+        <p-column field="test.testSets[0].dueDate" [style]="{'width':'12.5%'}">
+            <template let-test="rowData" pTemplate="body">
+                {{test.dueDate | time}}
+            </template>
+        </p-column>
+        <p-column [style]="{'width':'25%'}">
+            <template let-test="rowData" pTemplate="body">
+                <div>
+                    OPEN!
+                </div>
+            </template>
+        </p-column>
+    </p-dataTable>
+</div>
+{{currentDate}}
+<div class="notOpenedTests">
+    <p-dataTable [value]="notOpenedTests" [globalFilter]="gb" selectionMode="single" [(selection)]="selectedTest" (onRowSelect)="select($event)" [style]="{'height':'100%'}" #dt>
+        <p-headerColumnGroup>
+            <p-row>
+                <p-column header="Next Tests" colspan="4"></p-column>
+            </p-row>
+        </p-headerColumnGroup>
+        <p-column field="name" [style]="{'width':'50%'}"></p-column>
+        <p-column field="dueDate" [style]="{'width':'12.5%'}">
+            <template let-test="rowData" pTemplate="body">
+                {{test.dueDate | date}}
+            </template>
+        </p-column>
+        <p-column field="dueDate" [style]="{'width':'12.5%'}">
+            <template let-test="rowData" pTemplate="body">
+                {{test.dueDate | time}}
+            </template>
+        </p-column>
+        <p-column [style]="{'width':'25%'}">
+            <template let-test="rowData" pTemplate="body">
+                <div>
+                    NOT AVAILABLE!
+                </div>
+            </template>
+        </p-column>
+    </p-dataTable>
+</div>
+<tms-button *ngIf="startAvailable" (command)="startTest()">Execute!</tms-button>

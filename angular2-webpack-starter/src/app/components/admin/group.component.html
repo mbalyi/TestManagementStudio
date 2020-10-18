@@ -1,0 +1,92 @@
+<p-dataTable [value]="groups" [globalFilter]="gb" [style]="{'height':'100%'}" #dt>
+    <p-column field="name" header="Name" [filter]="true" filterPlaceholder="Search"></p-column>
+    <p-column field="isprivate" header="Private">
+        <template let-group="rowData" pTemplate="editor">
+            <p-checkbox *ngIf="group.isprivate" [label]="'Private'" [(ngModel)]="group.isprivate" [value]="group.isprivate"></p-checkbox>
+            <p-checkbox *ngIf="!group.isprivate" [label]="'Private'"></p-checkbox>
+        </template>
+    </p-column>
+    <p-column field="creator.email" header="Creator" [filter]="true" filterPlaceholder="Search"></p-column>
+    <p-column styleClass="col-button" [style]="{'width':'13%', 'text-align':'center'}">
+        <template pTemplate="header">
+            Actions
+        </template>
+        <template let-group="rowData" pTemplate="body">
+            <tms-three-buttons left-icon="fa fa-search" middle-icon="fa fa-edit" right-icon="fa fa-trash" (leftCommand)="viewGroup(group)" (middleCommand)="editGroup(group)" (rightCommand)="deleteGroup(group)"></tms-three-buttons>
+        </template>
+    </p-column>
+
+    <p-footer>
+        <div class="ui-helper-clearfix" style="width:100%">
+            <tms-button (command)="addGroup()"><i class="fa fa-plus"></i> Add</tms-button>
+        </div>
+    </p-footer>
+</p-dataTable>
+
+<p-dialog [(header)]="modalHeader" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+    <p-tabMenu [model]="tabs" [activeItem]="activeTab"></p-tabMenu>
+
+    <!-- Group Tab -->
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="group && activeTab.label =='Group'">
+        <div class="name">
+            <div class="inputField1-2">
+                <div><label for="nickname">Name</label></div>
+                <div><input class="form-control" pInputText id="name" [(ngModel)]="group.name" [disabled]="readonlyForm"></div>
+            </div>
+            <div class="inputField1-2">
+            </div>
+        </div>
+        <div class="inputRow">
+            <div class="inputField-checkbox">
+                <div>
+                    <p-checkbox [label]="'Private'" [(ngModel)]="selectedGroups" [disabled]="readonlyForm" [(value)]="group.isPrivate"></p-checkbox>
+                </div>
+            </div>
+            <div class="inputField1-2">
+            </div>
+        </div>
+        <div class="inputRow">
+            <div class="inputField1-2">
+                <div><label for="creator">Creator</label></div>
+                <div><input class="form-control" pInputText id="creator" [(ngModel)]="group.creator.firstName+' '+group.creator.lastName" [disabled]="readonlyForm"></div>
+             </div>
+            <div class="inputField1-2">
+            </div>
+        </div>
+    </div>
+
+    <!-- Role Tab -->
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="roles && activeTab.label =='Role'">
+        <div *ngFor="let role of roles" class="inputRow">
+            <div class="inputField-checkbox">
+                <div>
+                    <p-checkbox [label]="role.name" [value]="role" [(ngModel)]="selectedRoles" [disabled]="readonlyForm"></p-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Tab -->
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="group && group.members  && activeTab.label =='User'">
+        <!--<p-dataTable [value]="group.members" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
+            <p-column field="firstName" header="Firstname" [sortable]="true"></p-column>
+            <p-column field="lastName" header="Lastname" [sortable]="true"></p-column>
+            <p-column field="email" header="Email" [sortable]="true"></p-column>
+        </p-dataTable>-->
+        <div *ngFor="let user of user" class="inputRow">
+            <div class="inputField-checkbox">
+                <div>
+                    <p-checkbox [label]="user.firstName+' '+user.lastName" [value]="user" [(ngModel)]="selectedUsers" [disabled]="readonlyForm"></p-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button *ngIf="!readonlyForm" type="button" class="btn btn-danger" (click)="deleteGroup(group)" style="float:left;"><span class="fa fa-trash"></span>Delete</button>
+            <button type="button" (click)="cancel()" class="btn btn-default"><span class="fa fa-close"></span>Cancel</button>
+            <button *ngIf="!readonlyForm" type="button" class="btn btn-default" (click)="saveGroup(group)"><span class="fa fa-check"></span>Save</button>
+        </div>
+    </p-footer>
+</p-dialog>

@@ -1,0 +1,243 @@
+@mixin fill-width() {
+  width: 100%;
+}
+
+@mixin fill-height() {
+  height: 100%;
+}
+
+@mixin fill() {
+  width: 100%;
+  height: 100%
+}
+
+@mixin menu-height() {
+    height: calc( 100% - 3.6em);
+}
+
+datatable-fill-total {
+    
+    p-dataTable {
+        @include fill();
+
+        > div {
+            @include fill-height();
+
+            > div.ui-datatable-scrollable-wrapper {
+                height: 85%;
+
+                > div.ui-datatable-scrollable-view {
+                    @include fill-height();
+
+                    > div.ui-datatable-scrollable-body {
+                        @include fill-height();
+
+                        div,table {
+                            @include fill-height();
+                        }
+                    }
+                }
+            }
+
+            div.ui-datatable-footer {
+                //height: 15.1%;
+                border: none!important;
+
+                > p-footer {
+                    position: absolute;
+                    bottom: 1%;
+                    right: 3%;
+                }
+            }
+        }
+
+        .ui-widget-header .ui-state-default, .ui-widget-content .ui-state-default, .ui-state-default, .ui-datatable-footer {
+            background: $gray-dark-height!important;
+            color: $gray-font-light;
+        }
+
+        .ui-datatable tbody > tr.ui-widget-content {
+            background: $gray-dark-height!important;
+            color: $gray-font-light;
+        }
+
+        .ui-datatable .ui-datatable-thead>tr>th, .ui-datatable .ui-datatable-tfoot>tr>td, .ui-datatable .ui-datatable-data>tr>td {
+            border: none!important;
+        }
+
+        .ui-widget-content {
+            border: none!important;
+            border-bottom: 0.1em solid $gray!important;
+        }
+
+        .ui-datatable-thead > tr {
+            border: none!important;
+            border-bottom: 0.15em solid $brand-blue-light!important;
+        }
+
+        tr.ui-widget-content.ui-state-highlight {
+            background-color: $brand-blue-light!important;
+        }
+    }
+}
+
+datatable-hover {
+    tr.ui-widget-content:hover {
+        &.ui-datatable-even {
+            color: $white!important;
+            background: lighten($brand-blue-light, 5%) !important;
+        }
+
+        &.ui-datatable-odd {
+            color: $white!important;
+            background: lighten($brand-blue-light, 5%) !important;
+        }
+    }
+}
+
+pie-chart {
+    rect.highcharts-background {
+        display: none!important;
+    }
+
+    .highcharts-container {
+        border: 0.1em solid $brand-blue-light;
+        border-radius: 0.1em;
+    }
+}
+
+html,
+body {
+    @include fill();
+    font-family: "Trebuchet MS", Helvetica, sans-serif!important;
+    overflow: hidden;
+
+    app {
+        @include fill();
+
+        > .container-fluid.login-background {
+            position: relative!important;
+            left: 0px;
+            background: -moz-radial-gradient(0% 100%, ellipse cover, $gray 10%,rgba(138,114,76,0) 40%),-moz-linear-gradient(top,  rgba(57,173,219,.25) 0%, rgba(42,60,87,.4) 100%), -moz-linear-gradient(-45deg, $gray-darker 0%, $gray-darker 70%, $brand-blue-dark 100%)!important;
+            background: -webkit-radial-gradient(0% 100%, ellipse cover, $gray 10%,rgba(138,114,76,0) 40%), -webkit-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -webkit-linear-gradient(-45deg, $gray-darker 0%, $gray-darker 70%, $brand-blue-dark 100%)!important;
+            background: -o-radial-gradient(0% 100%, ellipse cover, $gray 10%,rgba(138,114,76,0) 40%), -o-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -o-linear-gradient(-45deg, $gray-darker 0%, $gray-darker 70%, $brand-blue-dark 100%)!important;
+            background: -ms-radial-gradient(0% 100%, ellipse cover, $gray 10%,rgba(138,114,76,0) 40%), -ms-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -ms-linear-gradient(-45deg, $gray-darker 0%, $gray-darker 70%, $brand-blue-dark 100%)!important;
+            background: -webkit-radial-gradient(0% 100%, ellipse cover, $gray 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(-45deg, $gray-darker 0%, $gray-darker 70%, $brand-blue-dark 100%)!important;
+        }
+
+        > .container-fluid > .row > div {
+            position: absolute;
+            left: 14%;
+            background: $gray-dark-height;
+            color: $gray-font-light;
+        }
+
+        nav-menu {
+            @include fill-height();
+        }
+
+        div.row {
+            @include fill-height();
+        }
+
+        div.container-fluid {
+            @include fill-height();
+        }
+
+        div.mainbody {
+            @include menu-height();
+            width: 86%!important;
+        }
+
+        div.col-lg-1.navbar-inverse {
+            @include menu-height();
+            width: 14%;
+        }
+
+        .sidenav {
+            @include fill-height();
+            padding-top: 20px;
+            background-color: $gray-lighter;
+        }
+
+        nav.navbar.navbar-inverse  {
+            margin-bottom: 0px;
+            border-radius: 0px !important;
+        }
+
+        div.inputRow {
+            width: 100%;
+            min-height: 1px;
+
+            div.inputField1-1 {
+                width: 100%;
+                float: left;
+
+                div,input {
+                    width: 99%;
+                    margin-bottom: 1%;
+                }
+            }
+
+            div.inputField1-2 {
+                width: 50%;
+                float: left;
+
+                div,input {
+                    width: 99%;
+                    margin-bottom: 1%;
+                }
+            }
+
+            div.inputField1-3 {
+                width: 33%;
+                float: left;
+                min-height: 1px;
+
+                div,input {
+                    width: 99%;
+                    margin-bottom: 1%;
+                }
+            }
+
+            div.inputField1-4 {
+                width: 25%;
+                float: left;
+                min-height: 1px;
+
+                > div {
+                    width: 99%;
+                    margin-bottom: 1%;
+
+                    > input {
+                        width: 99%;
+                        margin-bottom: 1%;
+                    }
+                }
+
+                p-calendar input {
+                    width: 82%;
+                }
+            }
+
+            div.inputField-checkbox {
+                width: 50%;
+                float: left;
+            }
+        }
+
+        p-dialog > div {
+            min-width: 600px!important;
+            width: 50%;
+        }
+
+        p-dataTable {
+            width: 100%;
+            height: 100%;
+        }
+
+        .ui-widget-content {
+            border-radius: 0.1em!important;
+        }
+    }
+}

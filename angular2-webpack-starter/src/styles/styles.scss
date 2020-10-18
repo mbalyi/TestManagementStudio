@@ -1,0 +1,23 @@
+// Commons
+$icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
+@import './variables.scss';
+@import './common.scss';
+@import './scrollbar.scss';
+@import './navs.scss';
+
+// Widgets
+@import './widgets/button.scss';
+@import './widgets/two.buttons.scss';
+@import './widgets/three.buttons.scss';
+@import './widgets/question.scss';
+@import './widgets/test.draggable.scss';
+@import './widgets/question.draggable.scss';
+@import './widgets/home.buttonsset.scss';
+
+// Pages
+@import './pages/home.scss';
+@import './pages/login.scss';
+@import './pages/admin.scss';
+@import './pages/manager.scss';
+@import './pages/test.scss';
+@import './pages/myresults.scss';

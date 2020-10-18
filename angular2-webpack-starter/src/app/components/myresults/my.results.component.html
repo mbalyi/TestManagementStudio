@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-lg-3">
+        <p-dataTable [value]="executions" [globalFilter]="gb" selectionMode="single" [(selection)]="selectedTest" (onRowSelect)="selectTest($event)" [style]="{'height':'100%'}"  #dt>
+            <p-column field="test.text" header="Executed Tests" [filter]="true" filterPlaceholder="Search"></p-column>
+        </p-dataTable>
+    </div>
+    <div class="col-lg-9">
+        <div>
+            <tms-button (command)="seeTest()">See Selected Test Result</tms-button>
+        </div>
+        <div>
+            <div class="height-3">
+                <p-dataTable [value]="correctQuestions" [globalFilter]="gb" [style]="{'height':'100%'}"  #dt>
+                    <p-column field="text" header="Correct Questions"></p-column>
+                </p-dataTable>
+            </div>
+            <div class="height-3">
+                <p-dataTable [value]="failedQuestions" [globalFilter]="gb" [style]="{'height':'100%'}"  #dt>
+                    <p-column field="text" header="Failed Questions"></p-column>
+                </p-dataTable>
+            </div>
+            <div class="height-3">
+                <p-dataTable [value]="skippedQuestions" [globalFilter]="gb" [style]="{'height':'100%'}"  #dt>
+                    <p-column field="text" header="Skipped Questions"></p-column>
+                </p-dataTable>
+            </div>
+        </div>
+    </div>
+</div>

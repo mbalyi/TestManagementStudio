@@ -1,0 +1,2011 @@
+---
+swagger: '2.0'
+
+
+info:
+  version: v1
+  title: TestManagement Studio Backend API
+  description: |
+    <<Some text >>
+
+    
+    Would respond with:
+    ```js
+    callbackFunction({
+        ...
+    });
+    ```
+
+################################################################################
+#                  Host, Base Path, Schemes and Content Types                  #
+################################################################################
+host: testmanagementstudio.azurewebsites.net
+basePath: /v1
+schemes:
+  - http
+consumes:
+  - application/x-www-form-urlencoded  
+  - application/json
+produces:
+  - application/json
+################################################################################
+#                                  Security                                    #
+################################################################################
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+security:
+  - Bearer: []
+
+################################################################################
+#                                   Parameters                                 #
+################################################################################
+parameters:
+  userId:
+    name: userId
+    in: path
+    description: The entity identifier number
+    type: number
+    format: int32
+    required: true
+    
+  groupId:
+    name: groupId
+    in: path
+    description: The group identifier number
+    type: number
+    format: int32
+    required: true
+    
+  roleId:
+    name: roleId
+    in: path
+    description: The role identifier number
+    type: number
+    format: int32
+    required: true
+    
+  categoryId:
+    name: categoryId
+    in: path
+    description: The category identifier number
+    type: number
+    format: int32
+    required: true
+    
+  questionId:
+    name: questionId
+    in: path
+    description: The question identifier number
+    type: number
+    format: int32
+    required: true
+    
+  testId:
+    name: testId
+    in: path
+    description: The Test identifier number
+    type: number
+    format: int32
+    required: true
+    
+  testSetId:
+    name: testSetId
+    in: path
+    description: The Test set identifier number
+    type: number
+    format: int32
+    required: true
+    
+  answerId:
+    name: answerId
+    in: path
+    description: The identifier of an answer
+    type: number
+    format: int32
+    required: true
+    
+  testExecutionId:
+    name: testId
+    in: path
+    description: The TestExecution identifier number
+    type: number
+    format: int32
+    required: true
+    
+################################################################################
+#                                 Definitions                                  #
+################################################################################
+definitions:
+  ErrorMessage:
+    type: object
+    properties:
+      title:
+        type: string
+      text:
+        type: string
+  Entity:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+      description:
+        type: string
+      createdAt:
+        type: string
+        format: date-time
+      deleteddAt:
+        type: string
+        format: date-time 
+      deleted:
+        type: boolean
+      updatedTo:
+        type: string
+        format: date-time
+     
+      permissions:
+          type: array
+          items:
+            $ref: '#/definitions/Permission'      
+            
+  SecuredEntity:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        permissions:
+            type: array
+            items:
+              $ref: '#/definitions/Permission'
+        createdBy:
+          $ref: '#/definitions/User' 
+        
+  RolePart:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        name:
+          type: string
+        accessType:
+          type: integer
+          format: int32
+  Role:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        isRoot:
+          description: "If this property set to true, user has access to any part of the services"
+          type: boolean
+        name:
+          type: string
+        parts:
+          type: array
+          items:
+            $ref: '#/definitions/RolePart'
+        
+  Actor:
+    type: object
+    description: "Anyone who can does actions. (Users & Groups)"
+    allOf:
+    - $ref: '#/definitions/SecuredEntity'
+    - type: object
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/definitions/Role'
+        testSets:
+          description: "Tests to to be completed, assigned to the actor"
+          type: array
+          items:
+            $ref: '#/definitions/TestSet'
+
+  Permission:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        read:
+          type: boolean
+        write:
+          type: boolean
+        subject:
+          $ref: '#/definitions/Actor'
+        object:
+          $ref: '#/definitions/Entity'
+        objectType:
+          description: "Discriminator to the actors. Group | user"
+          type: string
+        
+  User:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Actor'
+    - type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        groups:
+          description: "Groups which are created by the user"
+          type: array
+          items:
+            $ref: '#/definitions/Group'
+        memberOf:
+          type: array
+          items:
+            $ref: '#/definitions/Group'
+        tests:
+          description: "Tests created by the user"
+          type: array
+          items:
+            $ref: '#/definitions/Test'
+
+        testExecutions:
+          description: "Tests are completed by the user"
+          type: array
+          items:
+            $ref: '#/definitions/TestExecution'
+            
+  Group:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Actor'
+    - type: object
+      properties:
+        name:
+          type: string
+        isPrivate:
+          description: "The group visible for only the creator."
+          type: boolean
+        creator:
+          $ref: '#/definitions/User'
+        members:
+          description: "Users who are member of this group."
+          type: array
+          items:
+            $ref: '#/definitions/User'
+  
+  Category:
+    type: object
+    allOf:
+    - $ref: '#/definitions/SecuredEntity'
+    - type: object
+      properties:
+        name:
+          type: string
+        parent:
+          $ref: '#/definitions/Category'
+        childrens:
+          type: array
+          items:
+            $ref: '#/definitions/Category'
+        questions:
+          type: array
+          items:
+            $ref: '#/definitions/Question'
+        tests:
+          type: array
+          items:
+            $ref: '#/definitions/Test'
+  Answer:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        text:
+          type: string
+        correct:
+          type: boolean
+          
+  Question:
+    type: object
+    allOf:
+    - $ref: '#/definitions/SecuredEntity'
+    - type: object
+      properties:
+        text:
+          type: string
+        answersAll:
+          type: array
+          items:
+            $ref: '#/definitions/Answer'
+        categories:
+          type: array
+          items:
+            $ref: '#/definitions/Category'
+
+  SingleAnswerQuestion:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Question'
+    - type: object
+      properties:
+        text:
+          type: string  
+ 
+        
+  Test:
+    type: object
+    allOf:
+    - $ref: '#/definitions/SecuredEntity'
+    - type: object
+      properties:
+        text:
+          type: string
+        questions:
+          type: array
+          items:
+            $ref: '#/definitions/Question'
+        owner:
+          $ref: '#/definitions/User'
+        category:         
+            $ref: '#/definitions/Category'
+        testSets:
+          type: array
+          items:
+            $ref: '#/definitions/TestSet'
+
+  TestSet:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        test:
+          $ref: '#/definitions/Test'
+        dueDate:
+          type: string
+          format: date-time
+        actorsAssigned:
+          type: array
+          items:
+            $ref: '#/definitions/Actor'
+        
+  TestExecution:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      properties:
+        test:
+          $ref: '#/definitions/Test'
+        answersGiven:
+          type: array
+          items:
+            $ref: '#/definitions/Answer'
+        dateOfStart:
+          type: string
+          format: date-time
+        dateOfFill:
+          type: string
+          format: date-time
+            
+################################################################################
+#                                           Paths                              #
+################################################################################
+paths:
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: "Logs user into the system"
+      description: ""
+      operationId: login
+      parameters:
+        - in: formData
+          name: username
+          description: "The user name for login"
+          required: false
+          type: string
+        - in: formData
+          name: password
+          description: "The password for login in clear text"
+          required: false
+          type: string
+          format: password
+      responses:
+        "201":
+          description: "Successful operation. Return a JWT token"
+          schema:
+            type: string
+        "400":
+          description: "Invalid username/password supplied"
+          schema:
+            $ref: "#/definitions/ErrorMessage" 
+        "401":
+          description: "Wrong username/password supplied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+          
+  /auth/logout:
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Auth
+      summary: "Invalidate the token of currently logged in user"
+      description: ""
+      operationId: logout
+      produces:
+        - application/json        
+      responses:
+        "204":
+          description: "Successful operation"
+
+  /groups:
+    get:
+      summary: "Get all global group"
+      description: ""
+      operationId: listGroups
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      responses:
+        "200":
+          description: "The list of group objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Group'
+        "401":
+          description: "Access denied"
+
+    post:
+      summary: "Add a new group"
+      description: ""
+      operationId: addGroup
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      parameters:
+        - in: formData
+          name: name
+          description: "Name of the group"
+          required: true
+          type: string
+        - in: formData
+          name: isGlobal
+          description: ""
+          required: false
+          type: boolean
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/Group'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    
+  /groups/{groupId}:
+    parameters:
+      - $ref: '#/parameters/groupId'
+    get:
+      summary: "Get a group"
+      description: ""
+      operationId: getGroup
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/Group'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+    put:
+      summary: "Update a group"
+      operationId: updateGroup
+      description: ""
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      parameters:
+        - in: formData
+          name: name
+          description: "Name of the group"
+          required: true
+          type: string
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+    delete:
+      summary: "Delete a group"
+      operationId: deleteGroup
+      description: ""
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+  /groups/{groupId}/roles:
+    parameters:
+      - $ref: '#/parameters/groupId'
+    get:
+      summary: "Get roles of the group"
+      description: ""
+      operationId: listGroupRoles
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      - Roles
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Group'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+    post:
+      summary: "Add a role to the group"
+      description: ""
+      operationId: addGroupRole
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      - Roles
+      parameters:
+        - in: formData
+          name: roleId
+          description: "Id of the role"
+          required: true
+          type: string
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/Group'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      
+  /groups/{groupId}/roles/{roleId}:
+    parameters:
+      - $ref: '#/parameters/groupId'
+      - $ref: '#/parameters/roleId'
+    delete:
+      summary: "remove a role from the group"
+      description: ""
+      operationId: deleteGroupRole
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      - Roles
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"  
+  /groups/{groupId}/members:
+    parameters:
+      - $ref: '#/parameters/groupId'
+    get:
+      summary: "Get members of the group"
+      description: ""
+      operationId: listGroupMembers
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      - Users
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/User'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+    post:
+      summary: "Add a user as member of the group"
+      description: ""
+      operationId: addGroupMember
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      parameters:
+        - in: formData
+          name: userId
+          description: "Id of the user"
+          required: true
+          type: string
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/Group'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    
+  /groups/{groupId}/members/{userId}:
+    parameters:
+      - $ref: '#/parameters/groupId'
+      - $ref: '#/parameters/userId'
+    delete:
+      summary: "Remove a user from a group"
+      description: ""
+      operationId: deleteGroupMemeber
+      security:
+        - Bearer: []
+      tags:
+      - Groups
+      - Users
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+
+  /roles:
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Roles
+      summary:  "Get all roles in the system"
+      description: ""
+      operationId: listRoles
+      responses:
+        "200":
+          description: "The list of role objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Role'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Roles
+      summary: "Add a new role"
+      description: ""
+      operationId: addRole
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: name
+          in: formData
+          description: "Name of the role"
+          required: true
+          type: string
+        - name: accessToActors
+          in: formData
+          required: true
+          type: integer
+          format: int32
+        - name: accessToCategories
+          in: formData
+          required: true
+          type: integer
+          format: int32 
+        - name: accessTests
+          in: formData
+          required: true
+          type: integer
+          format: int32
+
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created role"
+              type: string
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+
+  /roles/{roleId}:
+    parameters:
+      - $ref: '#/parameters/roleId'
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Roles
+      summary:  "Get a role"
+      description: ""
+      operationId: getRole
+      responses:
+        "200":
+          description: "The list of user objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        "404":
+          description: "Object not found"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    put:
+      security:
+        - Bearer: []
+      tags:
+      - Roles
+      summary:  "Update a role"
+      description: ""
+      operationId: updateRole
+      parameters:
+        - name: name
+          in: formData
+          description: "Name of the role"
+          required: true
+          type: string
+        - name: accessToActors
+          in: formData
+          required: true
+          type: integer
+          format: int32
+        - name: accessToCategories
+          in: formData
+          required: true
+          type: integer
+          format: int32 
+        - name: accessTests
+          in: formData
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "204":
+          description: Successful operation
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        "404":
+          description: "Object not found"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    delete:
+      security:
+        - Bearer: []
+      tags:
+      - Roles
+      summary:  "delete a role"
+      description: ""
+      operationId: deleteRole
+      responses:
+        "204":
+          description: Successful operation
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        "404":
+          description: "Object not found"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+  /users:
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      summary:  "Get all registered users"
+      description: "Get all registered users"
+      operationId: listUsers
+      responses:
+        "200":
+          description: "The list of user objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      summary: "Register a new user"
+      description: "Register a new user"
+      operationId: addUser
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: email
+          in: formData
+          description: "The users's email"
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: "The users's password"
+          required: true
+          type: string
+          format: password
+        - name: firstName
+          in: formData
+          description: "The users's firstname"
+          required: false
+          type: string
+        - name: lastName
+          in: formData
+          description: "The users's lastname"
+          required: false
+          type: string 
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created user"
+              type: string
+        "409":
+          description: Some unique data (i.e. email address) conflicted with a data of existing user
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+          
+  /users/me:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Users
+      summary: "Get the actual user"
+      description: ""
+      operationId: getActualUser
+      produces:
+        - application/json        
+      responses:
+        "200":
+          description: The user object
+          schema:
+            $ref: "#/definitions/User" 
+    put:
+      tags:
+      - Users
+      summary: "Update user"
+      description: This can only be done by the logged in user.
+      operationId: updateActualUser
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: email
+          in: formData
+          description: The users's email
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: The users's password
+          required: true
+          type: string
+          format: password
+        - name: firstName
+          in: formData
+          description: The users's firstname
+          required: false
+          type: string
+        - name: lastName
+          in: formData
+          description: The users's lastname
+          required: false
+          type: string         
+      responses:
+        "204":
+          description: Successful operation
+        "404":
+          description: User not found
+        "400":
+          description: Invalid id supplied
+   
+  /users/{userId}:
+    parameters:
+      - $ref: '#/parameters/userId'
+    get:
+      tags:
+        - Users
+      summary: "Get basic information about an user"
+      description: "Get basic information about an user."
+      operationId: getUser
+      responses:
+        "200":
+          description: The user object
+          schema:
+            $ref: "#/definitions/User"
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Users
+      summary: "Update a certain user"
+      description: "This can only be done by the logged in user."
+      operationId: updateUser
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: email
+          in: formData
+          description: The users's email
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: The users's password
+          required: true
+          type: string
+          format: password
+        - name: firstName
+          in: formData
+          description: The users's firstname
+          required: false
+          type: string
+        - name: lastName
+          in: formData
+          description: The users's lastname
+          required: false
+          type: string         
+      responses:
+        "204":
+          description: Successful operation
+        "404":
+          description: User not found
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        "400":
+          description: Invalid id supplied
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Users
+      summary: "Delete user"
+      description: "This can only be done by the logged in user."
+      operationId: deleteUser
+      produces:
+        - application/json        
+      responses:
+        "204":
+          description: Successful operation
+        "404":
+          description: User not found
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        "400":
+          description: Invalid id supplied
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+
+  /users/me/roles:
+    get:
+      summary: "Get all roles of the actual user"
+      description: ""
+      operationId: listActualUserRoles
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Roles
+      responses:
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    
+  /users/{userId}/roles:
+    parameters:
+      - $ref: '#/parameters/userId'
+    get:
+      summary: "Get all roles of the  user"
+      description: ""
+      operationId: listUserRoles
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Roles
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Group'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    post:
+      summary: "Add a new role to the user"
+      description: ""
+      operationId: addUserRole
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Roles
+      parameters:
+        - in: formData
+          name: roleId
+          description: "Id of the role"
+          required: true
+          type: string
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/Group'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    
+  /users/{userId}/roles/{roleId}:
+    parameters:
+      - $ref: '#/parameters/userId'
+      - $ref: '#/parameters/roleId'
+    delete:
+      summary: "remove a role from the user"
+      description: ""
+      operationId: deleteUserRole
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Roles
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+
+#
+#
+#
+
+
+  /users/me/groups:
+    get:
+      summary: "List all groups which were created by the actual user"
+      description: ""
+      operationId: listActualUserGroups
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Groups
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Group"
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+    post:
+      summary: "Add a new group to the actual user"
+      description: ""
+      operationId: addActualUserGroup
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Groups
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: "#/definitions/Group"
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+
+  /users/me/memberships:
+    get:  
+      summary: "lists all the groups of which the actual user is among the members"
+      description: ""
+      operationId: listActualuserMemberships
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Groups
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Group"
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+  /users/{userId}/groups:
+    parameters:
+      - $ref: '#/parameters/userId'
+    get:
+      summary: "List all groups which were created by the  user"
+      description: ""
+      operationId: getUserGroups
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Groups
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Group"
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+          
+  /users/{userId}/memberships:
+    parameters:
+      - $ref: '#/parameters/userId'
+    get:  
+      summary: "lists all the groups of which the user is among the members"
+      description: ""
+      operationId: getUserMemberships
+      security:
+        - Bearer: []
+      tags:
+      - Users
+      - Groups
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Group"
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+
+  /categories:
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      summary:  "Get all categories"
+      description: "Get all categories"
+      operationId: listCategories
+      responses:
+        "200":
+          description: "The list of category objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      summary: "Add a new root category"
+      description: "Add a new root category"
+      operationId: addCategory
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: name
+          in: formData
+          description: "Name of the new category"
+          required: true
+          type: string
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created category"
+              type: string
+        "409":
+          description: Some unique data (i.e. name) conflicted with a data of existing category
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+  /categories/{categoryId}:
+    parameters:
+      - $ref: '#/parameters/categoryId'
+    get:  
+      summary: "Get a category"
+      description: ""
+      operationId: getCategory
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: "#/definitions/Category"
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    delete:
+      summary: "Delete a category"
+      description: ""
+      operationId: deleteCategory
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    put:
+      summary: "update a category"
+      description: ""
+      operationId: updateCategory
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: name
+          in: formData
+          description: "Name of the new category"
+          required: true
+          type: string
+      responses:
+        "204":
+          description: Successful operation
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        "404":
+          description: "Object not found"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+  /categories/{categoryId}/categories:
+    parameters:
+      - $ref: '#/parameters/categoryId'
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      summary:  "Get all subcategories"
+      description: "Get all subcategories"
+      operationId: listSubCategories
+      responses:
+        "200":
+          description: "The list of category objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      summary: "Add a new subcategory"
+      description: "Add a new subcategory"
+      operationId: addSubCategory
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: name
+          in: formData
+          description: "Name of the new category"
+          required: true
+          type: string
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created category"
+              type: string
+        "409":
+          description: Some unique data (i.e. name) conflicted with a data of existing category
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+  /categories/{categoryId}/questions:
+    parameters:
+      - $ref: '#/parameters/categoryId'
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      - Questions
+      summary:  "Get questions of the category"
+      description: "Get questions of the category"
+      operationId: listCategoryQuestions
+      responses:
+        "200":
+          description: "The list of question objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Question'
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      - Questions
+      summary: "Add a new question to a category"
+      description: "Add a new question to a category"
+      operationId: addCategoryQuestion
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: question
+          in: body
+          description: "the new question"
+          required: true
+          schema:
+            $ref: '#/definitions/Question'
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created question"
+              type: string
+
+  /categories/{categoryId}/tests:
+    parameters:
+      - $ref: '#/parameters/categoryId'
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Categories
+      - Tests
+      summary:  "Get tests of the category"
+      description: "Get tests of the category"
+      operationId: listCategoryTests
+      responses:
+        "200":
+          description: "The list of test objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Test'
+
+  /questions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      summary:  "get questions"
+      description: "get questions"
+      operationId: listQuestions
+      responses:
+        "200":
+          description: "The list of question objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Question'  
+              
+  /questions/{questionId}:
+    parameters:
+      - $ref: '#/parameters/questionId'
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      summary:  "get a question"
+      description: "get a question"
+      operationId: getQuestion
+      responses:
+        "200":
+          description: "The question objects"
+          schema:
+              $ref: '#/definitions/Question' 
+    put:
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      summary: "Update a question"
+      description: "Update a question"
+      operationId: updateQuestion
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: question
+          in: body
+          description: "the question"
+          required: true
+          schema:
+            $ref: '#/definitions/Question'
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created question"
+              type: string
+              
+    delete:
+      summary: "remove a question"
+      description: ""
+      operationId: deleteQuestion
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+
+  /questions/{questionId}/categories:
+    parameters:
+      - $ref: '#/parameters/questionId'
+    get:
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      - Categories
+      summary:  "Get all categories of a question"
+      description: "Get all categories of a question"
+      operationId: listQuestionCategories
+      responses:
+        "200":
+          description: "The list of category objects"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      - Categories
+      summary:  "Add a category to the question"
+      description: "Add a category to the question"
+      operationId: addQuestionCategory
+      parameters:
+        - name: categoryId
+          in: formData
+          description: "Id of the new category"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the added category"
+              type: string
+              
+  /questions/{questionId}/categories/{categoryId}:
+    parameters:
+      - $ref: '#/parameters/questionId'
+      - $ref: '#/parameters/categoryId'
+    delete:
+      summary: "remove a question category"
+      description: ""
+      operationId: deleteQuestionCategory
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      - Categories
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+  /questions/{questionId}/answers:
+    parameters:
+      - $ref: '#/parameters/questionId'
+    get:
+      summary: "Get answers paired to the question"
+      description: ""
+      operationId: listQuestionAnswers
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      - Answers
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Answer'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      - Answers
+      summary: "Add an question answer"
+      description: "Add an question answer"
+      operationId: addQuestionAnswer
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: answer
+          in: body
+          description: "the answer"
+          required: true
+          schema:
+            $ref: '#/definitions/Answer'
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created answer"
+              type: string
+    
+  /questions/{questionId}/answers/{answerId}:
+    parameters:
+      - $ref: '#/parameters/questionId'
+      - $ref: '#/parameters/answerId'
+    get:
+      summary: "Get a concrete answers paired to the question"
+      description: ""
+      operationId: getQuestionAnswer
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      - Answers
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/Answer'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+   # put:
+    delete:
+      summary: "remove an answer"
+      description: ""
+      operationId: deleteQuestionAnswer
+      security:
+        - Bearer: []
+      tags:
+      - Questions
+      - Answers
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    
+  /tests:
+    get:
+      summary: "Get all tests"
+      description: ""
+      operationId: listTests
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Test'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      summary: "Add a new test"
+      description: "Add a new test"
+      operationId: addTest
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: test
+          in: body
+          description: "the test"
+          required: true
+          schema:
+            $ref: '#/definitions/Test'
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created test"
+              type: string
+    
+  /tests/{testId}:
+    parameters:
+      - $ref: '#/parameters/testId'
+      
+    get:
+      summary: "Get a concrete test"
+      description: ""
+      operationId: getTest
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      responses:
+        "200":
+          description: ""
+          schema:
+           $ref: '#/definitions/Test'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+   # put:
+    delete:
+      summary: "remove a test"
+      description: ""
+      operationId: deleteTest
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"  
+  /tests/{testId}/questions:
+    parameters:
+      - $ref: '#/parameters/testId'
+    get:
+      summary: "Get questions of a test"
+      description: ""
+      operationId: listTestQuestions
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - Questions
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Question'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+       - Questions
+      summary: "Assign a question to a test"
+      description: ""
+      operationId: addTestQuestion
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: questionId
+          in: formData
+          description: "the question's Id"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the modified test"
+              type: string
+  /tests/{testId}/questions/{questionId}:
+    parameters:
+      - $ref: '#/parameters/testId'
+      - $ref: '#/parameters/questionId'
+    delete:
+      summary: "remove a question"
+      description: ""
+      operationId: deleteTestQuestion
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - Questions
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+  /tests/{testId}/categories:
+    parameters:
+      - $ref: '#/parameters/testId'
+    get:
+      summary: "Get test categories"
+      description: ""
+      operationId: listTestCategories
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - Categories
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - Categories
+      summary: "Assign a category to a test"
+      description: ""
+      operationId: addTestCategory
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: categoryId
+          in: formData
+          description: "the category's Id"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created test"
+              type: string
+  /tests/{testId}/categories/{categoryId}:
+    parameters:
+      - $ref: '#/parameters/testId'
+      - $ref: '#/parameters/categoryId'
+    delete:
+      summary: "remove a test category "
+      description: ""
+      operationId: deleteTestCategory
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - Categories
+      responses:
+        "204":
+          description: ""
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+            
+  /tests/{testId}/test-sets:
+    parameters:
+      - $ref: '#/parameters/testId'
+    get:
+      summary: "Get TestSets related with a test"
+      description: ""
+      operationId: listTestTestSets
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - TestSets
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TestSet'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+    post:
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      summary: "Create a new TestSet based on a test, assigned to asome actors"
+      description: ""
+      operationId: addTestTestSet
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: actorId
+          in: formData
+          description: "id of the actor"
+          required: true
+          type: integer
+          format: int32
+        - name: dueDate
+          in: formData
+          description: "due date"
+          required: false
+          type: string
+          format: date-time
+      responses:
+        "201":
+          description: "Return no content, but a redirection  header"
+          schema:
+            type: string
+          headers:
+            Location:
+              description: "The URI of the created testset"
+              type: string
+              
+  /tests/{testId}/test-executions:
+    parameters:
+      - $ref: '#/parameters/testId'
+    get:
+      summary: "Get TestExecutions related with a test"
+      description: ""
+      operationId: listTestTestExecutions
+      security:
+        - Bearer: []
+      tags:
+      - Tests
+      - TestExecutions
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TestExecution'
+        "401":
+          description: "Access denied"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+  
+
+    
+    
+    

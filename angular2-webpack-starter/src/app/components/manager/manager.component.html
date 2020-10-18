@@ -1,0 +1,74 @@
+﻿<div class="row">
+    <p-dataTable [value]="categories" [globalFilter]="gb" [style]="{'height':'100%'}"  #dt>
+        <p-column field="name" header="Name" [filter]="true" filterPlaceholder="Search"></p-column>
+        <p-column field="groups" header="Groups" [filter]="true" filterPlaceholder="Search"></p-column>
+
+        <p-column styleClass="col-button" [style]="{'width':'13%', 'text-align':'center'}">
+            <template pTemplate="header">
+                Actions
+            </template>
+            <template let-category="rowData" pTemplate="body">
+                <tms-two-buttons left-icon="fa fa-edit" right-icon="fa fa-trash" (leftCommand)="editCategory(category)" (rightCommand)="deleteCategory(category)"></tms-two-buttons>
+            </template>
+        </p-column>
+
+        <p-footer>
+            <div class="ui-helper-clearfix" style="width:100%">
+                <tms-button (command)="showDialogToAdd()"><i class="fa fa-plus"></i> Add</tms-button>
+            </div>
+        </p-footer>
+    </p-dataTable>
+</div>
+<p-dialog [(header)]="modalHeader" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [minWidth]="'600px'" [width]="'50%'">
+        <p-tabMenu [model]="tabs" [activeItem]="activeTab"></p-tabMenu>
+        
+        <div class="inputRow">
+            <div class="inputField1-3">
+            </div>
+            <div class="inputField1-3">
+                <p-steps [model]="items" [(activeIndex)]="activeIndex" styleClass="steps-basic" [readonly]="false"></p-steps>
+            </div>
+            <div class="inputField1-3">
+                <br>
+            </div>
+        </div>
+
+        <div *ngIf="!finishEnable" class="inputRow">
+            <div class="inputField1-2">
+                <div><label for="name">Name</label></div>
+                <div><input class="form-control" pInputText id="name" [(ngModel)]="selectedCategory.name" ></div>
+            </div>
+            <div class="inputField1-2">
+            </div>
+        </div>
+        <div *ngIf="!finishEnable" class="inputRow">
+            <div class="inputField1-1">
+                <div><label for="description">Description</label></div>
+                <div><textarea class="form-control" pInputTextarea  id="description" [(ngModel)]="selectedCategory.description" ></textarea></div>
+            </div>
+        </div>
+
+        <div *ngIf="finishEnable" class="inputRow">
+            <tms-user-attacher [users]="sortedUsers" [selectedUsers]="selectedCategory.users" (result)="getUserAttach($event)"></tms-user-attacher>
+        </div>
+
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button *ngIf="!finishEnable" type="button" class="btn btn-default" (click)="finishEnable = true; this.activeIndex = 1;">
+                    <span class="fa fa-arrow-right"></span>Next
+                </button>
+                <button *ngIf="finishEnable" type="button" class="btn btn-default" (click)="saveCategory()">
+                    <span class="fa fa-check"></span>Finish
+                </button>
+                <button type="button" class="btn btn-default" (click)="cancel()">
+                    <span class="fa fa-close"></span>Cancel
+                </button>
+                <button *ngIf="finishEnable" type="button" class="btn btn-default" (click)="finishEnable = false; this.activeIndex = 0;">
+                    <span class="fa fa-arrow-left"></span>Back
+                </button>
+                <button *ngIf="selectedCategory.id != null" type="button" class="btn btn-danger" (click)="deleteCategory(selectedCategory)" style="float:left;">
+                    <span class="fa fa-trash"></span>Delete
+                </button>
+            </div>
+        </p-footer>
+    </p-dialog>

@@ -1,0 +1,16 @@
+tms-two-buttons {
+    .button-group {
+        display: inline-flex;
+        vertical-align: middle;
+
+        tms-button:nth-child(1) > button {
+            border-bottom-right-radius: 0!important;
+            border-top-right-radius: 0!important;
+        }
+
+        tms-button:nth-child(2) > button {
+            border-bottom-left-radius: 0!important;
+            border-top-left-radius: 0!important;
+        }
+    }
+}

@@ -1,0 +1,50 @@
+tms-test-menu {
+    @extend datatable-fill-total;
+    @extend datatable-hover;
+
+    th.ui-state-default.ui-unselectable-text {
+        @include fill-width();
+    }
+
+    > div {
+        &.executableTests {
+            position: absolute;
+            top: 0%;
+            height: 50%;
+        }
+
+        &.notOpenedTests {
+            position: absolute;
+            top: 50%;
+            height: 50%;
+        }
+    }
+
+    tms-button > button {
+        position: absolute;
+        left: -15.7%;
+        top: 1%;
+        height: 10%;
+        width: 15%;
+    }
+}
+
+tms-test-execution {
+
+    > div.questions {
+        position: absolute;
+        width: 98%;
+        right: 0;    
+        overflow-y: scroll;
+        height: 98.5%;
+
+        > div {
+            margin-right: 0.5em;
+        }
+
+        .answers > div {
+
+            display: inline;
+        }
+    }
+}

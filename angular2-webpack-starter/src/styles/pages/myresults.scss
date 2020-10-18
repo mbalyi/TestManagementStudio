@@ -1,0 +1,81 @@
+tms-my-categories {
+    @extend datatable-fill-total;
+    @extend datatable-hover;
+    @extend pie-chart;
+
+    > .containers {
+        @include fill-width();
+        height: 50%;
+
+        > div {
+            height: 49%;
+            width: 49%;
+            display: inline-block;
+
+            &.chart-container {
+                height: 50%!important;
+            }
+
+            &.results {
+                position: absolute;
+                left: 49.5%;
+                width: 47.7%;
+            }
+        }
+    }
+}
+
+tms-my-results {
+    @extend datatable-fill-total;
+    @extend datatable-hover;
+
+    .row {
+        @include menu-height();
+
+        .col-lg-3, .col-lg-9 {
+            @include fill-height();
+
+            div.height-3 {
+                height: 31%;
+                margin-bottom: 2%;
+            }
+        }
+
+        .col-lg-9 {
+            > div {
+                &:nth-child(1) {
+                    height: 6%;
+
+                    tms-button {
+                        position: absolute;
+                        right: 2%;
+                        top: 1%;
+                    }
+                }
+
+                &:nth-child(2) {
+                    height: 94%;
+                }
+            }
+        }
+    }
+}
+
+tms-test-result {
+    > div.questions {
+        position: absolute;
+        width: 98%;
+        right: 0;    
+        overflow-y: scroll;
+        height: 99.5%;
+
+        > div {
+            margin-right: 0.5em;
+        }
+
+        .answers > div {
+
+            display: inline;
+        }
+    }
+}

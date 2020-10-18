@@ -1,0 +1,186 @@
+tms-questions {
+    
+    div.main-nav-header {
+        position: absolute;
+        left: 0%;
+        @include fill-width();
+
+        .navbar.navbar-inverse {
+            border-top: none;
+            border-left: none;
+        }
+
+        nav > div > ul {
+            @include fill-width();
+
+            > li > span {
+                color: $gray-lighter;
+            }
+
+            > li > label {
+                color: $gray-lighter;
+            }
+
+            > li:nth-child(1) {
+                font-size: 1.5em;
+                color: $gray-lighter;
+                margin-top: 0.2%;
+            }
+
+            > li:nth-child(2) {
+                left: 5%;
+                margin-top: 0.2%;
+            }
+
+            > li:nth-child(3) {
+                left: 15%;
+                margin-top: 0.1%;
+
+                input {
+                    min-width: 300px;
+                }
+            }
+
+            > li:nth-child(4) {
+                float: right;
+            }
+        }
+    }
+
+    > div.questions {
+        position: absolute;
+        width: 98%;
+        top: 8%;
+        right: 0;    
+        overflow-y: scroll;
+        height: 91.5%;
+
+        > div {
+            margin-right: 0.5em;
+        }
+
+        .answers > div {
+
+            display: inline;
+        }
+    }
+}
+
+tms-test-manager {
+
+    .row { 
+        @include menu-height();
+
+        .navbar.navbar-inverse {
+            border-top: none!important;
+        }
+        
+        .col-lg-3 {
+            padding: 0px!important;
+
+            nav {
+                padding-left: 0.05em!important;
+                padding-right: 0.05em!important;
+
+                .container-fluid {
+                    padding-right: 5px!important;
+                    padding-left: 5px!important;
+
+                    ul.nav {
+                        @include fill-width();
+
+                        li:nth-child(1):not(.ui-dropdown-item) {
+                            padding-top: 0.3em;
+                        }
+
+                        li:nth-child(2):not(.ui-dropdown-item) {
+                            float: right;
+                            padding-top: 0.3em;
+                        }
+                    }
+                }
+            }
+        }
+
+        .left-bar {
+            border-right: 0.1em solid $gray-light;
+            @include fill-height();
+
+            .tests {
+                height: calc( 100% - 50px );
+                padding: 1%;
+                overflow-y: scroll;
+                overflow-x: hidden;
+            }
+        }
+
+        .right-bar {
+            border-left: 0.1em solid $gray-light;
+            @include fill-height();
+
+            .questions {
+                height: calc( 100% - 50px );
+                padding: 1%;
+                overflow-y: scroll;
+                overflow-x: hidden;
+            }
+
+            .nav li {
+                font-size: 1.3em;
+                color: $gray-light;
+            }
+        }
+
+        .trash {
+            @include fill-height();
+            min-height: 59.35px;
+            width: 30%!important;
+            float: right;
+            border: 0.1em solid $brand-red;
+            border-radius: 0.2em;
+            color: $brand-red;
+            background: transparent;
+            vertical-align: middle;
+            text-align: center;
+
+            span {
+                margin-top: 32%;
+            }
+        }
+
+        .col-lg-6 {
+            @include fill-height();
+
+            .control-btns {
+                margin-top: 1%;
+                margin-bottom: 1%;
+
+                tms-three-buttons, tms-two-buttons {
+                    float: right;
+                    margin-left: 0.5%;
+                }
+            }
+
+            .test-container {
+                height: 50%;
+
+                .ui-grid-row {
+                    @include fill-height();
+
+                    .selectedQuestions {
+                        @include fill-height();
+                        padding: 1%;
+                        overflow-y: scroll;
+                        overflow-x: hidden;
+                    }
+                }
+            }
+        }
+    }
+}
+
+tms-manager {
+    > .row {
+        @extend datatable-fill-total;
+    }
+}

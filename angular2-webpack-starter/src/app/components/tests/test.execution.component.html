@@ -1,0 +1,6 @@
+<div class="questions">
+    <div>
+        <tms-question-readonly *ngFor="let quest of execution.test.questions" [question]="quest" (select)="selectAnswer($event)"
+            [mode]="execute"></tms-question-readonly>
+    </div>
+</div>
